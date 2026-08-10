@@ -184,8 +184,11 @@ export default function CategoryPage() {
                     {p.images?.[0]?.thumbPath ? <img src={`http://localhost:3000${p.images[0].thumbPath}`} className="h-full w-full object-contain group-hover:scale-105 transition-transform" /> : <Droplets className="h-12 w-12 text-gray-300" />}
                   </div>
                   <div className="p-4">
-                    <h3 className="font-semibold text-gray-900 text-sm line-clamp-2">{p.productName}</h3>
-                    <p className="text-xs text-gray-400 mt-1">{p.size} · {p.productCode}</p>
+                    <h3 className="font-semibold text-gray-900 mt-1 line-clamp-2 text-sm">{p.productName}</h3>
+                    <div className="mt-3 flex flex-wrap items-center gap-2">
+                      <span className="text-xs font-bold text-gray-900 bg-gray-100 px-2 py-1 rounded-md border border-gray-200">Size: {p.size}</span>
+                      <span className="text-xs font-bold text-gray-900 bg-brand-50 px-2 py-1 rounded-md border border-brand-100">Code: {p.productCode}</span>
+                    </div>
                   </div>
                 </Link>
               ))}

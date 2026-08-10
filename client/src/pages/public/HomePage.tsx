@@ -113,14 +113,7 @@ export default function HomePage() {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 xl:gap-6">
             {categories.map((cat: any) => {
-              const getIcon = (name: string) => {
-                const n = name.toLowerCase();
-                if (n.includes('door')) return <Building2 className="h-6 w-6" />;
-                if (n.includes('agri') || n.includes('tube')) return <Tractor className="h-6 w-6" />;
-                if (n.includes('fitting')) return <Wrench className="h-6 w-6" />;
-                if (n.includes('pipe')) return <HardHat className="h-6 w-6" />;
-                return <Droplets className="h-6 w-6" />;
-              };
+
               
               const getBgImage = (name: string) => {
                 const n = name.toLowerCase();
@@ -148,10 +141,7 @@ export default function HomePage() {
                   {/* Decorative background element */}
                   <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-brand-50 to-transparent rounded-bl-full opacity-50 group-hover:scale-110 transition-transform duration-500 z-0"></div>
                   
-                  <div className="flex items-start justify-between relative z-10">
-                    <div className="h-14 w-14 rounded-2xl bg-brand-50 text-brand-600 flex items-center justify-center group-hover:bg-brand-600 group-hover:text-white transition-colors duration-300 shadow-sm">
-                      {getIcon(cat.name)}
-                    </div>
+                  <div className="flex items-start justify-end relative z-10">
                     <div className="h-10 w-10 rounded-full bg-gray-50 flex items-center justify-center group-hover:bg-brand-50 transition-colors border border-gray-100 group-hover:border-brand-100">
                       <ArrowRight className="h-5 w-5 text-gray-400 group-hover:text-brand-600 transition-colors transform group-hover:translate-x-1" />
                     </div>
@@ -228,7 +218,10 @@ export default function HomePage() {
                 <div className="p-4">
                   <p className="text-xs text-brand-600 font-medium">{product.category?.name}</p>
                   <h3 className="font-semibold text-gray-900 mt-1 line-clamp-2 text-sm group-hover:text-brand-600 transition-colors">{product.productName}</h3>
-                  <p className="text-xs text-gray-400 mt-1">Size: {product.size} · {product.productCode}</p>
+                  <div className="mt-3 flex flex-wrap items-center gap-2">
+                    <span className="text-xs font-bold text-gray-900 bg-gray-100 px-2 py-1 rounded-md border border-gray-200">Size: {product.size}</span>
+                    <span className="text-xs font-bold text-gray-900 bg-brand-50 px-2 py-1 rounded-md border border-brand-100">Code: {product.productCode}</span>
+                  </div>
                 </div>
               </Link>
             ))}

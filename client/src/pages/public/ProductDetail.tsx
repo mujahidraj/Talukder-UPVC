@@ -88,7 +88,9 @@ export default function ProductDetail() {
         <div>
           <span className="text-sm text-brand-600 font-medium">{product.category?.name}</span>
           <h1 className="text-2xl md:text-3xl font-heading font-bold text-brand-950 mt-2">{product.productName}</h1>
-          <p className="text-sm text-gray-400 mt-1 font-mono">Product Code: {product.productCode}</p>
+          <div className="mt-3 inline-block">
+            <span className="text-lg font-bold text-gray-900 bg-gray-100 px-3 py-1.5 rounded-lg border border-gray-200 tracking-wide">Product Code: {product.productCode}</span>
+          </div>
 
           {product.description && (
             <p className="mt-6 text-gray-600 leading-relaxed">{product.description}</p>
@@ -169,8 +171,11 @@ export default function ProductDetail() {
                   {p.images?.[0]?.thumbPath ? <img src={`http://localhost:3000${p.images[0].thumbPath}`} className="h-full w-full object-contain group-hover:scale-105 transition-transform" /> : <Droplets className="h-12 w-12 text-gray-300" />}
                 </div>
                 <div className="p-3">
-                  <h3 className="font-semibold text-gray-900 text-sm line-clamp-2">{p.productName}</h3>
-                  <p className="text-xs text-gray-400 mt-1">{p.size}</p>
+                  <h3 className="font-semibold text-gray-900 mt-1 line-clamp-2 text-sm">{p.productName}</h3>
+                  <div className="mt-3 flex flex-wrap items-center gap-2">
+                    <span className="text-xs font-bold text-gray-900 bg-gray-100 px-2 py-1 rounded-md border border-gray-200">Size: {p.size}</span>
+                    <span className="text-xs font-bold text-gray-900 bg-brand-50 px-2 py-1 rounded-md border border-brand-100">Code: {p.productCode}</span>
+                  </div>
                 </div>
               </Link>
             ))}
