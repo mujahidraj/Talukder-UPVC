@@ -96,36 +96,61 @@ export default function PublicHeader() {
                 </button>
 
                 {megaOpen && (
-                  <div className="absolute top-full left-1/2 -translate-x-1/2 mt-0 w-[800px] bg-white shadow-xl border border-gray-100 p-8 grid grid-cols-4 gap-8 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+                  <ul className="absolute top-full left-0 mt-0 w-64 bg-white shadow-xl border border-gray-100 py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
                     {categories.map((cat) => (
-                      <div key={cat.id}>
+                      <li key={cat.id} className="relative group/cat">
                         <Link
                           to={`/categories/${cat.slug}`}
-                          className="text-sm font-heading font-bold text-gray-900 hover:text-brand-600 transition-colors block border-b border-gray-100 pb-2 mb-3"
+                          className="flex items-center justify-between px-5 py-3 text-sm font-semibold text-gray-700 hover:bg-gray-50 hover:text-brand-700 transition-colors"
                         >
                           {cat.name}
+                          {cat.children && cat.children.length > 0 && (
+                            <ChevronDown className="h-4 w-4 -rotate-90 text-gray-400 group-hover/cat:text-brand-700" />
+                          )}
                         </Link>
-                        <ul className="space-y-2.5">
-                          {cat.children?.slice(0, 6).map((sub) => (
-                            <li key={sub.id}>
-                              <Link
-                                to={`/categories/${sub.slug}`}
-                                className="text-sm text-gray-500 hover:text-brand-600 transition-colors flex items-center gap-2"
-                              >
-                                <span className="w-1 h-1 bg-gray-300 rounded-full"></span>
-                                {sub.name}
-                              </Link>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
+                        
+                        {/* Sub Categories Flyout */}
+                        {cat.children && cat.children.length > 0 && (
+                          <ul className="absolute top-0 left-full w-64 bg-white shadow-xl border border-gray-100 py-2 opacity-0 invisible group-hover/cat:opacity-100 group-hover/cat:visible transition-all duration-200 -translate-x-2 group-hover/cat:translate-x-0">
+                            {cat.children.map((sub) => (
+                              <li key={sub.id} className="relative group/sub">
+                                <Link
+                                  to={`/categories/${sub.slug}`}
+                                  className="flex items-center justify-between px-5 py-2.5 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-brand-700 transition-colors"
+                                >
+                                  {sub.name}
+                                  {sub.children && sub.children.length > 0 && (
+                                    <ChevronDown className="h-4 w-4 -rotate-90 text-gray-400 group-hover/sub:text-brand-700" />
+                                  )}
+                                </Link>
+
+                                {/* Sub-Sub Categories Flyout */}
+                                {sub.children && sub.children.length > 0 && (
+                                  <ul className="absolute top-0 left-full w-64 bg-white shadow-xl border border-gray-100 py-2 opacity-0 invisible group-hover/sub:opacity-100 group-hover/sub:visible transition-all duration-200 -translate-x-2 group-hover/sub:translate-x-0">
+                                    {sub.children.map((subSub) => (
+                                      <li key={subSub.id}>
+                                        <Link
+                                          to={`/categories/${subSub.slug}`}
+                                          className="block px-5 py-2 text-sm text-gray-500 hover:bg-gray-50 hover:text-brand-700 transition-colors"
+                                        >
+                                          {subSub.name}
+                                        </Link>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                )}
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </li>
                     ))}
-                    <div className="col-span-4 mt-4 pt-6 border-t border-gray-100 flex justify-end">
-                      <Link to="/products" className="text-sm font-semibold text-brand-600 hover:text-brand-800 flex items-center gap-1">
-                        View All Products <ArrowRight className="h-4 w-4" />
+                    <div className="border-t border-gray-100 mt-2 pt-2">
+                      <Link to="/products" className="block px-5 py-2.5 text-sm font-bold text-brand-700 hover:bg-gray-50 transition-colors">
+                        View All Products →
                       </Link>
                     </div>
-                  </div>
+                  </ul>
                 )}
               </div>
 
@@ -142,7 +167,7 @@ export default function PublicHeader() {
                   <Search className="h-5 w-5" />
                 </button>
                 {showSearch && (
-                  <div className="absolute right-0 mt-4 w-80 bg-white shadow-xl border border-gray-100 p-4 z-50">
+                  <div className="absolute -right-16 sm:right-0 mt-4 w-[90vw] sm:w-96 max-w-md bg-white shadow-xl border border-gray-100 p-4 z-50 rounded-lg">
                     <input
                       type="text"
                       className="w-full border border-gray-200 px-4 py-2.5 text-sm focus:ring-1 focus:ring-brand-600 focus:border-brand-600 outline-none"
@@ -190,7 +215,7 @@ export default function PublicHeader() {
               </Link>
 
               {/* Get Quote CTA */}
-              <Link to="/contact" className="hidden lg:flex items-center gap-2 bg-brand-700 text-white px-7 py-2.5 font-semibold text-sm hover:bg-brand-800 transition-colors shadow-sm ml-2">
+              <Link to="/contact" className="hidden lg:flex items-center gap-2 bg-brand-700 text-white px-7 py-2.5 rounded-md font-semibold text-sm hover:bg-brand-800 transition-colors shadow-sm ml-2">
                 Get a Quote
               </Link>
 
@@ -203,17 +228,52 @@ export default function PublicHeader() {
         </div>
 
         {/* Mobile Menu */}
-        {menuOpen && (
-          <div className="lg:hidden border-t border-gray-100 bg-white pb-4">
-            <div className="px-4 pt-2 space-y-1">
-              <Link to="/" onClick={() => setMenuOpen(false)} className="block px-3 py-2 text-sm font-medium text-gray-700 hover:bg-brand-50 rounded-lg">Home</Link>
-              <Link to="/products" onClick={() => setMenuOpen(false)} className="block px-3 py-2 text-sm font-medium text-gray-700 hover:bg-brand-50 rounded-lg">Products</Link>
-              <Link to="/about" onClick={() => setMenuOpen(false)} className="block px-3 py-2 text-sm font-medium text-gray-700 hover:bg-brand-50 rounded-lg">About</Link>
-              <Link to="/contact" onClick={() => setMenuOpen(false)} className="block px-3 py-2 text-sm font-medium text-gray-700 hover:bg-brand-50 rounded-lg">Contact</Link>
-              <Link to="/faq" onClick={() => setMenuOpen(false)} className="block px-3 py-2 text-sm font-medium text-gray-700 hover:bg-brand-50 rounded-lg">FAQ</Link>
+        <div className={`lg:hidden fixed inset-0 top-[72px] md:top-[88px] bg-white z-40 transition-transform duration-300 overflow-y-auto ${menuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+          <div className="px-4 py-6 space-y-4">
+            <Link to="/" onClick={() => setMenuOpen(false)} className="block px-4 py-3 text-lg font-bold text-gray-900 border-b border-gray-100">Home</Link>
+            
+            <div className="border-b border-gray-100">
+              <button 
+                onClick={() => setMegaOpen(!megaOpen)} 
+                className="w-full flex items-center justify-between px-4 py-3 text-lg font-bold text-gray-900"
+              >
+                Products
+                <ChevronDown className={`h-5 w-5 transition-transform ${megaOpen ? 'rotate-180' : ''}`} />
+              </button>
+              {megaOpen && (
+                <div className="px-4 pb-4 space-y-2 bg-gray-50 rounded-xl mt-2 p-3">
+                  {categories.map(cat => (
+                    <Link 
+                      key={cat.id} 
+                      to={`/categories/${cat.slug}`} 
+                      onClick={() => setMenuOpen(false)}
+                      className="block px-3 py-2 text-base font-semibold text-gray-700 hover:text-brand-700"
+                    >
+                      {cat.name}
+                    </Link>
+                  ))}
+                  <Link 
+                    to="/products" 
+                    onClick={() => setMenuOpen(false)}
+                    className="block px-3 py-2 text-base font-bold text-brand-700 mt-2 border-t border-gray-200 pt-2"
+                  >
+                    View All Products →
+                  </Link>
+                </div>
+              )}
+            </div>
+
+            <Link to="/about" onClick={() => setMenuOpen(false)} className="block px-4 py-3 text-lg font-bold text-gray-900 border-b border-gray-100">About</Link>
+            <Link to="/faq" onClick={() => setMenuOpen(false)} className="block px-4 py-3 text-lg font-bold text-gray-900 border-b border-gray-100">FAQ</Link>
+            <Link to="/contact" onClick={() => setMenuOpen(false)} className="block px-4 py-3 text-lg font-bold text-gray-900 border-b border-gray-100">Contact</Link>
+            
+            <div className="pt-6 px-4">
+              <Link to="/contact" onClick={() => setMenuOpen(false)} className="block w-full text-center bg-brand-700 text-white px-7 py-3.5 rounded-lg font-bold text-lg hover:bg-brand-800 transition-colors shadow-md">
+                Get a Quote
+              </Link>
             </div>
           </div>
-        )}
+        </div>
       </nav>
     </header>
   );

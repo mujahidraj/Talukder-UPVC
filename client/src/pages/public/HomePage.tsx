@@ -10,9 +10,18 @@ export default function HomePage() {
 
   useEffect(() => {
     api.get('/categories/tree').then(r => {
-      const mainCatNames = ['agricultural', 'upvc doors', 'upvc fittings', 'upvc pipes', 'tubewells'];
+      // Prioritize the categories that actually have all the imported products
+      const mainCatNames = ['agricultural', 'upvc doors', 'fittings', 'pipes', 'tubewells'];
       const filtered = r.data.filter((c: any) => mainCatNames.includes(c.name.toLowerCase()));
-      setCategories(filtered);
+      
+      // If the old categories still exist instead, fallback to them
+      if (filtered.length < 5) {
+        const fallback = ['upvc fittings', 'upvc pipes'];
+        const extra = r.data.filter((c: any) => fallback.includes(c.name.toLowerCase()) && !filtered.find((f: any) => f.name.includes('Pipes') && c.name.includes('Pipes')));
+        filtered.push(...extra);
+      }
+      
+      setCategories(filtered.slice(0, 5));
     }).catch(() => {});
     api.get('/products', { params: { limit: 8 } }).then(r => setFeatured(r.data.data)).catch(() => {});
   }, []);
@@ -24,14 +33,20 @@ export default function HomePage() {
         description="Bangladesh's leading manufacturer of uPVC pipes and fittings. BS-3505 certified, 100% virgin material for water supply, drainage, and irrigation."
         canonical="/"
       />
-      <section className="relative text-white overflow-hidden bg-brand-900 min-h-[85vh] flex items-center">
+      <section className="relative text-white overflow-hidden bg-gray-900 min-h-[85vh] flex items-center">
         {/* Background Image */}
         <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat" 
-          style={{ backgroundImage: `url('/images/HERO-IMAGE-1.png')` }}
-        />
-        {/* Dark Overlay for better text readability */}
-        <div className="absolute inset-0 bg-brand-950/70" />
+          className="absolute inset-0 w-full h-full"
+        >
+          {/* Use picture/img for better responsive control rather than background-image which struggles with min-h and contain on mobile */}
+          <img 
+            src="/images/tube.png" 
+            className="w-full h-full object-cover object-center opacity-90"
+            alt="Talukder uPVC"
+          />
+        </div>
+        {/* Dark Overlay for better text readability - Switched to neutral black/gray instead of brand blue */}
+        <div className="absolute inset-0 bg-gray-950/75 md:bg-gray-950/60" />
         
         <div className="max-w-7xl mx-auto px-4 py-24 md:py-32 relative w-full z-10">
           <div className="max-w-3xl">
@@ -83,9 +98,14 @@ export default function HomePage() {
       </section>
 
       {/* Product Categories */}
-      <section className="py-16 md:py-24 bg-slate-50 relative overflow-hidden">
+      <section 
+        className="py-16 md:py-24 relative overflow-hidden bg-cover bg-center bg-fixed"
+        style={{ backgroundImage: 'url("/images/HERO-IMAGE-1.png")' }}
+      >
+        {/* Lighter, less blurry overlay so the image shows through much more */}
+        <div className="absolute inset-0 bg-white/60 z-0"></div>
         {/* Subtle background decoration */}
-        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-brand-200 to-transparent opacity-50"></div>
+        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-brand-200 to-transparent opacity-50 z-10"></div>
         <div className="max-w-7xl mx-auto px-4 relative z-10">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-heading font-bold text-brand-950">Product Categories</h2>
@@ -142,7 +162,7 @@ export default function HomePage() {
                     <div className="mt-3 inline-flex items-center gap-2 bg-gray-50/80 px-3 py-1.5 rounded-lg border border-gray-100/50">
                       <span className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)] animate-pulse"></span>
                       <p className="text-sm font-medium text-gray-600">
-                        {cat._count?.products || 0} Products
+                        {cat.totalProducts ?? cat._count?.products ?? 0} Products
                       </p>
                     </div>
                   </div>
@@ -220,9 +240,12 @@ export default function HomePage() {
       </section>
 
       {/* Why Talukder */}
-      <section className="py-20 md:py-32 relative bg-brand-950 text-white overflow-hidden">
-        {/* Subtle radial glow in the center */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-brand-600/20 rounded-full blur-[120px] pointer-events-none"></div>
+      <section 
+        className="py-20 md:py-32 relative text-white overflow-hidden bg-brand-950 bg-cover bg-center bg-fixed"
+        style={{ backgroundImage: 'url("/images/why chose.png")' }}
+      >
+        {/* Dark overlay to ensure text readability against the image */}
+        <div className="absolute inset-0 bg-brand-950/40"></div>
         
         <div className="max-w-7xl mx-auto px-4 relative z-10">
           <div className="text-center mb-16 md:mb-24">
@@ -258,53 +281,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Factory & Production Excellence */}
-      <section className="py-16 md:py-24 bg-slate-50">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <h2 className="text-3xl md:text-4xl font-heading font-bold text-brand-950 mb-6">World-Class Manufacturing</h2>
-              <p className="text-lg text-gray-600 mb-8 leading-relaxed">
-                Our state-of-the-art facility is equipped with the latest extrusion technology to guarantee precision, durability, and consistency in every pipe we produce.
-              </p>
-              <div className="space-y-6">
-                {[
-                  { title: '100% Virgin Raw Materials', desc: 'We never compromise. Only the highest grade unplasticized polyvinyl chloride is used.' },
-                  { title: 'Automated Extrusion', desc: 'Computer-controlled machines ensure uniform wall thickness and perfect dimensions.' },
-                  { title: 'Rigorous Quality Testing', desc: 'Every batch undergoes pressure, impact, and heat reversion tests in our in-house lab.' },
-                ].map((step, idx) => (
-                  <div key={idx} className="flex gap-4">
-                    <div className="flex-shrink-0 mt-1">
-                      <CheckCircle2 className="h-6 w-6 text-brand-600" />
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-gray-900">{step.title}</h4>
-                      <p className="text-sm text-gray-500 mt-1">{step.desc}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="relative">
-              <div className="aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl relative">
-                <img src="https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&q=80&w=800&h=600" alt="Factory interior" className="w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-brand-900/10"></div>
-              </div>
-              <div className="absolute -bottom-6 -left-6 bg-white p-6 rounded-2xl shadow-xl border border-gray-100 hidden md:block z-10">
-                <div className="flex items-center gap-4">
-                  <div className="h-12 w-12 bg-brand-100 rounded-full flex items-center justify-center">
-                    <Wrench className="h-6 w-6 text-brand-600" />
-                  </div>
-                  <div>
-                    <p className="text-2xl font-bold text-brand-900">BS-3505</p>
-                    <p className="text-sm text-gray-500 font-medium">Certified Standard</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* Trusted Clients */}
       <section className="py-16 bg-white border-t border-gray-100">
