@@ -1,0 +1,340 @@
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { ArrowRight, Shield, Award, Factory, Droplets, ChevronRight, Play, Camera, Globe, Video, MessageCircle, Tractor, Building2, HardHat, CheckCircle2, Wrench, Users } from 'lucide-react';
+import api from '../../lib/axios';
+import SEO from '../../components/SEO';
+
+export default function HomePage() {
+  const [categories, setCategories] = useState<any[]>([]);
+  const [featured, setFeatured] = useState<any[]>([]);
+
+  useEffect(() => {
+    api.get('/categories/tree').then(r => {
+      const mainCatNames = ['agricultural', 'upvc doors', 'upvc fittings', 'upvc pipes', 'tubewells'];
+      const filtered = r.data.filter((c: any) => mainCatNames.includes(c.name.toLowerCase()));
+      setCategories(filtered);
+    }).catch(() => {});
+    api.get('/products', { params: { limit: 8 } }).then(r => setFeatured(r.data.data)).catch(() => {});
+  }, []);
+
+  return (
+    <div>
+      <SEO
+        title="Home"
+        description="Bangladesh's leading manufacturer of uPVC pipes and fittings. BS-3505 certified, 100% virgin material for water supply, drainage, and irrigation."
+        canonical="/"
+      />
+      <section className="relative text-white overflow-hidden bg-brand-900 min-h-[85vh] flex items-center">
+        {/* Background Image */}
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat" 
+          style={{ backgroundImage: `url('/images/HERO-IMAGE-1.png')` }}
+        />
+        {/* Dark Overlay for better text readability */}
+        <div className="absolute inset-0 bg-brand-950/70" />
+        
+        <div className="max-w-7xl mx-auto px-4 py-24 md:py-32 relative w-full z-10">
+          <div className="max-w-3xl">
+            <div className="inline-flex items-center gap-2 bg-brand-700/50 backdrop-blur-sm text-brand-200 text-xs font-semibold px-4 py-2 rounded-full mb-6 border border-brand-600/30">
+              <Award className="h-3.5 w-3.5" /> BS-3505 Standard · 100% Virgin Material
+            </div>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold tracking-tight text-white leading-[1.1]">
+              Bangladesh's Trusted
+              <span className="block text-brand-300">uPVC Pipe & Fittings</span>
+              Manufacturer
+            </h1>
+            <p className="mt-6 text-lg text-brand-100 max-w-xl leading-relaxed">
+              Talukder uPVC Fittings Industries Ltd. delivers premium quality pipes and fittings for water supply, drainage, and irrigation across the nation.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-4">
+              <Link to="/products" className="inline-flex items-center gap-2 bg-white text-brand-900 px-6 py-3 rounded-xl font-semibold hover:bg-brand-50 transition-colors shadow-lg">
+                Browse Catalog <ArrowRight className="h-5 w-5" />
+              </Link>
+              <Link to="/contact" className="inline-flex items-center gap-2 border-2 border-brand-400 text-white px-6 py-3 rounded-xl font-semibold hover:bg-brand-700 transition-colors bg-brand-900/50 backdrop-blur-sm">
+                Request Quote
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Trust Bar (Dark & Immersive) */}
+      <section className="bg-brand-950 border-t border-brand-800/50 relative z-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 md:gap-0 md:divide-x divide-brand-800/50">
+            {[
+              { icon: Shield, label: 'BS-3505 Certified', desc: 'International standard' },
+              { icon: Factory, label: 'Modern Factory', desc: 'Auto-belling machines' },
+              { icon: Droplets, label: '100% Virgin Material', desc: 'No recycled content' },
+              { icon: Award, label: '50+ Year Lifespan', desc: 'Proven durability' },
+            ].map((item, idx) => (
+              <div key={item.label} className={`flex items-center gap-5 group ${idx !== 0 ? 'md:pl-10' : 'md:pr-10'} ${idx === 1 || idx === 2 ? 'md:px-10' : ''}`}>
+                <div className="h-16 w-16 rounded-2xl bg-brand-900 border border-brand-700/50 flex items-center justify-center group-hover:bg-brand-800 group-hover:border-brand-500/50 group-hover:shadow-[0_0_30px_rgba(59,130,246,0.2)] transition-all duration-300 flex-shrink-0 group-hover:-translate-y-1">
+                  <item.icon className="h-7 w-7 text-brand-300 group-hover:text-white transition-colors" />
+                </div>
+                <div>
+                  <p className="text-base font-bold text-white tracking-wide">{item.label}</p>
+                  <p className="text-sm text-brand-300/80 mt-1">{item.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Product Categories */}
+      <section className="py-16 md:py-24 bg-slate-50 relative overflow-hidden">
+        {/* Subtle background decoration */}
+        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-brand-200 to-transparent opacity-50"></div>
+        <div className="max-w-7xl mx-auto px-4 relative z-10">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-heading font-bold text-brand-950">Product Categories</h2>
+            <p className="mt-4 text-gray-500 max-w-xl mx-auto text-lg">Explore our comprehensive range of high-quality uPVC products for every application.</p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 xl:gap-6">
+            {categories.map((cat: any) => {
+              const getIcon = (name: string) => {
+                const n = name.toLowerCase();
+                if (n.includes('door')) return <Building2 className="h-6 w-6" />;
+                if (n.includes('agri') || n.includes('tube')) return <Tractor className="h-6 w-6" />;
+                if (n.includes('fitting')) return <Wrench className="h-6 w-6" />;
+                if (n.includes('pipe')) return <HardHat className="h-6 w-6" />;
+                return <Droplets className="h-6 w-6" />;
+              };
+              
+              const getBgImage = (name: string) => {
+                const n = name.toLowerCase();
+                if (n.includes('door')) return '/images/cat-doors.png';
+                if (n.includes('agri')) return '/images/cat-agri.jpg';
+                if (n.includes('tube')) return '/images/cat-tubewells.jpg';
+                if (n.includes('fitting')) return '/images/cat-fittings.png';
+                return '/images/cat-pipes.jpg';
+              };
+              
+              return (
+                <Link
+                  key={cat.id}
+                  to={`/categories/${cat.slug}`}
+                  className="group relative rounded-3xl p-6 border border-gray-100/80 hover:border-brand-200 hover:shadow-2xl hover:shadow-brand-900/5 transition-all duration-300 overflow-hidden block"
+                >
+                  {/* Product Image Background */}
+                  <div 
+                    className="absolute inset-0 bg-cover bg-center z-0 group-hover:scale-105 transition-transform duration-700" 
+                    style={{ backgroundImage: `url('${getBgImage(cat.name)}')` }}
+                  ></div>
+                  {/* White Overlay for text readability (reduced blur) */}
+                  <div className="absolute inset-0 bg-white/70 backdrop-blur-[1px] group-hover:bg-white/60 transition-colors z-0"></div>
+                  
+                  {/* Decorative background element */}
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-brand-50 to-transparent rounded-bl-full opacity-50 group-hover:scale-110 transition-transform duration-500 z-0"></div>
+                  
+                  <div className="flex items-start justify-between relative z-10">
+                    <div className="h-14 w-14 rounded-2xl bg-brand-50 text-brand-600 flex items-center justify-center group-hover:bg-brand-600 group-hover:text-white transition-colors duration-300 shadow-sm">
+                      {getIcon(cat.name)}
+                    </div>
+                    <div className="h-10 w-10 rounded-full bg-gray-50 flex items-center justify-center group-hover:bg-brand-50 transition-colors border border-gray-100 group-hover:border-brand-100">
+                      <ArrowRight className="h-5 w-5 text-gray-400 group-hover:text-brand-600 transition-colors transform group-hover:translate-x-1" />
+                    </div>
+                  </div>
+                  
+                  <div className="mt-12 relative z-10">
+                    <h3 className="text-xl font-heading font-bold text-gray-900 group-hover:text-brand-700 transition-colors">{cat.name}</h3>
+                    <div className="mt-3 inline-flex items-center gap-2 bg-gray-50/80 px-3 py-1.5 rounded-lg border border-gray-100/50">
+                      <span className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)] animate-pulse"></span>
+                      <p className="text-sm font-medium text-gray-600">
+                        {cat._count?.products || 0} Products
+                      </p>
+                    </div>
+                  </div>
+                </Link>
+              )
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* Applications & Use Cases */}
+      <section className="py-16 md:py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-heading font-bold text-brand-950">Applications & Use Cases</h2>
+            <p className="mt-3 text-gray-500 max-w-xl mx-auto">Tailored uPVC solutions for diverse industries and everyday needs</p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              { title: 'Agriculture', desc: 'Durable pipes for efficient irrigation systems.', icon: Tractor },
+              { title: 'Residential', desc: 'Safe and leak-proof plumbing for homes.', icon: Building2 },
+              { title: 'Industrial', desc: 'Heavy-duty pipes for chemical and waste transport.', icon: Factory },
+              { title: 'Infrastructure', desc: 'Underground sewerage and main water supply lines.', icon: HardHat },
+            ].map((app) => (
+              <div key={app.title} className="bg-slate-50 rounded-2xl p-6 border border-gray-100 hover:border-brand-300 hover:shadow-lg transition-all text-center group">
+                <div className="h-16 w-16 mx-auto rounded-full bg-brand-100 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                  <app.icon className="h-8 w-8 text-brand-600" />
+                </div>
+                <h3 className="font-heading font-semibold text-lg text-gray-900 mb-2">{app.title}</h3>
+                <p className="text-sm text-gray-500">{app.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Featured Products */}
+      <section className="py-16 md:py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="flex items-end justify-between mb-12">
+            <div>
+              <h2 className="text-3xl md:text-4xl font-heading font-bold text-brand-950">Our Products</h2>
+              <p className="mt-3 text-gray-500">Quality uPVC products for every application</p>
+            </div>
+            <Link to="/products" className="hidden sm:flex items-center gap-2 text-brand-600 font-semibold hover:text-brand-700 transition-colors">
+              View all <ArrowRight className="h-5 w-5" />
+            </Link>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {featured.map((product: any) => (
+              <Link
+                key={product.id}
+                to={`/products/${product.slug}`}
+                className="group bg-white rounded-2xl border border-gray-100 overflow-hidden hover:shadow-xl hover:border-brand-200 transition-all duration-300"
+              >
+                <div className="aspect-square bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center p-4 overflow-hidden">
+                  {product.images?.[0]?.thumbPath ? (
+                    <img src={`http://localhost:3000${product.images[0].thumbPath}`} alt={product.productName} className="h-full w-full object-contain group-hover:scale-110 transition-transform duration-500" />
+                  ) : (
+                    <Droplets className="h-16 w-16 text-gray-300" />
+                  )}
+                </div>
+                <div className="p-4">
+                  <p className="text-xs text-brand-600 font-medium">{product.category?.name}</p>
+                  <h3 className="font-semibold text-gray-900 mt-1 line-clamp-2 text-sm group-hover:text-brand-600 transition-colors">{product.productName}</h3>
+                  <p className="text-xs text-gray-400 mt-1">Size: {product.size} · {product.productCode}</p>
+                </div>
+              </Link>
+            ))}
+          </div>
+          <div className="sm:hidden mt-8 text-center">
+            <Link to="/products" className="admin-btn-primary">View All Products</Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Why Talukder */}
+      <section className="py-20 md:py-32 relative bg-brand-950 text-white overflow-hidden">
+        {/* Subtle radial glow in the center */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-brand-600/20 rounded-full blur-[120px] pointer-events-none"></div>
+        
+        <div className="max-w-7xl mx-auto px-4 relative z-10">
+          <div className="text-center mb-16 md:mb-24">
+            <h2 className="text-4xl md:text-5xl font-heading font-bold text-white tracking-tight">Why Choose <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-300 to-brand-100">Talukder uPVC?</span></h2>
+            <p className="mt-6 text-brand-200/80 max-w-2xl mx-auto text-lg">Industry-leading quality backed by decades of manufacturing excellence and a relentless pursuit of perfection.</p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
+            {[
+              { title: 'International Standards', desc: 'All products manufactured as per BS-3505 standard with rigorous quality control at every stage of production.', icon: Award },
+              { title: 'Modern Manufacturing', desc: 'State-of-the-art factory equipped with auto-belling machines, ensuring consistent wall thickness and accuracy.', icon: Factory },
+              { title: 'Nationwide Distribution', desc: 'Comprehensive distribution network ensuring timely delivery across Bangladesh with dedicated logistics support.', icon: Shield },
+            ].map((item, idx) => (
+              <div key={item.title} className="group relative bg-brand-900/40 backdrop-blur-md border border-brand-700/50 rounded-3xl p-8 hover:bg-brand-800/60 hover:border-brand-500/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(59,130,246,0.2)] overflow-hidden">
+                {/* Accent top border */}
+                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-brand-500 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                
+                {/* Large faded background icon */}
+                <div className="absolute -right-6 -bottom-6 opacity-[0.03] group-hover:opacity-[0.06] group-hover:scale-110 transition-all duration-700 pointer-events-none transform -rotate-12">
+                  <item.icon className="w-48 h-48 text-brand-100" />
+                </div>
+                
+                <div className="relative z-10">
+                  <div className="h-16 w-16 rounded-2xl bg-gradient-to-br from-brand-800 to-brand-900 border border-brand-700 shadow-inner flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500">
+                    <item.icon className="h-8 w-8 text-brand-300 group-hover:text-white transition-colors" />
+                  </div>
+                  <h3 className="text-2xl font-heading font-bold text-white mb-4 group-hover:text-brand-100 transition-colors">{item.title}</h3>
+                  <p className="text-brand-200/70 text-base leading-relaxed">{item.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Factory & Production Excellence */}
+      <section className="py-16 md:py-24 bg-slate-50">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <h2 className="text-3xl md:text-4xl font-heading font-bold text-brand-950 mb-6">World-Class Manufacturing</h2>
+              <p className="text-lg text-gray-600 mb-8 leading-relaxed">
+                Our state-of-the-art facility is equipped with the latest extrusion technology to guarantee precision, durability, and consistency in every pipe we produce.
+              </p>
+              <div className="space-y-6">
+                {[
+                  { title: '100% Virgin Raw Materials', desc: 'We never compromise. Only the highest grade unplasticized polyvinyl chloride is used.' },
+                  { title: 'Automated Extrusion', desc: 'Computer-controlled machines ensure uniform wall thickness and perfect dimensions.' },
+                  { title: 'Rigorous Quality Testing', desc: 'Every batch undergoes pressure, impact, and heat reversion tests in our in-house lab.' },
+                ].map((step, idx) => (
+                  <div key={idx} className="flex gap-4">
+                    <div className="flex-shrink-0 mt-1">
+                      <CheckCircle2 className="h-6 w-6 text-brand-600" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-gray-900">{step.title}</h4>
+                      <p className="text-sm text-gray-500 mt-1">{step.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="relative">
+              <div className="aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl relative">
+                <img src="https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&q=80&w=800&h=600" alt="Factory interior" className="w-full h-full object-cover" />
+                <div className="absolute inset-0 bg-brand-900/10"></div>
+              </div>
+              <div className="absolute -bottom-6 -left-6 bg-white p-6 rounded-2xl shadow-xl border border-gray-100 hidden md:block z-10">
+                <div className="flex items-center gap-4">
+                  <div className="h-12 w-12 bg-brand-100 rounded-full flex items-center justify-center">
+                    <Wrench className="h-6 w-6 text-brand-600" />
+                  </div>
+                  <div>
+                    <p className="text-2xl font-bold text-brand-900">BS-3505</p>
+                    <p className="text-sm text-gray-500 font-medium">Certified Standard</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Trusted Clients */}
+      <section className="py-16 bg-white border-t border-gray-100">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="text-center mb-10">
+            <h2 className="text-2xl font-heading font-bold text-gray-900 flex items-center justify-center gap-2">
+              <Users className="h-6 w-6 text-brand-600" /> Trusted by Industry Leaders
+            </h2>
+          </div>
+          <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
+            {[1, 2, 3, 4, 5].map((i) => (
+              <div key={i} className="flex items-center gap-2 text-xl font-black text-gray-400 cursor-default">
+                <Building2 className="h-8 w-8" /> PARTNER {i}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="py-16 bg-white">
+        <div className="max-w-4xl mx-auto px-4 text-center">
+          <h2 className="text-3xl font-heading font-bold text-brand-950">Ready to Place an Order?</h2>
+          <p className="mt-3 text-gray-500">Browse our catalog and add products to your enquiry list for a customized quote.</p>
+          <div className="mt-8 flex flex-wrap justify-center gap-4">
+            <Link to="/products" className="admin-btn-primary text-base px-8 py-3">Browse Products</Link>
+            <Link to="/contact" className="admin-btn-secondary text-base px-8 py-3">Contact Sales</Link>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}

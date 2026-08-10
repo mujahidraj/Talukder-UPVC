@@ -1,0 +1,298 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── Categories (3-level tree) ───────────────────────────
+model Category {
+  id          String     @id @default(cuid())
+  name        String
+  slug        String     @unique
+  description String?
+  image       String?
+  icon        String?
+  parentId    String?    @map("parent_id")
+  parent      Category?  @relation("CategoryTree", fields: [parentId], references: [id])
+  children    Category[] @relation("CategoryTree")
+  level       Int        @default(0) // 0=main, 1=sub, 2=sub-sub
+  sortOrder   Int        @default(0) @map("sort_order")
+  isVisible   Boolean    @default(true) @map("is_visible")
+  metaTitle       String? @map("meta_title")
+  metaDescription String? @map("meta_description")
+  createdAt   DateTime   @default(now()) @map("created_at")
+  updatedAt   DateTime   @updatedAt @map("updated_at")
+  products    Product[]
+
+  @@map("categories")
+}
+
+// ─── Product (18 catalog columns + system fields) ────────
+model Product {
+  id                    String        @id @default(cuid())
+  productCode           String        @unique @map("product_code")
+  productName           String        @map("product_name")
+  slug                  String        @unique
+  categoryId            String        @map("category_id")
+  category              Category      @relation(fields: [categoryId], references: [id])
+  fittingConnectionType String?       @map("fitting_connection_type")
+  size                  String
+  thicknessMm           String?       @map("thickness_mm")
+  length                String?
+  color                 String?
+  classType             String?       @map("class_type")
+  material              String?
+  brandManufacturer     String?       @map("brand_manufacturer")
+  description           String?       @db.Text
+  features              String[]      // Parsed from semicolon-delimited
+  applications          String[]      // Parsed from semicolon-delimited
+  status                ProductStatus @default(ACTIVE)
+  sourcePageCatalog     String?       @map("source_page_catalog")
+  metaTitle             String?       @map("meta_title")
+  metaDescription       String?       @map("meta_description")
+  viewCount             Int           @default(0) @map("view_count")
+  wishlistCount         Int           @default(0) @map("wishlist_count")
+  enquiryCount          Int           @default(0) @map("enquiry_count")
+  isFeatured            Boolean       @default(false) @map("is_featured")
+  isDeleted             Boolean       @default(false) @map("is_deleted")
+  createdById           String?       @map("created_by_id")
+  createdBy             AdminUser?    @relation("ProductCreatedBy", fields: [createdById], references: [id])
+  lastModifiedById      String?       @map("last_modified_by_id")
+  lastModifiedBy        AdminUser?    @relation("ProductModifiedBy", fields: [lastModifiedById], references: [id])
+  createdAt             DateTime      @default(now()) @map("created_at")
+  updatedAt             DateTime      @updatedAt @map("updated_at")
+
+  images       ProductImage[]
+  enquiryItems EnquiryItem[]
+  wishlistItems WishlistItem[]
+
+  @@index([categoryId])
+  @@index([status])
+  @@index([productCode])
+  @@index([slug])
+  @@map("products")
+}
+
+enum ProductStatus {
+  ACTIVE
+  UPCOMING
+  INACTIVE
+  DISCONTINUED
+}
+
+model ProductImage {
+  id         String   @id @default(cuid())
+  productId  String   @map("product_id")
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  fileName   String   @map("file_name")
+  filePath   String   @map("file_path")
+  thumbPath  String?  @map("thumb_path")
+  mediumPath String?  @map("medium_path")
+  fullPath   String   @map("full_path")
+  blurHash   String?  @map("blur_hash")
+  altText    String?  @map("alt_text")
+  sortOrder  Int      @default(0) @map("sort_order")
+  isPrimary  Boolean  @default(false) @map("is_primary")
+  fileSize   Int?     @map("file_size")
+  mimeType   String?  @map("mime_type")
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  @@index([productId])
+  @@map("product_images")
+}
+
+// ─── Admin Users & Roles ─────────────────────────────────
+model AdminUser {
+  id                  String    @id @default(cuid())
+  name                String
+  email               String    @unique
+  passwordHash        String    @map("password_hash")
+  role                AdminRole @default(CATALOG_MANAGER)
+  isActive            Boolean   @default(true) @map("is_active")
+  mustChangePassword  Boolean   @default(true) @map("must_change_password")
+  lastLoginAt         DateTime? @map("last_login_at")
+  failedLoginAttempts Int       @default(0) @map("failed_login_attempts")
+  lockedUntil         DateTime? @map("locked_until")
+  refreshToken        String?   @map("refresh_token")
+  createdAt           DateTime  @default(now()) @map("created_at")
+  updatedAt           DateTime  @updatedAt @map("updated_at")
+
+  productsCreated   Product[]     @relation("ProductCreatedBy")
+  productsModified  Product[]     @relation("ProductModifiedBy")
+  importJobs        ImportJob[]
+  activityLogs      ActivityLog[]
+  assignedEnquiries Enquiry[]     @relation("AssignedEnquiries")
+
+  @@map("admin_users")
+}
+
+enum AdminRole {
+  SUPER_ADMIN
+  CATALOG_MANAGER
+  SALES_STAFF
+}
+
+// ─── Enquiry (RFQ) System ────────────────────────────────
+model Enquiry {
+  id             String        @id @default(cuid())
+  customerName   String        @map("customer_name")
+  companyName    String?       @map("company_name")
+  email          String
+  phone          String
+  address        String?
+  district       String?
+  deliveryPref   String?       @map("delivery_preference")
+  message        String?       @db.Text
+  status         EnquiryStatus @default(NEW)
+  assignedToId   String?       @map("assigned_to_id")
+  assignedTo     AdminUser?    @relation("AssignedEnquiries", fields: [assignedToId], references: [id])
+  internalNotes  String?       @map("internal_notes") @db.Text
+  sourcePage     String?       @map("source_page")
+  createdAt      DateTime      @default(now()) @map("created_at")
+  updatedAt      DateTime      @updatedAt @map("updated_at")
+
+  items EnquiryItem[]
+
+  @@index([status])
+  @@index([createdAt])
+  @@map("enquiries")
+}
+
+enum EnquiryStatus {
+  NEW
+  IN_PROGRESS
+  QUOTED
+  WON
+  CLOSED
+  LOST
+}
+
+model EnquiryItem {
+  id        String  @id @default(cuid())
+  enquiryId String  @map("enquiry_id")
+  enquiry   Enquiry @relation(fields: [enquiryId], references: [id], onDelete: Cascade)
+  productId String  @map("product_id")
+  product   Product @relation(fields: [productId], references: [id])
+  quantity  Int     @default(1)
+  note      String?
+
+  @@index([enquiryId])
+  @@map("enquiry_items")
+}
+
+// ─── Wishlist ────────────────────────────────────────────
+model WishlistItem {
+  id        String   @id @default(cuid())
+  sessionId String?  @map("session_id")
+  productId String   @map("product_id")
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@unique([sessionId, productId])
+  @@index([productId])
+  @@map("wishlist_items")
+}
+
+// ─── Import Jobs (DB-backed queue) ───────────────────────
+model ImportJob {
+  id              String    @id @default(cuid())
+  type            JobType
+  status          JobStatus @default(PENDING)
+  fileName        String?   @map("file_name")
+  importMode      String?   @map("import_mode")
+  payload         Json?
+  progress        Int       @default(0)
+  rowsTotal       Int       @default(0) @map("rows_total")
+  rowsSuccess     Int       @default(0) @map("rows_success")
+  rowsFailed      Int       @default(0) @map("rows_failed")
+  result          Json?
+  errorReportPath String?   @map("error_report_path")
+  uploadedById    String    @map("uploaded_by_id")
+  uploadedBy      AdminUser @relation(fields: [uploadedById], references: [id])
+  startedAt       DateTime? @map("started_at")
+  completedAt     DateTime? @map("completed_at")
+  createdAt       DateTime  @default(now()) @map("created_at")
+
+  @@index([status])
+  @@map("import_jobs")
+}
+
+enum JobType {
+  EXCEL_IMPORT
+  BULK_IMAGE_RESIZE
+  REPORT_EXPORT
+}
+
+enum JobStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+}
+
+// ─── CMS ─────────────────────────────────────────────────
+model Banner {
+  id        String   @id @default(cuid())
+  title     String
+  subtitle  String?
+  imageUrl  String   @map("image_url")
+  linkUrl   String?  @map("link_url")
+  sortOrder Int      @default(0) @map("sort_order")
+  isActive  Boolean  @default(true) @map("is_active")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("banners")
+}
+
+model Page {
+  id              String   @id @default(cuid())
+  title           String
+  slug            String   @unique
+  content         String   @db.Text
+  metaTitle       String?  @map("meta_title")
+  metaDescription String?  @map("meta_description")
+  isPublished     Boolean  @default(true) @map("is_published")
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  @@map("pages")
+}
+
+model FAQ {
+  id        String   @id @default(cuid())
+  question  String
+  answer    String   @db.Text
+  sortOrder Int      @default(0) @map("sort_order")
+  isActive  Boolean  @default(true) @map("is_active")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("faqs")
+}
+
+// ─── Activity Log (Audit Trail) ──────────────────────────
+model ActivityLog {
+  id        String    @id @default(cuid())
+  actorId   String    @map("actor_id")
+  actor     AdminUser @relation(fields: [actorId], references: [id])
+  action    String
+  entity    String
+  entityId  String?   @map("entity_id")
+  before    Json?
+  after     Json?
+  ipAddress String?   @map("ip_address")
+  createdAt DateTime  @default(now()) @map("created_at")
+
+  @@index([entity, entityId])
+  @@index([actorId])
+  @@index([createdAt])
+  @@map("activity_logs")
+}
