@@ -18,6 +18,7 @@ import { ActivityLogModule } from './modules/activity-log/activity-log.module';
 import { JobsModule } from './modules/jobs/jobs.module';
 import { WishlistModule } from './modules/wishlist/wishlist.module';
 import { SitemapModule } from './modules/sitemap/sitemap.module';
+import { DashboardModule } from './modules/dashboard/dashboard.module';
 
 @Module({
   imports: [
@@ -46,6 +47,7 @@ import { SitemapModule } from './modules/sitemap/sitemap.module';
     JobsModule,
     WishlistModule,
     SitemapModule,
+    DashboardModule,
   ],
 })
 export class AppModule {}
