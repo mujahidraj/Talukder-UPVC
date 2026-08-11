@@ -4,6 +4,7 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip,
 import { format } from 'date-fns';
 import api from '../../lib/axios';
 import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 interface DashboardData {
   topProducts: any[];
@@ -36,6 +37,7 @@ interface DashboardData {
 const COLORS = ['#0ea5e9', '#10b981', '#f59e0b', '#8b5cf6', '#ef4444', '#14b8a6', '#f43f5e'];
 
 export default function Dashboard() {
+  const navigate = useNavigate();
   const [data, setData] = useState<DashboardData | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -83,7 +85,10 @@ export default function Dashboard() {
       {/* QUICK STATS ROW 1 */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Widget 1: Media Storage */}
-        <div className="glass-panel bg-white p-5 shadow-sm rounded-xl border border-gray-100 flex items-center">
+        <div 
+          onClick={() => navigate('/admin/media')}
+          className="glass-panel bg-white p-5 shadow-sm rounded-xl border border-gray-100 flex items-center cursor-pointer hover:shadow-md hover:-translate-y-0.5 transition-all"
+        >
           <div className="p-3 rounded-lg bg-indigo-50 text-indigo-600 mr-4">
             <HardDrive className="h-6 w-6" />
           </div>
@@ -95,7 +100,10 @@ export default function Dashboard() {
         </div>
 
         {/* Widget 2: Admins Online */}
-        <div className="glass-panel bg-white p-5 shadow-sm rounded-xl border border-gray-100 flex items-center">
+        <div 
+          onClick={() => navigate('/admin/users')}
+          className="glass-panel bg-white p-5 shadow-sm rounded-xl border border-gray-100 flex items-center cursor-pointer hover:shadow-md hover:-translate-y-0.5 transition-all"
+        >
           <div className="p-3 rounded-lg bg-emerald-50 text-emerald-600 mr-4">
             <ShieldCheck className="h-6 w-6" />
           </div>
@@ -107,7 +115,10 @@ export default function Dashboard() {
         </div>
 
         {/* Widget 3: Total Categories */}
-        <div className="glass-panel bg-white p-5 shadow-sm rounded-xl border border-gray-100 flex items-center">
+        <div 
+          onClick={() => navigate('/admin/categories')}
+          className="glass-panel bg-white p-5 shadow-sm rounded-xl border border-gray-100 flex items-center cursor-pointer hover:shadow-md hover:-translate-y-0.5 transition-all"
+        >
           <div className="p-3 rounded-lg bg-amber-50 text-amber-600 mr-4">
             <Layers className="h-6 w-6" />
           </div>
@@ -119,7 +130,10 @@ export default function Dashboard() {
         </div>
 
         {/* Widget 4: Top Wishlisted */}
-        <div className="glass-panel bg-white p-5 shadow-sm rounded-xl border border-gray-100 flex flex-col justify-between">
+        <div 
+          onClick={() => navigate('/admin/products')}
+          className="glass-panel bg-white p-5 shadow-sm rounded-xl border border-gray-100 flex flex-col justify-between cursor-pointer hover:shadow-md hover:-translate-y-0.5 transition-all"
+        >
           <div className="flex items-center justify-between mb-2">
             <p className="text-sm font-medium text-gray-500 flex items-center"><Heart className="h-4 w-4 mr-1 text-rose-500" /> Most Desired</p>
           </div>
@@ -137,84 +151,120 @@ export default function Dashboard() {
       {/* QUICK STATS ROW 2 & 3 (15 NEW WIDGETS) */}
       <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
         {/* Products */}
-        <div className="glass-panel bg-white p-4 shadow-sm rounded-xl border border-gray-100">
+        <div 
+          onClick={() => navigate('/admin/products')}
+          className="glass-panel bg-white p-4 shadow-sm rounded-xl border border-gray-100 cursor-pointer hover:shadow-md hover:-translate-y-0.5 transition-all"
+        >
           <p className="text-xs font-medium text-gray-500 uppercase">Total Products</p>
           <p className="text-2xl font-bold text-gray-900 mt-1">{data.extraStats.totalProducts}</p>
           <p className="text-xs text-brand-600 mt-1">{data.extraStats.activeProducts} Active</p>
         </div>
         
         {/* Missing Data */}
-        <div className="glass-panel bg-white p-4 shadow-sm rounded-xl border border-red-100">
+        <div 
+          onClick={() => navigate('/admin/products/missing-data')}
+          className="glass-panel bg-white p-4 shadow-sm rounded-xl border border-red-100 cursor-pointer hover:shadow-md hover:-translate-y-0.5 transition-all"
+        >
           <p className="text-xs font-medium text-red-500 uppercase">Missing Data</p>
           <p className="text-2xl font-bold text-gray-900 mt-1">{data.extraStats.missingDataProducts}</p>
           <p className="text-xs text-red-400 mt-1">Requires action</p>
         </div>
 
         {/* Deleted Products */}
-        <div className="glass-panel bg-white p-4 shadow-sm rounded-xl border border-gray-100">
+        <div 
+          onClick={() => navigate('/admin/products/trash')}
+          className="glass-panel bg-white p-4 shadow-sm rounded-xl border border-gray-100 cursor-pointer hover:shadow-md hover:-translate-y-0.5 transition-all"
+        >
           <p className="text-xs font-medium text-gray-500 uppercase">Recycle Bin</p>
           <p className="text-2xl font-bold text-gray-900 mt-1">{data.extraStats.deletedProducts}</p>
           <p className="text-xs text-gray-400 mt-1">Deleted products</p>
         </div>
 
         {/* Categories Count */}
-        <div className="glass-panel bg-white p-4 shadow-sm rounded-xl border border-gray-100">
+        <div 
+          onClick={() => navigate('/admin/categories')}
+          className="glass-panel bg-white p-4 shadow-sm rounded-xl border border-gray-100 cursor-pointer hover:shadow-md hover:-translate-y-0.5 transition-all"
+        >
           <p className="text-xs font-medium text-gray-500 uppercase">Categories</p>
           <p className="text-2xl font-bold text-gray-900 mt-1">{data.extraStats.totalCategoriesCount}</p>
           <p className="text-xs text-gray-400 mt-1">Catalog tree nodes</p>
         </div>
 
         {/* Wishlist Saves */}
-        <div className="glass-panel bg-white p-4 shadow-sm rounded-xl border border-gray-100">
+        <div 
+          onClick={() => navigate('/admin/products')}
+          className="glass-panel bg-white p-4 shadow-sm rounded-xl border border-gray-100 cursor-pointer hover:shadow-md hover:-translate-y-0.5 transition-all"
+        >
           <p className="text-xs font-medium text-gray-500 uppercase">Total Saves</p>
           <p className="text-2xl font-bold text-gray-900 mt-1">{data.extraStats.totalWishlistSaves}</p>
           <p className="text-xs text-rose-500 mt-1">Wishlisted globally</p>
         </div>
 
         {/* Enquiries */}
-        <div className="glass-panel bg-white p-4 shadow-sm rounded-xl border border-gray-100">
+        <div 
+          onClick={() => navigate('/admin/enquiries')}
+          className="glass-panel bg-white p-4 shadow-sm rounded-xl border border-gray-100 cursor-pointer hover:shadow-md hover:-translate-y-0.5 transition-all"
+        >
           <p className="text-xs font-medium text-gray-500 uppercase">Total Enquiries</p>
           <p className="text-2xl font-bold text-gray-900 mt-1">{data.extraStats.totalEnquiries}</p>
           <p className="text-xs text-blue-600 mt-1">{data.extraStats.newEnquiries} New</p>
         </div>
 
         {/* Pending Enquiries */}
-        <div className="glass-panel bg-white p-4 shadow-sm rounded-xl border border-gray-100">
+        <div 
+          onClick={() => navigate('/admin/enquiries')}
+          className="glass-panel bg-white p-4 shadow-sm rounded-xl border border-gray-100 cursor-pointer hover:shadow-md hover:-translate-y-0.5 transition-all"
+        >
           <p className="text-xs font-medium text-gray-500 uppercase">Pending Review</p>
           <p className="text-2xl font-bold text-gray-900 mt-1">{data.extraStats.pendingEnquiries}</p>
           <p className="text-xs text-orange-500 mt-1">Needs attention</p>
         </div>
 
         {/* Quoted Enquiries */}
-        <div className="glass-panel bg-white p-4 shadow-sm rounded-xl border border-gray-100">
+        <div 
+          onClick={() => navigate('/admin/enquiries')}
+          className="glass-panel bg-white p-4 shadow-sm rounded-xl border border-gray-100 cursor-pointer hover:shadow-md hover:-translate-y-0.5 transition-all"
+        >
           <p className="text-xs font-medium text-gray-500 uppercase">Quoted Deals</p>
           <p className="text-2xl font-bold text-gray-900 mt-1">{data.extraStats.quotedEnquiries}</p>
           <p className="text-xs text-green-500 mt-1">Awaiting customer</p>
         </div>
 
         {/* Banners */}
-        <div className="glass-panel bg-white p-4 shadow-sm rounded-xl border border-gray-100">
+        <div 
+          onClick={() => navigate('/admin/cms')}
+          className="glass-panel bg-white p-4 shadow-sm rounded-xl border border-gray-100 cursor-pointer hover:shadow-md hover:-translate-y-0.5 transition-all"
+        >
           <p className="text-xs font-medium text-gray-500 uppercase">Banners</p>
           <p className="text-2xl font-bold text-gray-900 mt-1">{data.extraStats.totalBanners}</p>
           <p className="text-xs text-gray-400 mt-1">Homepage slides</p>
         </div>
 
         {/* FAQs */}
-        <div className="glass-panel bg-white p-4 shadow-sm rounded-xl border border-gray-100">
+        <div 
+          onClick={() => navigate('/admin/cms')}
+          className="glass-panel bg-white p-4 shadow-sm rounded-xl border border-gray-100 cursor-pointer hover:shadow-md hover:-translate-y-0.5 transition-all"
+        >
           <p className="text-xs font-medium text-gray-500 uppercase">Total FAQs</p>
           <p className="text-2xl font-bold text-gray-900 mt-1">{data.extraStats.totalFaqs}</p>
           <p className="text-xs text-gray-400 mt-1">Help center items</p>
         </div>
 
         {/* Import Jobs */}
-        <div className="glass-panel bg-white p-4 shadow-sm rounded-xl border border-gray-100">
+        <div 
+          onClick={() => navigate('/admin/import')}
+          className="glass-panel bg-white p-4 shadow-sm rounded-xl border border-gray-100 cursor-pointer hover:shadow-md hover:-translate-y-0.5 transition-all"
+        >
           <p className="text-xs font-medium text-gray-500 uppercase">Import Jobs</p>
           <p className="text-2xl font-bold text-gray-900 mt-1">{data.extraStats.totalImportJobs}</p>
           <p className="text-xs text-rose-500 mt-1">{data.extraStats.failedImportJobs} Failed</p>
         </div>
 
         {/* Activity Logs */}
-        <div className="glass-panel bg-white p-4 shadow-sm rounded-xl border border-gray-100">
+        <div 
+          onClick={() => navigate('/admin/reports')}
+          className="glass-panel bg-white p-4 shadow-sm rounded-xl border border-gray-100 cursor-pointer hover:shadow-md hover:-translate-y-0.5 transition-all"
+        >
           <p className="text-xs font-medium text-gray-500 uppercase">Audit Logs</p>
           <p className="text-2xl font-bold text-gray-900 mt-1">{data.extraStats.totalActivityLogs}</p>
           <p className="text-xs text-gray-400 mt-1">System actions</p>
