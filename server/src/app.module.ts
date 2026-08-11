@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { ScheduleModule } from '@nestjs/schedule';
-import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import appConfig from './config/app.config';
 import { PrismaModule } from './prisma/prisma.module';
@@ -33,18 +32,6 @@ import { SitemapModule } from './modules/sitemap/sitemap.module';
       },
     ]),
     ScheduleModule.forRoot(),
-    ServeStaticModule.forRoot({
-      rootPath: join(
-        __dirname,
-        '..',
-        process.env.UPLOAD_LOCAL_PATH || 'uploads',
-      ),
-      serveRoot: '/uploads',
-      serveStaticOptions: {
-        maxAge: 86400000, // 1 day cache
-        index: false,
-      },
-    }),
     PrismaModule,
     AuthModule,
     ProductsModule,

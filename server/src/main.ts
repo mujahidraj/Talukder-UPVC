@@ -22,6 +22,11 @@ async function bootstrap() {
   // Global prefix
   app.setGlobalPrefix('api');
 
+  // Serve uploads directly using express static to avoid ServeStaticModule conflicts
+  const express = require('express');
+  const { join } = require('path');
+  app.use('/uploads', express.static(join(process.cwd(), process.env.UPLOAD_LOCAL_PATH || 'uploads')));
+
   // Validation
   app.useGlobalPipes(
     new ValidationPipe({
