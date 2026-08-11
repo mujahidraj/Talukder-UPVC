@@ -14,6 +14,8 @@ import {
   MinusSquare,
   X,
   AlertTriangle,
+  ArrowUp,
+  ArrowDown,
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import api from '../../lib/axios';
@@ -42,6 +44,8 @@ export default function ProductsManager() {
   const [isBulkDeleting, setIsBulkDeleting] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
   const [filters, setFilters] = useState({ categoryId: '', status: '' });
+  const [sortBy, setSortBy] = useState('createdAt');
+  const [sortOrder, setSortOrder] = useState('desc');
   const [categories, setCategories] = useState<{ id: string; name: string; level: number; children?: any[] }[]>([]);
   const limit = 10;
 
@@ -64,7 +68,7 @@ export default function ProductsManager() {
   const fetchData = useCallback(async () => {
     setIsLoading(true);
     try {
-      const params: any = { page, limit, search };
+      const params: any = { page, limit, search, sortBy, sortOrder };
       if (filters.categoryId) params.categoryId = filters.categoryId;
       if (filters.status) params.status = filters.status;
 
@@ -77,7 +81,7 @@ export default function ProductsManager() {
     } finally {
       setIsLoading(false);
     }
-  }, [page, search, filters]);
+  }, [page, search, filters, sortBy, sortOrder]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -90,6 +94,21 @@ export default function ProductsManager() {
   useEffect(() => {
     setSelectedIds(new Set());
   }, [page]);
+
+  const handleSort = (field: string) => {
+    if (sortBy === field) {
+      setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+    } else {
+      setSortBy(field);
+      setSortOrder('asc');
+    }
+    setPage(1);
+  };
+
+  const renderSortIcon = (field: string) => {
+    if (sortBy !== field) return <span className="w-4 h-4 ml-1 inline-block" />;
+    return sortOrder === 'asc' ? <ArrowUp className="h-4 w-4 ml-1 inline-block" /> : <ArrowDown className="h-4 w-4 ml-1 inline-block" />;
+  };
 
   const handleDelete = async (id: string) => {
     if (!window.confirm('Delete this product?')) return;
@@ -359,15 +378,32 @@ export default function ProductsManager() {
                   </button>
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Image</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Item Code</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                <th 
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-200 transition-colors select-none"
+                  onClick={() => handleSort('code')}
+                >
+                  <div className="flex items-center">
+                    Item Code {renderSortIcon('code')}
+                  </div>
+                </th>
+                <th 
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-200 transition-colors select-none"
+                  onClick={() => handleSort('name')}
+                >
+                  <div className="flex items-center">
+                    Name {renderSortIcon('name')}
+                  </div>
+                </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Size</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  <div className="flex items-center gap-1">
-                    <Eye className="h-3.5 w-3.5" />
-                    Views
+                <th 
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-200 transition-colors select-none"
+                  onClick={() => handleSort('views')}
+                >
+                  <div className="flex items-center">
+                    <Eye className="h-3.5 w-3.5 mr-1" />
+                    Views {renderSortIcon('views')}
                   </div>
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>

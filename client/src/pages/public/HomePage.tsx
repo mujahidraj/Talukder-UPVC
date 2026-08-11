@@ -188,7 +188,7 @@ export default function HomePage() {
             <h2 className="text-3xl md:text-4xl font-heading font-bold text-brand-950">Product Categories</h2>
             <p className="mt-4 text-gray-500 max-w-xl mx-auto text-lg">Explore our comprehensive range of high-quality uPVC products for every application.</p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 xl:gap-6">
+          <div className="flex flex-wrap justify-center gap-4 xl:gap-6">
             {categories.map((cat: any) => {
 
               
@@ -205,7 +205,7 @@ export default function HomePage() {
                 <Link
                   key={cat.id}
                   to={`/categories/${cat.slug}`}
-                  className="group relative rounded-3xl p-6 border border-gray-100/80 hover:border-brand-200 hover:shadow-2xl hover:shadow-brand-900/5 transition-all duration-300 overflow-hidden block"
+                  className="flex-1 min-w-[240px] max-w-sm group relative rounded-3xl p-6 border border-gray-100/80 hover:border-brand-200 hover:shadow-2xl hover:shadow-brand-900/5 transition-all duration-300 overflow-hidden block"
                 >
                   {/* Product Image Background */}
                   <div 

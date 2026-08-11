@@ -26,7 +26,7 @@ export default function PublicHeader({ onEnquiryClick }: HeaderProps = {}) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    api.get('/categories/tree').then(res => setCategories(res.data)).catch(() => {});
+    api.get('/categories/tree').then(res => setCategories(res.data)).catch(() => { });
   }, []);
 
   useEffect(() => {
@@ -132,7 +132,7 @@ export default function PublicHeader({ onEnquiryClick }: HeaderProps = {}) {
                             <ChevronDown className="h-4 w-4 -rotate-90 text-gray-400 group-hover/cat:text-brand-700" />
                           )}
                         </Link>
-                        
+
                         {/* Sub Categories Flyout */}
                         {cat.children && cat.children.length > 0 && (
                           <ul className="absolute top-0 left-full w-64 bg-white shadow-xl border border-gray-100 py-2 opacity-0 invisible group-hover/cat:opacity-100 group-hover/cat:visible transition-all duration-200 -translate-x-2 group-hover/cat:translate-x-0">
@@ -272,10 +272,10 @@ export default function PublicHeader({ onEnquiryClick }: HeaderProps = {}) {
         <div className={`lg:hidden fixed inset-0 top-[72px] md:top-[88px] bg-white z-40 transition-transform duration-300 overflow-y-auto ${menuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
           <div className="px-4 py-6 space-y-4">
             <Link to="/" onClick={() => setMenuOpen(false)} className="block px-4 py-3 text-lg font-bold text-gray-900 border-b border-gray-100">Home</Link>
-            
+
             <div className="border-b border-gray-100">
-              <button 
-                onClick={() => setMegaOpen(!megaOpen)} 
+              <button
+                onClick={() => setMegaOpen(!megaOpen)}
                 className="w-full flex items-center justify-between px-4 py-3 text-lg font-bold text-gray-900"
               >
                 Products
@@ -284,17 +284,17 @@ export default function PublicHeader({ onEnquiryClick }: HeaderProps = {}) {
               {megaOpen && (
                 <div className="px-4 pb-4 space-y-2 bg-gray-50 rounded-xl mt-2 p-3">
                   {categories.map(cat => (
-                    <Link 
-                      key={cat.id} 
-                      to={`/categories/${cat.slug}`} 
+                    <Link
+                      key={cat.id}
+                      to={`/categories/${cat.slug}`}
                       onClick={() => setMenuOpen(false)}
                       className="block px-3 py-2 text-base font-semibold text-gray-700 hover:text-brand-700"
                     >
                       {cat.name}
                     </Link>
                   ))}
-                  <Link 
-                    to="/products" 
+                  <Link
+                    to="/products"
                     onClick={() => setMenuOpen(false)}
                     className="block px-3 py-2 text-base font-bold text-brand-700 mt-2 border-t border-gray-200 pt-2"
                   >
@@ -307,7 +307,7 @@ export default function PublicHeader({ onEnquiryClick }: HeaderProps = {}) {
             <Link to="/about" onClick={() => setMenuOpen(false)} className="block px-4 py-3 text-lg font-bold text-gray-900 border-b border-gray-100">About</Link>
             <Link to="/faq" onClick={() => setMenuOpen(false)} className="block px-4 py-3 text-lg font-bold text-gray-900 border-b border-gray-100">FAQ</Link>
             <Link to="/contact" onClick={() => setMenuOpen(false)} className="block px-4 py-3 text-lg font-bold text-gray-900 border-b border-gray-100">Contact</Link>
-            
+
             <div className="pt-6 px-4">
               <button onClick={() => { setMenuOpen(false); onEnquiryClick?.(); }} className="block w-full text-center bg-brand-700 text-white px-7 py-3.5 rounded-lg font-bold text-lg hover:bg-brand-800 transition-colors shadow-md">
                 Get a Quote
