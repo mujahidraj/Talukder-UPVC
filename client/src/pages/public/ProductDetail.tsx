@@ -79,9 +79,9 @@ export default function ProductDetail() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
         {/* Image */}
-        <div className="bg-white rounded-2xl border border-gray-100 p-8 flex items-center justify-center min-h-[400px]">
+        <div className="bg-white rounded-2xl border border-gray-100 p-4 lg:p-8 flex items-center justify-center min-h-[400px] md:min-h-[500px] lg:min-h-[600px]">
           {product.images?.length > 0 ? (
-            <img src={`http://localhost:3000${product.images[0].fullPath || product.images[0].filePath}`} alt={product.productName} className="max-h-[400px] w-auto object-contain" />
+            <img src={`http://localhost:3000${product.images[0].fullPath || product.images[0].filePath}`} alt={product.productName} className="max-h-[400px] md:max-h-[500px] lg:max-h-[600px] max-w-full object-contain hover:scale-105 transition-transform duration-300" />
           ) : (
             <Droplets className="h-32 w-32 text-gray-200" />
           )}

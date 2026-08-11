@@ -62,6 +62,11 @@ export class CmsAdminController {
     return this.cmsService.updatePage(id, body);
   }
 
+  @Delete('pages/:id')
+  deletePage(@Param('id') id: string) {
+    return this.cmsService.deletePage(id);
+  }
+
   // ─── FAQs ───────────────────────────────────
   @Get('faqs')
   getFaqs() {

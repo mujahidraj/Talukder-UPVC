@@ -19,17 +19,17 @@ import useAuthStore from '../store/useAuthStore';
 import api from '../lib/axios';
 
 const navigation = [
-  { name: 'Dashboard', href: '/admin', icon: LayoutDashboard },
-  { name: 'Products', href: '/admin/products', icon: Package },
-  { name: 'Missing Data', href: '/admin/products/missing-data', icon: FileText },
-  { name: 'Recycle Bin', href: '/admin/products/trash', icon: Trash2 },
-  { name: 'Categories', href: '/admin/categories', icon: FolderTree },
-  { name: 'Enquiries', href: '/admin/enquiries', icon: MessageSquare },
-  { name: 'Media', href: '/admin/media', icon: Image },
-  { name: 'Bulk Import', href: '/admin/import', icon: FileSpreadsheet },
-  { name: 'CMS', href: '/admin/cms', icon: FileText },
-  { name: 'Reports', href: '/admin/reports', icon: BarChart3 },
-  { name: 'Users', href: '/admin/users', icon: Users },
+  { name: 'Dashboard', href: '/admin', icon: LayoutDashboard, roles: ['SUPER_ADMIN', 'CATALOG_MANAGER', 'SALES_STAFF'] },
+  { name: 'Products', href: '/admin/products', icon: Package, roles: ['SUPER_ADMIN', 'CATALOG_MANAGER', 'SALES_STAFF'] },
+  { name: 'Missing Data', href: '/admin/products/missing-data', icon: FileText, roles: ['SUPER_ADMIN', 'CATALOG_MANAGER'] },
+  { name: 'Recycle Bin', href: '/admin/products/trash', icon: Trash2, roles: ['SUPER_ADMIN', 'CATALOG_MANAGER'] },
+  { name: 'Categories', href: '/admin/categories', icon: FolderTree, roles: ['SUPER_ADMIN', 'CATALOG_MANAGER'] },
+  { name: 'Enquiries', href: '/admin/enquiries', icon: MessageSquare, roles: ['SUPER_ADMIN', 'SALES_STAFF'] },
+  { name: 'Media', href: '/admin/media', icon: Image, roles: ['SUPER_ADMIN', 'CATALOG_MANAGER'] },
+  { name: 'Bulk Import', href: '/admin/import', icon: FileSpreadsheet, roles: ['SUPER_ADMIN', 'CATALOG_MANAGER'] },
+  { name: 'CMS', href: '/admin/cms', icon: FileText, roles: ['SUPER_ADMIN', 'CATALOG_MANAGER'] },
+  { name: 'Reports', href: '/admin/reports', icon: BarChart3, roles: ['SUPER_ADMIN', 'CATALOG_MANAGER'] },
+  { name: 'Users', href: '/admin/users', icon: Users, roles: ['SUPER_ADMIN'] },
 ];
 
 export default function AdminLayout() {
@@ -74,7 +74,7 @@ export default function AdminLayout() {
                 <span className="text-white text-2xl font-heading font-bold">Talukder uPVC</span>
               </div>
               <nav className="mt-5 px-2 space-y-1">
-                {navigation.map((item) => (
+                {navigation.filter(item => !item.roles || item.roles.includes(user?.role || 'SUPER_ADMIN')).map((item) => (
                   <Link
                     key={item.name}
                     to={item.href}
@@ -106,7 +106,7 @@ export default function AdminLayout() {
               </div>
 
               <nav className="mt-8 flex-1 px-4 space-y-1">
-                {navigation.map((item) => (
+                {navigation.filter(item => !item.roles || item.roles.includes(user?.role || 'SUPER_ADMIN')).map((item) => (
                   <Link
                     key={item.name}
                     to={item.href}

@@ -99,8 +99,8 @@ export default function PublicFooter() {
               © {new Date().getFullYear()} Talukder uPVC Fittings Industries Ltd. All rights reserved.
             </p>
             <div className="flex gap-4 text-xs text-brand-400">
-              <Link to="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
-              <Link to="/terms" className="hover:text-white transition-colors">Terms of Use</Link>
+              <Link to="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link>
+              <Link to="/terms-conditions" className="hover:text-white transition-colors">Terms of Use</Link>
             </div>
           </div>
         </div>

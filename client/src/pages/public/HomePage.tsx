@@ -7,8 +7,11 @@ import SEO from '../../components/SEO';
 export default function HomePage() {
   const [categories, setCategories] = useState<any[]>([]);
   const [featured, setFeatured] = useState<any[]>([]);
+  const [banners, setBanners] = useState<any[]>([]);
+  const [currentBanner, setCurrentBanner] = useState(0);
 
   useEffect(() => {
+    api.get('/cms/banners').then(r => setBanners(r.data)).catch(() => {});
     api.get('/categories/tree').then(r => {
       // Prioritize the categories that actually have all the imported products
       const mainCatNames = ['agricultural', 'upvc doors', 'fittings', 'pipes', 'tubewells'];
@@ -26,6 +29,17 @@ export default function HomePage() {
     api.get('/products', { params: { limit: 8 } }).then(r => setFeatured(r.data.data)).catch(() => {});
   }, []);
 
+  useEffect(() => {
+    if (banners.length <= 1) return;
+    const interval = setInterval(() => {
+      setCurrentBanner(prev => (prev + 1) % banners.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [banners.length]);
+
+  const hasBanners = banners.length > 0;
+  const activeBanner = hasBanners ? banners[currentBanner] : null;
+
   return (
     <div>
       <SEO
@@ -33,44 +47,107 @@ export default function HomePage() {
         description="Bangladesh's leading manufacturer of uPVC pipes and fittings. BS-3505 certified, 100% virgin material for water supply, drainage, and irrigation."
         canonical="/"
       />
-      <section className="relative text-white overflow-hidden bg-gray-900 min-h-[85vh] flex items-center">
-        {/* Background Image */}
-        <div 
-          className="absolute inset-0 w-full h-full"
-        >
-          {/* Use picture/img for better responsive control rather than background-image which struggles with min-h and contain on mobile */}
-          <img 
-            src="/images/tube.png" 
-            className="w-full h-full object-cover object-center opacity-90"
-            alt="Talukder uPVC"
-          />
-        </div>
-        {/* Dark Overlay for better text readability - Switched to neutral black/gray instead of brand blue */}
-        <div className="absolute inset-0 bg-gray-950/75 md:bg-gray-950/60" />
-        
-        <div className="max-w-7xl mx-auto px-4 py-24 md:py-32 relative w-full z-10">
-          <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 bg-brand-700/50 backdrop-blur-sm text-brand-200 text-xs font-semibold px-4 py-2 rounded-full mb-6 border border-brand-600/30">
-              <Award className="h-3.5 w-3.5" /> BS-3505 Standard · 100% Virgin Material
+      <section className="relative text-white overflow-hidden bg-gray-900 min-h-[85vh] flex items-center transition-all duration-1000">
+        {hasBanners ? (
+          <>
+            {banners.map((banner, idx) => (
+              <div 
+                key={banner.id}
+                className={`absolute inset-0 w-full h-full transition-opacity duration-1000 ${idx === currentBanner ? 'opacity-100' : 'opacity-0'}`}
+              >
+                <img 
+                  src={banner.imageUrl} 
+                  className="w-full h-full object-cover object-center"
+                  alt={banner.title || 'Talukder uPVC Banner'}
+                />
+              </div>
+            ))}
+            <div className="absolute inset-0 bg-gray-950/75 md:bg-gray-950/60" />
+            
+            <div className="max-w-7xl mx-auto px-4 py-24 md:py-32 relative w-full z-10">
+              <div className="max-w-3xl" key={currentBanner} style={{ animation: 'fadeIn 0.5s ease-out' }}>
+                {activeBanner.subtitle && (
+                  <div className="inline-flex items-center gap-2 bg-brand-700/50 backdrop-blur-sm text-brand-200 text-xs font-semibold px-4 py-2 rounded-full mb-6 border border-brand-600/30">
+                    <Award className="h-3.5 w-3.5" /> {activeBanner.subtitle}
+                  </div>
+                )}
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold tracking-tight text-white leading-[1.1]">
+                  {activeBanner.title ? (
+                    // Simple split if title contains a pipe "|" to highlight second part
+                    activeBanner.title.includes('|') ? (
+                      <>
+                        {activeBanner.title.split('|')[0]}
+                        <span className="block text-brand-300">{activeBanner.title.split('|')[1]}</span>
+                      </>
+                    ) : (
+                      activeBanner.title
+                    )
+                  ) : (
+                    'Talukder uPVC'
+                  )}
+                </h1>
+                <div className="mt-8 flex flex-wrap gap-4">
+                  <Link to={activeBanner.linkUrl || '/products'} className="inline-flex items-center gap-2 bg-white text-brand-900 px-6 py-3 rounded-xl font-semibold hover:bg-brand-50 transition-colors shadow-lg">
+                    {activeBanner.linkUrl ? 'Learn More' : 'Browse Catalog'} <ArrowRight className="h-5 w-5" />
+                  </Link>
+                  <Link to="/contact" className="inline-flex items-center gap-2 border-2 border-brand-400 text-white px-6 py-3 rounded-xl font-semibold hover:bg-brand-700 transition-colors bg-brand-900/50 backdrop-blur-sm">
+                    Request Quote
+                  </Link>
+                </div>
+              </div>
             </div>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold tracking-tight text-white leading-[1.1]">
-              Bangladesh's Trusted
-              <span className="block text-brand-300">uPVC Pipe & Fittings</span>
-              Manufacturer
-            </h1>
-            <p className="mt-6 text-lg text-brand-100 max-w-xl leading-relaxed">
-              Talukder uPVC Fittings Industries Ltd. delivers premium quality pipes and fittings for water supply, drainage, and irrigation across the nation.
-            </p>
-            <div className="mt-8 flex flex-wrap gap-4">
-              <Link to="/products" className="inline-flex items-center gap-2 bg-white text-brand-900 px-6 py-3 rounded-xl font-semibold hover:bg-brand-50 transition-colors shadow-lg">
-                Browse Catalog <ArrowRight className="h-5 w-5" />
-              </Link>
-              <Link to="/contact" className="inline-flex items-center gap-2 border-2 border-brand-400 text-white px-6 py-3 rounded-xl font-semibold hover:bg-brand-700 transition-colors bg-brand-900/50 backdrop-blur-sm">
-                Request Quote
-              </Link>
+            
+            {/* Slider Dots */}
+            {banners.length > 1 && (
+              <div className="absolute bottom-8 left-0 right-0 flex justify-center gap-2 z-20">
+                {banners.map((_, idx) => (
+                  <button 
+                    key={idx} 
+                    onClick={() => setCurrentBanner(idx)}
+                    className={`h-2.5 rounded-full transition-all duration-300 ${idx === currentBanner ? 'w-8 bg-brand-400' : 'w-2.5 bg-white/50 hover:bg-white/80'}`}
+                    aria-label={`Go to slide ${idx + 1}`}
+                  />
+                ))}
+              </div>
+            )}
+          </>
+        ) : (
+          /* Fallback static hero */
+          <>
+            <div className="absolute inset-0 w-full h-full">
+              <img 
+                src="/images/tube.png" 
+                className="w-full h-full object-cover object-center opacity-90"
+                alt="Talukder uPVC"
+              />
             </div>
-          </div>
-        </div>
+            <div className="absolute inset-0 bg-gray-950/75 md:bg-gray-950/60" />
+            
+            <div className="max-w-7xl mx-auto px-4 py-24 md:py-32 relative w-full z-10">
+              <div className="max-w-3xl">
+                <div className="inline-flex items-center gap-2 bg-brand-700/50 backdrop-blur-sm text-brand-200 text-xs font-semibold px-4 py-2 rounded-full mb-6 border border-brand-600/30">
+                  <Award className="h-3.5 w-3.5" /> BS-3505 Standard · 100% Virgin Material
+                </div>
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold tracking-tight text-white leading-[1.1]">
+                  Bangladesh's Trusted
+                  <span className="block text-brand-300">uPVC Pipe & Fittings</span>
+                  Manufacturer
+                </h1>
+                <p className="mt-6 text-lg text-brand-100 max-w-xl leading-relaxed">
+                  Talukder uPVC Fittings Industries Ltd. delivers premium quality pipes and fittings for water supply, drainage, and irrigation across the nation.
+                </p>
+                <div className="mt-8 flex flex-wrap gap-4">
+                  <Link to="/products" className="inline-flex items-center gap-2 bg-white text-brand-900 px-6 py-3 rounded-xl font-semibold hover:bg-brand-50 transition-colors shadow-lg">
+                    Browse Catalog <ArrowRight className="h-5 w-5" />
+                  </Link>
+                  <Link to="/contact" className="inline-flex items-center gap-2 border-2 border-brand-400 text-white px-6 py-3 rounded-xl font-semibold hover:bg-brand-700 transition-colors bg-brand-900/50 backdrop-blur-sm">
+                    Request Quote
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </>
+        )}
       </section>
 
       {/* Trust Bar (Dark & Immersive) */}

@@ -37,6 +37,8 @@ const FaqPage = React.lazy(() => import('./pages/public/FaqPage'));
 const DownloadsPage = React.lazy(() => import('./pages/public/DownloadsPage'));
 const CertificationsPage = React.lazy(() => import('./pages/public/CertificationsPage'));
 const FactoryPage = React.lazy(() => import('./pages/public/FactoryPage'));
+const PrivacyPolicyPage = React.lazy(() => import('./pages/public/PrivacyPolicyPage'));
+const TermsAndConditionsPage = React.lazy(() => import('./pages/public/TermsAndConditionsPage'));
 const NotFoundPage = React.lazy(() => import('./pages/public/NotFoundPage'));
 
 const ProtectedRoute = () => {
@@ -64,6 +66,7 @@ function App() {
               <Route index element={<HomePage />} />
               <Route path="products" element={<ProductsListing />} />
               <Route path="products/:slug" element={<ProductDetail />} />
+              <Route path="categories" element={<ProductsListing />} />
               <Route path="categories/:slug" element={<CategoryPage />} />
               <Route path="wishlist" element={<WishlistPage />} />
               <Route path="enquiry" element={<EnquiryPage />} />
@@ -73,6 +76,8 @@ function App() {
               <Route path="downloads" element={<DownloadsPage />} />
               <Route path="certifications" element={<CertificationsPage />} />
               <Route path="factory" element={<FactoryPage />} />
+              <Route path="privacy-policy" element={<PrivacyPolicyPage />} />
+              <Route path="terms-conditions" element={<TermsAndConditionsPage />} />
               <Route path="*" element={<NotFoundPage />} />
             </Route>
 

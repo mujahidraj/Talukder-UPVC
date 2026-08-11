@@ -37,6 +37,11 @@ export default function UserManagement() {
   const [loading, setLoading] = useState(true);
   const currentUser = useAuthStore((s) => s.user);
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingUser, setEditingUser] = useState<AdminUser | null>(null);
+  const [formData, setFormData] = useState({ name: '', email: '', role: 'SALES_STAFF', password: '', isActive: true });
+  const [isSaving, setIsSaving] = useState(false);
+
   const fetchUsers = async () => {
     setLoading(true);
     try {
@@ -72,6 +77,46 @@ export default function UserManagement() {
     }
   };
 
+  const openModal = (user?: AdminUser) => {
+    if (user) {
+      setEditingUser(user);
+      setFormData({ name: user.name, email: user.email, role: user.role, password: '', isActive: user.isActive });
+    } else {
+      setEditingUser(null);
+      setFormData({ name: '', email: '', role: 'SALES_STAFF', password: '', isActive: true });
+    }
+    setIsModalOpen(true);
+  };
+
+  const handleSaveUser = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSaving(true);
+    try {
+      if (editingUser) {
+        // Edit
+        const payload: any = { name: formData.name, email: formData.email, role: formData.role, isActive: formData.isActive };
+        if (formData.password) payload.password = formData.password;
+        await api.put(`/admin/users/${editingUser.id}`, payload);
+        toast.success('User updated successfully');
+      } else {
+        // Create
+        if (!formData.password) {
+          toast.error('Password is required for new users');
+          setIsSaving(false);
+          return;
+        }
+        await api.post('/admin/users', formData);
+        toast.success('User created successfully');
+      }
+      setIsModalOpen(false);
+      fetchUsers();
+    } catch (err: any) {
+      toast.error(err.response?.data?.message || 'Failed to save user');
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
   return (
     <div>
       <div className="sm:flex sm:items-center sm:justify-between mb-8">
@@ -84,7 +129,7 @@ export default function UserManagement() {
             Manage admin accounts, roles, and access control.
           </p>
         </div>
-        <button className="mt-4 sm:mt-0 admin-btn-primary flex items-center">
+        <button onClick={() => openModal()} className="mt-4 sm:mt-0 admin-btn-primary flex items-center">
           <Plus className="h-4 w-4 mr-2" /> Add User
         </button>
       </div>
@@ -136,7 +181,7 @@ export default function UserManagement() {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right">
                       <div className="flex items-center justify-end gap-2">
-                        <button className="p-1.5 text-gray-400 hover:text-brand-600 transition-colors" title="Edit">
+                        <button onClick={() => openModal(user)} className="p-1.5 text-gray-400 hover:text-brand-600 transition-colors" title="Edit">
                           <Edit2 className="h-4 w-4" />
                         </button>
                         <button
@@ -164,6 +209,55 @@ export default function UserManagement() {
           </table>
         </div>
       </div>
+
+      {/* User Modal */}
+      {isModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+          <div className="bg-white rounded-2xl shadow-xl w-full max-w-lg overflow-hidden" style={{ animation: 'slideUp 0.2s ease-out' }}>
+            <div className="flex justify-between items-center p-4 border-b">
+              <h3 className="font-semibold text-lg">{editingUser ? 'Edit User' : 'Add New User'}</h3>
+              <button onClick={() => setIsModalOpen(false)} className="text-gray-400 hover:text-gray-600">
+                <ShieldAlert className="h-5 w-5 opacity-0" /> {/* Spacer */}
+              </button>
+            </div>
+            <form onSubmit={handleSaveUser} className="p-4 space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
+                <input required type="text" className="admin-input" value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} placeholder="John Doe" />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                <input required type="email" className="admin-input" value={formData.email} onChange={e => setFormData({ ...formData, email: e.target.value })} placeholder="john@example.com" />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Role</label>
+                <select className="admin-input" value={formData.role} onChange={e => setFormData({ ...formData, role: e.target.value })}>
+                  <option value="SALES_STAFF">Sales Staff</option>
+                  <option value="CATALOG_MANAGER">Catalog Manager</option>
+                  <option value="SUPER_ADMIN">Super Admin</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  {editingUser ? 'New Password (leave blank to keep current)' : 'Password'}
+                </label>
+                <input type="password" required={!editingUser} className="admin-input" value={formData.password} onChange={e => setFormData({ ...formData, password: e.target.value })} placeholder={editingUser ? '••••••••' : 'Password'} minLength={6} />
+              </div>
+              {editingUser && editingUser.id !== currentUser?.id && (
+                <div className="flex items-center">
+                  <input type="checkbox" id="isActive" checked={formData.isActive} onChange={e => setFormData({ ...formData, isActive: e.target.checked })} className="h-4 w-4 text-brand-600 rounded border-gray-300 focus:ring-brand-500" />
+                  <label htmlFor="isActive" className="ml-2 block text-sm text-gray-900">Active Account</label>
+                </div>
+              )}
+              
+              <div className="pt-4 flex justify-end gap-3 border-t mt-4">
+                <button type="button" onClick={() => setIsModalOpen(false)} className="admin-btn-secondary">Cancel</button>
+                <button type="submit" disabled={isSaving} className="admin-btn-primary">{isSaving ? 'Saving...' : 'Save User'}</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

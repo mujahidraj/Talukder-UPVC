@@ -65,6 +65,10 @@ export class CmsService {
     return this.prisma.page.update({ where: { id }, data });
   }
 
+  async deletePage(id: string) {
+    return this.prisma.page.delete({ where: { id } });
+  }
+
   // ─── FAQs ─────────────────────────────────────────────
   async getFaqs(onlyActive = true) {
     return this.prisma.fAQ.findMany({
