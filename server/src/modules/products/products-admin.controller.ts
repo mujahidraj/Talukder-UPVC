@@ -142,6 +142,16 @@ export class ProductsAdminController {
     return this.productsService.hardDelete(id);
   }
 
+  @Get('trash/list')
+  getTrash(@Query() query: QueryProductsDto) {
+    return this.productsService.getTrash(query);
+  }
+
+  @Put(':id/restore')
+  restore(@Param('id') id: string) {
+    return this.productsService.restore(id);
+  }
+
   @Post(':id/clone')
   clone(@Param('id') id: string, @CurrentUser('id') userId: string) {
     return this.productsService.clone(id, userId);

@@ -180,14 +180,40 @@ export class CategoriesService {
   }
 
   async delete(id: string) {
-    // Check if category has products
-    const count = await this.prisma.product.count({
-      where: { categoryId: id },
+    // Check if category has active products
+    const activeCount = await this.prisma.product.count({
+      where: { categoryId: id, isDeleted: false },
     });
-    if (count > 0) {
+    if (activeCount > 0) {
       throw new Error(
-        `Cannot delete category with ${count} products. Reassign products first.`,
+        `Cannot delete category with ${activeCount} active products. Reassign or delete them first.`,
       );
+    }
+
+    // Find any soft-deleted products in this category
+    const softDeletedProducts = await this.prisma.product.findMany({
+      where: { categoryId: id, isDeleted: true },
+      select: { id: true },
+    });
+
+    if (softDeletedProducts.length > 0) {
+      const ids = softDeletedProducts.map((p) => p.id);
+      
+      // Clean up relations that would block product hard deletion
+      await this.prisma.enquiryItem.deleteMany({
+        where: { productId: { in: ids } },
+      });
+      await this.prisma.wishlistItem.deleteMany({
+        where: { productId: { in: ids } },
+      });
+      await this.prisma.productImage.deleteMany({
+        where: { productId: { in: ids } },
+      });
+
+      // Permanently delete the soft-deleted products
+      await this.prisma.product.deleteMany({
+        where: { id: { in: ids } },
+      });
     }
 
     // Delete children first

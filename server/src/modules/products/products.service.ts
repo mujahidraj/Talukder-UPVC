@@ -115,6 +115,47 @@ export class ProductsService {
     };
   }
 
+  async getTrash(query: QueryProductsDto) {
+    const { page = 1, limit = 12, search } = query;
+
+    const where: Prisma.ProductWhereInput = {
+      isDeleted: true,
+    };
+
+    if (search) {
+      where.OR = [
+        { productName: { contains: search, mode: 'insensitive' } },
+        { productCode: { contains: search, mode: 'insensitive' } },
+        { description: { contains: search, mode: 'insensitive' } },
+        { category: { name: { contains: search, mode: 'insensitive' } } },
+      ];
+    }
+
+    const [data, total] = await Promise.all([
+      this.prisma.product.findMany({
+        where,
+        include: {
+          category: { select: { name: true } },
+          images: { orderBy: { sortOrder: 'asc' }, take: 1 },
+        },
+        orderBy: { updatedAt: 'desc' },
+        skip: (page - 1) * limit,
+        take: limit,
+      }),
+      this.prisma.product.count({ where }),
+    ]);
+
+    return {
+      data,
+      meta: {
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit),
+      },
+    };
+  }
+
   async findBySlug(slug: string) {
     const product = await this.prisma.product.findUnique({
       where: { slug },
@@ -309,7 +350,21 @@ export class ProductsService {
   }
 
   async hardDelete(id: string) {
-    return this.prisma.product.delete({ where: { id } });
+    // Delete relations that might block hard deletion
+    await this.prisma.enquiryItem.deleteMany({ where: { productId: id } });
+    await this.prisma.wishlistItem.deleteMany({ where: { productId: id } });
+    await this.prisma.productImage.deleteMany({ where: { productId: id } });
+
+    return this.prisma.product.delete({
+      where: { id },
+    });
+  }
+
+  async restore(id: string) {
+    return this.prisma.product.update({
+      where: { id },
+      data: { isDeleted: false },
+    });
   }
 
   async bulkStatusChange(ids: string[], status: ProductStatus) {

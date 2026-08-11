@@ -12,7 +12,8 @@ import {
   Users,
   LogOut,
   Menu,
-  X
+  X,
+  Trash2
 } from 'lucide-react';
 import useAuthStore from '../store/useAuthStore';
 import api from '../lib/axios';
@@ -20,6 +21,7 @@ import api from '../lib/axios';
 const navigation = [
   { name: 'Dashboard', href: '/admin', icon: LayoutDashboard },
   { name: 'Products', href: '/admin/products', icon: Package },
+  { name: 'Recycle Bin', href: '/admin/products/trash', icon: Trash2 },
   { name: 'Categories', href: '/admin/categories', icon: FolderTree },
   { name: 'Enquiries', href: '/admin/enquiries', icon: MessageSquare },
   { name: 'Media', href: '/admin/media', icon: Image },
