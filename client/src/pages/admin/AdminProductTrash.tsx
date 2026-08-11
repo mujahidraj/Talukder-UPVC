@@ -117,11 +117,25 @@ export default function AdminProductTrash() {
     }
   };
 
-  const toggleSelectAll = () => {
-    if (selectedIds.size === data.length) {
+  const [isSelectingAll, setIsSelectingAll] = useState(false);
+
+  const toggleSelectAll = async () => {
+    if (selectedIds.size === totalCount && totalCount > 0) {
       setSelectedIds(new Set());
     } else {
-      setSelectedIds(new Set(data.map(p => p.id)));
+      setIsSelectingAll(true);
+      try {
+        const params: Record<string, string> = {};
+        if (search) params.search = search;
+        const res = await api.get('/admin/products/trash/bulk/ids', {
+          params
+        });
+        setSelectedIds(new Set(res.data));
+      } catch {
+        toast.error('Failed to select all products');
+      } finally {
+        setIsSelectingAll(false);
+      }
     }
   };
 
@@ -201,21 +215,32 @@ export default function AdminProductTrash() {
       )}
 
       <div className="glass-panel overflow-hidden">
-        {/* Search */}
-        <div className="p-4 border-b border-gray-200 bg-white/50 sm:flex sm:items-center sm:justify-between">
-          <div className="relative max-w-sm w-full">
-            <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-              <Search className="h-4 w-4 text-gray-400" />
+        <div className="p-4 border-b border-gray-200 bg-white/50 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="flex items-center gap-4 w-full sm:max-w-xl">
+            <div className="relative w-full sm:max-w-sm">
+              <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                <Search className="h-4 w-4 text-gray-400" />
+              </div>
+              <input
+                type="text"
+                className="admin-input pl-9 bg-white w-full"
+                placeholder="Search deleted products..."
+                value={search}
+                onChange={(e) => { setSearch(e.target.value); setPage(1); }}
+              />
             </div>
-            <input
-              type="text"
-              className="admin-input pl-9 bg-white"
-              placeholder="Search deleted products..."
-              value={search}
-              onChange={(e) => { setSearch(e.target.value); setPage(1); }}
-            />
+            {data.length > 0 && (
+              <button
+                onClick={toggleSelectAll}
+                disabled={isSelectingAll}
+                className="flex items-center gap-2 px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors whitespace-nowrap disabled:opacity-50"
+              >
+                {selectedIds.size === totalCount ? <MinusSquare className="h-4 w-4 text-red-500" /> : <CheckSquare className="h-4 w-4 text-gray-400" />}
+                {isSelectingAll ? 'Selecting...' : selectedIds.size === totalCount ? 'Deselect All' : 'Select All (All Pages)'}
+              </button>
+            )}
           </div>
-          <div className="mt-2 sm:mt-0 text-sm text-gray-500 flex items-center gap-2">
+          <div className="text-sm text-gray-500 flex items-center gap-2 whitespace-nowrap">
             <AlertTriangle className="h-4 w-4 text-amber-500" />
             {totalCount} item{totalCount !== 1 ? 's' : ''} in trash
           </div>

@@ -11,13 +11,11 @@ export class ImportService {
     uploadedById: string,
     importMode: string,
   ) {
-    // In a real app we'd save the file to disk first and pass the path
-    // For this boilerplate we just create the job
     return this.jobsService.createJob(
       JobType.EXCEL_IMPORT,
       uploadedById,
       file.originalname,
-      {},
+      { filePath: file.path },
       importMode,
     );
   }

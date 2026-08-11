@@ -106,6 +106,26 @@ export class ProductsAdminController {
     res.send(csv);
   }
 
+  @Get('trash/list')
+  getTrash(@Query() query: QueryProductsDto) {
+    return this.productsService.getTrash(query);
+  }
+
+  @Get('trash/bulk/ids')
+  getTrashIds(@Query() query: QueryProductsDto) {
+    return this.productsService.getAllIds(query, true);
+  }
+
+  @Get('bulk/ids')
+  getBulkIds(@Query() query: QueryProductsDto) {
+    return this.productsService.getAllIds(query, false);
+  }
+
+  @Get('missing-data')
+  getMissingData(@Query() query: QueryProductsDto) {
+    return this.productsService.getMissingData(query);
+  }
+
   @Get(':id')
   findById(@Param('id') id: string) {
     return this.productsService.findById(id);
@@ -142,10 +162,7 @@ export class ProductsAdminController {
     return this.productsService.hardDelete(id);
   }
 
-  @Get('trash/list')
-  getTrash(@Query() query: QueryProductsDto) {
-    return this.productsService.getTrash(query);
-  }
+
 
   @Put(':id/restore')
   restore(@Param('id') id: string) {

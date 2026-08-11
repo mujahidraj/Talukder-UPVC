@@ -11,9 +11,9 @@ import PublicLayout from './layouts/PublicLayout';
 // ─── Code Split Admin Pages ─────────────────────
 const Login = React.lazy(() => import('./pages/admin/Login'));
 const Dashboard = React.lazy(() => import('./pages/admin/Dashboard')); 
-
 const ProductsManager = React.lazy(() => import('./pages/admin/ProductsManager'));
 const AdminProductTrash = React.lazy(() => import('./pages/admin/AdminProductTrash'));
+const ProductsMissingData = React.lazy(() => import('./pages/admin/ProductsMissingData'));
 const AdminProductDetail = React.lazy(() => import('./pages/admin/AdminProductDetail'));
 const AdminProductEdit = React.lazy(() => import('./pages/admin/AdminProductEdit'));
 const CategoriesManager = React.lazy(() => import('./pages/admin/CategoriesManager'));
@@ -84,6 +84,7 @@ function App() {
               <Route element={<AdminLayout />}>
                 <Route index element={<Dashboard />} />
                 <Route path="products" element={<ProductsManager />} />
+                <Route path="products/missing-data" element={<ProductsMissingData />} />
                 <Route path="products/trash" element={<AdminProductTrash />} />
                 <Route path="products/:id" element={<AdminProductDetail />} />
                 <Route path="products/:id/edit" element={<AdminProductEdit />} />

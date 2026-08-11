@@ -156,6 +156,98 @@ export class ProductsService {
     };
   }
 
+  async getMissingData(query: QueryProductsDto) {
+    const { page = 1, limit = 12, search } = query;
+
+    const where: Prisma.ProductWhereInput = {
+      isDeleted: false,
+      OR: [
+        { thicknessMm: null },
+        { thicknessMm: '' },
+        { length: null },
+        { length: '' },
+        { color: null },
+        { color: '' },
+        { material: null },
+        { material: '' },
+      ],
+    };
+
+    if (search) {
+      where.AND = [
+        {
+          OR: [
+            { productName: { contains: search, mode: 'insensitive' } },
+            { productCode: { contains: search, mode: 'insensitive' } },
+          ]
+        }
+      ];
+    }
+
+    const [data, total] = await Promise.all([
+      this.prisma.product.findMany({
+        where,
+        include: {
+          category: { select: { name: true } },
+          images: { orderBy: { sortOrder: 'asc' }, take: 1 },
+        },
+        orderBy: { updatedAt: 'desc' },
+        skip: (page - 1) * limit,
+        take: limit,
+      }),
+      this.prisma.product.count({ where }),
+    ]);
+
+    return {
+      data,
+      meta: {
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit),
+      },
+    };
+  }
+
+  async getAllIds(query: QueryProductsDto, isDeleted: boolean = false): Promise<string[]> {
+    const {
+      search,
+      categoryId,
+      status,
+      size,
+      color,
+      material,
+      classType,
+      fittingType,
+    } = query;
+
+    const where: any = { isDeleted };
+
+    if (search) {
+      where.OR = [
+        { productName: { contains: search } },
+        { productCode: { contains: search } },
+        { description: { contains: search } },
+      ];
+    }
+    if (categoryId && categoryId !== '') {
+      where.categoryId = categoryId;
+    }
+    if (status && (status as any) !== '') where.status = status as ProductStatus;
+    if (size && size !== '') where.size = size;
+    if (color && color !== '') where.color = color;
+    if (material && material !== '') where.material = material;
+    if (classType && classType !== '') where.classType = classType;
+    if (fittingType && fittingType !== '') where.fittingConnectionType = fittingType;
+
+    const products = await this.prisma.product.findMany({
+      where,
+      select: { id: true },
+    });
+
+    return products.map(p => p.id);
+  }
+
   async findBySlug(slug: string) {
     const product = await this.prisma.product.findUnique({
       where: { slug },

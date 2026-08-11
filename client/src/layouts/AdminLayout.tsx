@@ -21,6 +21,7 @@ import api from '../lib/axios';
 const navigation = [
   { name: 'Dashboard', href: '/admin', icon: LayoutDashboard },
   { name: 'Products', href: '/admin/products', icon: Package },
+  { name: 'Missing Data', href: '/admin/products/missing-data', icon: FileText },
   { name: 'Recycle Bin', href: '/admin/products/trash', icon: Trash2 },
   { name: 'Categories', href: '/admin/categories', icon: FolderTree },
   { name: 'Enquiries', href: '/admin/enquiries', icon: MessageSquare },
