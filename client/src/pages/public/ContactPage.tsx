@@ -1,9 +1,32 @@
 import React from 'react';
 import { Phone, Mail, MapPin, Clock, Send } from 'lucide-react';
 import toast from 'react-hot-toast';
+import api from '../../lib/axios';
 
 export default function ContactPage() {
-  const handleSubmit = (e: React.FormEvent) => { e.preventDefault(); toast.success('Message sent! We will get back to you soon.'); };
+  const [form, setForm] = React.useState({ name: '', phone: '', email: '', subject: '', message: '' });
+  const [submitting, setSubmitting] = React.useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubmitting(true);
+    try {
+      await api.post('/enquiries', {
+        customerName: form.name,
+        phone: form.phone,
+        email: form.email,
+        message: `${form.subject ? `Subject: ${form.subject}\n\n` : ''}${form.message}`,
+        sourcePage: 'Contact Page',
+        items: []
+      });
+      toast.success('Message sent! We will get back to you soon.');
+      setForm({ name: '', phone: '', email: '', subject: '', message: '' });
+    } catch (err: any) {
+      toast.error(err.response?.data?.message || 'Failed to send message');
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
     <div>
@@ -37,13 +60,30 @@ export default function ContactPage() {
           <h2 className="text-2xl font-heading font-bold text-brand-950 mb-6">Send a Message</h2>
           <form onSubmit={handleSubmit} className="bg-white rounded-2xl border border-gray-100 p-6 space-y-4">
             <div className="grid grid-cols-2 gap-4">
-              <div><label className="block text-sm font-medium text-gray-700 mb-1">Name</label><input required className="admin-input" /></div>
-              <div><label className="block text-sm font-medium text-gray-700 mb-1">Phone</label><input required className="admin-input" /></div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
+                <input required className="admin-input" value={form.name} onChange={e => setForm({...form, name: e.target.value})} />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+                <input required className="admin-input" value={form.phone} onChange={e => setForm({...form, phone: e.target.value})} />
+              </div>
             </div>
-            <div><label className="block text-sm font-medium text-gray-700 mb-1">Email</label><input required type="email" className="admin-input" /></div>
-            <div><label className="block text-sm font-medium text-gray-700 mb-1">Subject</label><input className="admin-input" /></div>
-            <div><label className="block text-sm font-medium text-gray-700 mb-1">Message</label><textarea required className="admin-input" rows={4} /></div>
-            <button type="submit" className="admin-btn-primary w-full flex items-center justify-center gap-2"><Send className="h-4 w-4" /> Send Message</button>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+              <input required type="email" className="admin-input" value={form.email} onChange={e => setForm({...form, email: e.target.value})} />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Subject</label>
+              <input className="admin-input" value={form.subject} onChange={e => setForm({...form, subject: e.target.value})} />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Message</label>
+              <textarea required className="admin-input" rows={4} value={form.message} onChange={e => setForm({...form, message: e.target.value})} />
+            </div>
+            <button type="submit" disabled={submitting} className="admin-btn-primary w-full flex items-center justify-center gap-2">
+              <Send className="h-4 w-4" /> {submitting ? 'Sending...' : 'Send Message'}
+            </button>
           </form>
         </div>
       </section>

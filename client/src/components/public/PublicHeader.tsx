@@ -1,7 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Search, Heart, Phone, Mail, Menu, X, ChevronDown, ArrowRight } from 'lucide-react';
+import { Search, Heart, Phone, Mail, Menu, X, ChevronDown, ArrowRight, ShoppingCart } from 'lucide-react';
 import api from '../../lib/axios';
+
+interface HeaderProps {
+  onEnquiryClick?: () => void;
+}
 
 interface Category {
   id: string;
@@ -11,7 +15,7 @@ interface Category {
   _count: { products: number };
 }
 
-export default function PublicHeader() {
+export default function PublicHeader({ onEnquiryClick }: HeaderProps = {}) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [megaOpen, setMegaOpen] = useState(false);
   const [categories, setCategories] = useState<Category[]>([]);
@@ -45,6 +49,26 @@ export default function PublicHeader() {
   }, []);
 
   const wishlistItems = JSON.parse(localStorage.getItem('talukder-wishlist') || '[]');
+  const [enquiryCount, setEnquiryCount] = useState(0);
+
+  // Sync enquiry count from localStorage
+  useEffect(() => {
+    const sync = () => {
+      const items = JSON.parse(localStorage.getItem('talukder-enquiry') || '[]');
+      setEnquiryCount(items.length);
+    };
+    sync();
+    // Listen for storage events from other tabs and custom events from same tab
+    window.addEventListener('storage', sync);
+    window.addEventListener('enquiry-updated', sync);
+    // Poll every 2s as fallback for same-tab localStorage changes
+    const interval = setInterval(sync, 2000);
+    return () => {
+      window.removeEventListener('storage', sync);
+      window.removeEventListener('enquiry-updated', sync);
+      clearInterval(interval);
+    };
+  }, []);
 
   return (
     <header className="sticky top-0 z-50">
@@ -214,10 +238,27 @@ export default function PublicHeader() {
                 )}
               </Link>
 
+              {/* Enquiry Cart */}
+              <button
+                onClick={onEnquiryClick}
+                className="relative text-gray-600 hover:text-brand-700 transition-colors"
+                title="View Enquiry"
+              >
+                <ShoppingCart className="h-5 w-5" />
+                {enquiryCount > 0 && (
+                  <span className="absolute -top-2 -right-2 h-4 w-4 bg-amber-500 text-white text-[10px] font-bold flex items-center justify-center rounded-full">
+                    {enquiryCount}
+                  </span>
+                )}
+              </button>
+
               {/* Get Quote CTA */}
-              <Link to="/contact" className="hidden lg:flex items-center gap-2 bg-brand-700 text-white px-7 py-2.5 rounded-md font-semibold text-sm hover:bg-brand-800 transition-colors shadow-sm ml-2">
+              <button
+                onClick={onEnquiryClick}
+                className="hidden lg:flex items-center gap-2 bg-brand-700 text-white px-7 py-2.5 rounded-md font-semibold text-sm hover:bg-brand-800 transition-colors shadow-sm ml-2"
+              >
                 Get a Quote
-              </Link>
+              </button>
 
               {/* Mobile menu toggle */}
               <button onClick={() => setMenuOpen(!menuOpen)} className="lg:hidden text-gray-600 hover:text-brand-700">
@@ -268,9 +309,9 @@ export default function PublicHeader() {
             <Link to="/contact" onClick={() => setMenuOpen(false)} className="block px-4 py-3 text-lg font-bold text-gray-900 border-b border-gray-100">Contact</Link>
             
             <div className="pt-6 px-4">
-              <Link to="/contact" onClick={() => setMenuOpen(false)} className="block w-full text-center bg-brand-700 text-white px-7 py-3.5 rounded-lg font-bold text-lg hover:bg-brand-800 transition-colors shadow-md">
+              <button onClick={() => { setMenuOpen(false); onEnquiryClick?.(); }} className="block w-full text-center bg-brand-700 text-white px-7 py-3.5 rounded-lg font-bold text-lg hover:bg-brand-800 transition-colors shadow-md">
                 Get a Quote
-              </Link>
+              </button>
             </div>
           </div>
         </div>

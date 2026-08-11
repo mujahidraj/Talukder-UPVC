@@ -3,6 +3,7 @@ import {
   Get,
   Put,
   Post,
+  Delete,
   Param,
   Body,
   Query,
@@ -69,5 +70,10 @@ export class EnquiriesAdminController {
   @Post(':id/note')
   addNote(@Param('id') id: string, @Body() body: { note: string }) {
     return this.enquiriesService.addNote(id, body.note);
+  }
+
+  @Delete(':id')
+  delete(@Param('id') id: string) {
+    return this.enquiriesService.delete(id);
   }
 }

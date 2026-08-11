@@ -36,10 +36,13 @@ export default function ProductDetail() {
 
   const addToEnquiry = () => {
     const list = JSON.parse(localStorage.getItem('talukder-enquiry') || '[]');
-    if (list.find((e: any) => e.id === product.id)) { toast('Already in enquiry list'); return; }
-    list.push({ id: product.id, name: product.productName, code: product.productCode, size: product.size, quantity: 1 });
-    localStorage.setItem('talukder-enquiry', JSON.stringify(list));
-    toast.success('Added to enquiry list!');
+    if (!list.find((e: any) => e.id === product.id)) {
+      list.push({ id: product.id, name: product.productName, code: product.productCode, size: product.size, quantity: 1 });
+      localStorage.setItem('talukder-enquiry', JSON.stringify(list));
+      window.dispatchEvent(new Event('enquiry-updated'));
+    }
+    // Open the modal immediately
+    window.dispatchEvent(new Event('open-enquiry-modal'));
   };
 
   if (loading) return <div className="max-w-7xl mx-auto px-4 py-20 text-center text-gray-400">Loading...</div>;

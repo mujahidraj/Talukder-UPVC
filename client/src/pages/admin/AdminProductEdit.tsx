@@ -10,6 +10,7 @@ import {
   ChevronRight,
   Package,
   Droplets,
+  Upload,
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import api from '../../lib/axios';
@@ -28,6 +29,7 @@ export default function AdminProductEdit() {
   const [saving, setSaving] = useState(false);
   const [categories, setCategories] = useState<Category[]>([]);
   const [product, setProduct] = useState<any>(null);
+  const [uploadingImage, setUploadingImage] = useState(false);
 
   // Form state
   const [form, setForm] = useState({
@@ -138,6 +140,49 @@ export default function AdminProductEdit() {
       toast.error(err?.response?.data?.message || 'Failed to update product');
     } finally {
       setSaving(false);
+    }
+  };
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files || files.length === 0 || !id) return;
+    
+    setUploadingImage(true);
+    try {
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('productId', id);
+        if (product?.images?.length === 0 && i === 0) {
+          formData.append('isPrimary', 'true');
+        }
+        
+        await api.post('/admin/media/upload', formData, {
+          headers: { 'Content-Type': 'multipart/form-data' },
+        });
+      }
+      toast.success('Images uploaded successfully');
+      
+      const res = await api.get(`/admin/products/${id}`);
+      setProduct(res.data);
+    } catch (err: any) {
+      toast.error('Failed to upload images');
+    } finally {
+      setUploadingImage(false);
+      e.target.value = '';
+    }
+  };
+
+  const handleDeleteImage = async (imageId: string) => {
+    if (!window.confirm('Are you sure you want to delete this image?')) return;
+    try {
+      await api.delete(`/admin/media/${imageId}`);
+      toast.success('Image deleted');
+      const res = await api.get(`/admin/products/${id}`);
+      setProduct(res.data);
+    } catch {
+      toast.error('Failed to delete image');
     }
   };
 
@@ -418,14 +463,26 @@ export default function AdminProductEdit() {
                 Product Images
               </h3>
               {product.images?.length > 0 ? (
-                <div className="grid grid-cols-2 gap-2">
+                <div className="grid grid-cols-2 gap-3 mb-4">
                   {product.images.map((img: any) => (
-                    <div key={img.id} className="aspect-square rounded-lg overflow-hidden border border-gray-200 bg-gray-50">
+                    <div key={img.id} className="relative aspect-square rounded-lg overflow-hidden border border-gray-200 bg-gray-50 group">
                       <img
                         src={`http://localhost:3000${img.thumbPath || img.filePath}`}
                         alt=""
                         className="w-full h-full object-cover"
                       />
+                      <button
+                        type="button"
+                        onClick={() => handleDeleteImage(img.id)}
+                        className="absolute top-1 right-1 p-1.5 bg-white/90 text-red-600 rounded-md shadow-sm opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-50"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </button>
+                      {img.isPrimary && (
+                        <span className="absolute bottom-1 left-1 px-1.5 py-0.5 bg-brand-600 text-white text-[10px] font-bold rounded">
+                          Primary
+                        </span>
+                      )}
                     </div>
                   ))}
                 </div>
@@ -435,10 +492,24 @@ export default function AdminProductEdit() {
                   <span className="text-xs">No images</span>
                 </div>
               )}
-              <p className="text-xs text-gray-400 mt-3">
-                Manage images from the{' '}
-                <Link to="/admin/media" className="text-brand-600 hover:underline">Media Library</Link>
-              </p>
+              
+              <div className="mt-4 flex flex-col gap-2">
+                <label className="admin-btn-secondary w-full flex items-center justify-center gap-2 cursor-pointer">
+                  {uploadingImage ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4" />}
+                  {uploadingImage ? 'Uploading...' : 'Upload Images'}
+                  <input
+                    type="file"
+                    multiple
+                    accept="image/*"
+                    className="hidden"
+                    onChange={handleImageUpload}
+                    disabled={uploadingImage}
+                  />
+                </label>
+                <p className="text-[11px] text-gray-400 text-center">
+                  You can upload multiple images at once. Primary image is set automatically.
+                </p>
+              </div>
             </div>
 
             {/* Status & Visibility */}

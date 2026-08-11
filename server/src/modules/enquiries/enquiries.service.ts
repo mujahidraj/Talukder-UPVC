@@ -186,4 +186,14 @@ export class EnquiriesService {
 
     return { total, newToday, newThisWeek, statusCounts };
   }
+
+  async delete(id: string) {
+    // Delete items first due to foreign key
+    await this.prisma.enquiryItem.deleteMany({
+      where: { enquiryId: id },
+    });
+    return this.prisma.enquiry.delete({
+      where: { id },
+    });
+  }
 }
