@@ -178,9 +178,18 @@ export class ProductsService {
   }
 
   async getRelatedProducts(productId: string, categoryId: string, limit = 6) {
-    return this.prisma.product.findMany({
+    // Fetch the original product to get its name
+    const original = await this.prisma.product.findUnique({ 
+      where: { id: productId },
+      select: { productName: true, categoryId: true }
+    });
+
+    if (!original) return [];
+
+    // Find products with the same name (which means different sizes/variations)
+    let related = await this.prisma.product.findMany({
       where: {
-        categoryId,
+        productName: original.productName,
         id: { not: productId },
         isDeleted: false,
         status: ProductStatus.ACTIVE,
@@ -189,7 +198,31 @@ export class ProductsService {
         images: { orderBy: { sortOrder: 'asc' }, take: 1 },
       },
       take: limit,
+      orderBy: { size: 'asc' }, // Order sizes logically if possible
     });
+
+    // Fallback: If not enough variations, fill with other products from the same category
+    if (related.length < limit) {
+      const remainingLimit = limit - related.length;
+      const excludeIds = [productId, ...related.map(p => p.id)];
+      
+      const fallbackProducts = await this.prisma.product.findMany({
+        where: {
+          categoryId: original.categoryId,
+          id: { notIn: excludeIds },
+          isDeleted: false,
+          status: ProductStatus.ACTIVE,
+        },
+        include: {
+          images: { orderBy: { sortOrder: 'asc' }, take: 1 },
+        },
+        take: remainingLimit,
+      });
+      
+      related = [...related, ...fallbackProducts];
+    }
+
+    return related;
   }
 
   async search(query: string, limit = 10) {
@@ -299,6 +332,28 @@ export class ProductsService {
     });
   }
 
+  async bulkSoftDelete(ids: string[]) {
+    return this.prisma.product.updateMany({
+      where: { id: { in: ids } },
+      data: { isDeleted: true },
+    });
+  }
+
+  async exportAll() {
+    return this.prisma.product.findMany({
+      where: { isDeleted: false },
+      include: {
+        category: {
+          include: {
+            parent: { include: { parent: true } },
+          },
+        },
+        images: { orderBy: { sortOrder: 'asc' }, take: 1 },
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+  }
+
   async clone(id: string, userId: string) {
     const source = await this.findById(id);
     const newCode = `${source.productCode}-copy-${Date.now().toString(36)}`;
@@ -332,36 +387,43 @@ export class ProductsService {
     });
   }
 
-  async getFilterOptions() {
+  async getFilterOptions(categoryId?: string) {
+    const where: Prisma.ProductWhereInput = { isDeleted: false };
+    
+    if (categoryId) {
+      where.OR = [
+        { categoryId },
+        { category: { parentId: categoryId } },
+        { category: { parent: { parentId: categoryId } } },
+      ];
+    }
+
     const [sizes, colors, materials, classTypes, fittingTypes] =
       await Promise.all([
         this.prisma.product.findMany({
-          where: { isDeleted: false },
+          where,
           select: { size: true },
           distinct: ['size'],
           orderBy: { size: 'asc' },
         }),
         this.prisma.product.findMany({
-          where: { isDeleted: false, color: { not: null } },
+          where: { ...where, color: { not: null } },
           select: { color: true },
           distinct: ['color'],
           orderBy: { color: 'asc' },
         }),
         this.prisma.product.findMany({
-          where: { isDeleted: false, material: { not: null } },
+          where: { ...where, material: { not: null } },
           select: { material: true },
           distinct: ['material'],
         }),
         this.prisma.product.findMany({
-          where: { isDeleted: false, classType: { not: null } },
+          where: { ...where, classType: { not: null } },
           select: { classType: true },
           distinct: ['classType'],
         }),
         this.prisma.product.findMany({
-          where: {
-            isDeleted: false,
-            fittingConnectionType: { not: null },
-          },
+          where: { ...where, fittingConnectionType: { not: null } },
           select: { fittingConnectionType: true },
           distinct: ['fittingConnectionType'],
         }),

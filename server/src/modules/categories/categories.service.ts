@@ -6,7 +6,7 @@ export class CategoriesService {
   constructor(private prisma: PrismaService) {}
 
   async findAll() {
-    return this.prisma.category.findMany({
+    const categories = await this.prisma.category.findMany({
       where: { parentId: null, isVisible: true },
       orderBy: { sortOrder: 'asc' },
       include: {
@@ -16,6 +16,7 @@ export class CategoriesService {
             children: {
               where: { isVisible: true },
               orderBy: { sortOrder: 'asc' },
+              include: { _count: { select: { products: true } } }
             },
             _count: { select: { products: true } },
           },
@@ -24,6 +25,18 @@ export class CategoriesService {
         _count: { select: { products: true } },
       },
     });
+
+    // Helper to calculate total products including subcategories
+    const calculateTotalProducts = (cat: any) => {
+      let total = cat._count?.products || 0;
+      if (cat.children && cat.children.length > 0) {
+        cat.children = cat.children.map(calculateTotalProducts);
+        total += cat.children.reduce((acc: number, child: any) => acc + child.totalProducts, 0);
+      }
+      return { ...cat, totalProducts: total };
+    };
+
+    return categories.map(calculateTotalProducts);
   }
 
   async getTree() {
@@ -51,7 +64,16 @@ export class CategoriesService {
       }
     });
 
-    return roots;
+    const calculateTotalProducts = (cat: any) => {
+      let total = cat._count?.products || 0;
+      if (cat.children && cat.children.length > 0) {
+        cat.children = cat.children.map(calculateTotalProducts);
+        total += cat.children.reduce((acc: number, child: any) => acc + child.totalProducts, 0);
+      }
+      return { ...cat, totalProducts: total };
+    };
+
+    return roots.map(calculateTotalProducts);
   }
 
   async findBySlug(slug: string) {

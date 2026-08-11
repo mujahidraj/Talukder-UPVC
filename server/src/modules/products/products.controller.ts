@@ -17,8 +17,8 @@ export class ProductsController {
   }
 
   @Get('filters')
-  getFilterOptions() {
-    return this.productsService.getFilterOptions();
+  getFilterOptions(@Query('categoryId') categoryId?: string) {
+    return this.productsService.getFilterOptions(categoryId);
   }
 
   @Get(':slug')

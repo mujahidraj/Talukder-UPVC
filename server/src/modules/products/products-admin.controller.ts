@@ -8,7 +8,9 @@ import {
   Param,
   Query,
   UseGuards,
+  Res,
 } from '@nestjs/common';
+import * as express from 'express';
 import { ProductsService } from './products.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
@@ -33,6 +35,77 @@ export class ProductsAdminController {
     });
   }
 
+  @Get('export/csv')
+  async exportCsv(@Res() res: express.Response) {
+    const products = await this.productsService.exportAll();
+
+    const escCsv = (val: any) => {
+      if (val == null) return '';
+      const s = String(val);
+      if (s.includes(',') || s.includes('"') || s.includes('\n')) {
+        return `"${s.replace(/"/g, '""')}"`;
+      }
+      return s;
+    };
+
+    const headers = [
+      'Product Code',
+      'Product Name',
+      'Category',
+      'Size',
+      'Status',
+      'Fitting/Connection',
+      'Thickness (mm)',
+      'Length',
+      'Color',
+      'Class Type',
+      'Material',
+      'Brand/Manufacturer',
+      'Description',
+      'Features',
+      'Applications',
+      'View Count',
+      'Wishlist Count',
+      'Enquiry Count',
+      'Is Featured',
+      'Created At',
+    ];
+
+    const rows = products.map((p: any) => [
+      escCsv(p.productCode),
+      escCsv(p.productName),
+      escCsv(p.category?.name || ''),
+      escCsv(p.size),
+      escCsv(p.status),
+      escCsv(p.fittingConnectionType),
+      escCsv(p.thicknessMm),
+      escCsv(p.length),
+      escCsv(p.color),
+      escCsv(p.classType),
+      escCsv(p.material),
+      escCsv(p.brandManufacturer),
+      escCsv(p.description),
+      escCsv((p.features || []).join('; ')),
+      escCsv((p.applications || []).join('; ')),
+      p.viewCount || 0,
+      p.wishlistCount || 0,
+      p.enquiryCount || 0,
+      p.isFeatured ? 'Yes' : 'No',
+      escCsv(p.createdAt?.toISOString?.() || p.createdAt),
+    ]);
+
+    const csv = [headers.join(','), ...rows.map((r: any[]) => r.join(','))].join(
+      '\n',
+    );
+
+    res.setHeader('Content-Type', 'text/csv');
+    res.setHeader(
+      'Content-Disposition',
+      `attachment; filename="products-export-${new Date().toISOString().slice(0, 10)}.csv"`,
+    );
+    res.send(csv);
+  }
+
   @Get(':id')
   findById(@Param('id') id: string) {
     return this.productsService.findById(id);
@@ -50,6 +123,12 @@ export class ProductsAdminController {
     @CurrentUser('id') userId: string,
   ) {
     return this.productsService.update(id, dto, userId);
+  }
+
+  @Delete('bulk/delete')
+  @Roles(AdminRole.SUPER_ADMIN, AdminRole.CATALOG_MANAGER)
+  bulkDelete(@Body() body: { ids: string[] }) {
+    return this.productsService.bulkSoftDelete(body.ids);
   }
 
   @Delete(':id')
