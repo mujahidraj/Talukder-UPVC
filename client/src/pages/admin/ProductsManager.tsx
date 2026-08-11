@@ -40,14 +40,35 @@ export default function ProductsManager() {
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [isExporting, setIsExporting] = useState(false);
   const [isBulkDeleting, setIsBulkDeleting] = useState(false);
+  const [showFilters, setShowFilters] = useState(false);
+  const [filters, setFilters] = useState({ categoryId: '', status: '' });
+  const [categories, setCategories] = useState<{ id: string; name: string; level: number; children?: any[] }[]>([]);
   const limit = 10;
+
+  useEffect(() => {
+    api.get('/admin/categories').then(res => setCategories(res.data)).catch(() => {});
+  }, []);
+
+  const flattenCategories = useCallback((cats: any[], prefix = ''): { id: string; label: string }[] => {
+    return cats.reduce((acc: { id: string; label: string }[], cat) => {
+      acc.push({ id: cat.id, label: prefix + cat.name });
+      if (cat.children?.length) {
+        acc.push(...flattenCategories(cat.children, prefix + cat.name + ' → '));
+      }
+      return acc;
+    }, []);
+  }, []);
+
+  const flatCats = flattenCategories(categories);
 
   const fetchData = useCallback(async () => {
     setIsLoading(true);
     try {
-      const res = await api.get('/admin/products', {
-        params: { page, limit, search }
-      });
+      const params: any = { page, limit, search };
+      if (filters.categoryId) params.categoryId = filters.categoryId;
+      if (filters.status) params.status = filters.status;
+
+      const res = await api.get('/admin/products', { params });
       setData(res.data.data);
       setTotalPages(res.data.meta.totalPages);
       setTotalCount(res.data.meta.total);
@@ -56,14 +77,14 @@ export default function ProductsManager() {
     } finally {
       setIsLoading(false);
     }
-  }, [page, search]);
+  }, [page, search, filters]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
       fetchData();
     }, 300);
     return () => clearTimeout(timer);
-  }, [page, search, fetchData]);
+  }, [page, search, filters, fetchData]);
 
   // Clear selection when page changes
   useEffect(() => {
@@ -179,7 +200,11 @@ export default function ProductsManager() {
             <Download className={`h-4 w-4 mr-2 ${isExporting ? 'animate-bounce' : ''}`} />
             {isExporting ? 'Exporting...' : 'Export CSV'}
           </button>
-          <button type="button" className="admin-btn-secondary flex items-center">
+          <button
+            type="button"
+            onClick={() => setShowFilters(!showFilters)}
+            className={`admin-btn-secondary flex items-center transition-colors ${showFilters ? 'bg-brand-50 border-brand-200 text-brand-700' : ''}`}
+          >
             <Filter className="h-4 w-4 mr-2" />
             Filters
           </button>
@@ -233,7 +258,7 @@ export default function ProductsManager() {
             </div>
             <input
               type="text"
-              className="admin-input pl-9"
+              className="admin-input pl-9 bg-white"
               placeholder="Search by name, code, or description..."
               value={search}
               onChange={(e) => { setSearch(e.target.value); setPage(1); }}
@@ -243,6 +268,47 @@ export default function ProductsManager() {
             {totalCount} product{totalCount !== 1 ? 's' : ''} total
           </div>
         </div>
+
+        {/* Filters */}
+        {showFilters && (
+          <div className="p-4 bg-gray-50/50 border-b border-gray-200 flex flex-wrap gap-4 items-end" style={{ animation: 'slideDown 0.2s ease-out' }}>
+            <div className="flex-1 min-w-[200px] max-w-xs">
+              <label className="block text-xs font-medium text-gray-700 mb-1">Category</label>
+              <select
+                className="admin-input py-1.5 text-sm"
+                value={filters.categoryId}
+                onChange={e => { setFilters(prev => ({ ...prev, categoryId: e.target.value })); setPage(1); }}
+              >
+                <option value="">All Categories</option>
+                {flatCats.map(c => (
+                  <option key={c.id} value={c.id}>{c.label}</option>
+                ))}
+              </select>
+            </div>
+            <div className="flex-1 min-w-[150px] max-w-xs">
+              <label className="block text-xs font-medium text-gray-700 mb-1">Status</label>
+              <select
+                className="admin-input py-1.5 text-sm"
+                value={filters.status}
+                onChange={e => { setFilters(prev => ({ ...prev, status: e.target.value })); setPage(1); }}
+              >
+                <option value="">All Statuses</option>
+                <option value="ACTIVE">Active</option>
+                <option value="UPCOMING">Upcoming</option>
+                <option value="INACTIVE">Inactive</option>
+                <option value="DISCONTINUED">Discontinued</option>
+              </select>
+            </div>
+            {(filters.categoryId || filters.status) && (
+              <button
+                onClick={() => { setFilters({ categoryId: '', status: '' }); setPage(1); }}
+                className="text-sm text-gray-500 hover:text-red-600 transition-colors mb-1.5 px-2"
+              >
+                Clear Filters
+              </button>
+            )}
+          </div>
+        )}
 
         {/* Table */}
         <div className="overflow-x-auto">

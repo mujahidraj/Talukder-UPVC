@@ -31,24 +31,11 @@ export class ProductsService {
     };
 
     if (search) {
-      const searchTerms = search.split(/\\s+/).join(' | ');
       where.OR = [
-        { productName: { search: searchTerms } },
-        { productCode: { search: searchTerms } },
-        { description: { search: searchTerms } },
-        { applications: { hasSome: [search] } },
-        {
-          category: {
-            OR: [
-              { name: { search: searchTerms } },
-              {
-                parent: {
-                  name: { search: searchTerms },
-                },
-              },
-            ],
-          },
-        },
+        { productName: { contains: search, mode: 'insensitive' } },
+        { productCode: { contains: search, mode: 'insensitive' } },
+        { description: { contains: search, mode: 'insensitive' } },
+        { category: { name: { contains: search, mode: 'insensitive' } } },
       ];
     }
 
