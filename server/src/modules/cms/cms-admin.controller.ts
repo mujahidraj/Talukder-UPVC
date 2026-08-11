@@ -13,6 +13,7 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { AdminRole } from '@prisma/client';
+import { CreateBannerDto, UpdateBannerDto, CreatePageDto, UpdatePageDto, CreateFaqDto, UpdateFaqDto } from './dto/cms.dto';
 
 @Controller('admin/cms')
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -27,12 +28,12 @@ export class CmsAdminController {
   }
 
   @Post('banners')
-  createBanner(@Body() body: any) {
+  createBanner(@Body() body: CreateBannerDto) {
     return this.cmsService.createBanner(body);
   }
 
   @Put('banners/:id')
-  updateBanner(@Param('id') id: string, @Body() body: any) {
+  updateBanner(@Param('id') id: string, @Body() body: UpdateBannerDto) {
     return this.cmsService.updateBanner(id, body);
   }
 
@@ -53,12 +54,12 @@ export class CmsAdminController {
   }
 
   @Post('pages')
-  createPage(@Body() body: any) {
+  createPage(@Body() body: CreatePageDto) {
     return this.cmsService.createPage(body);
   }
 
   @Put('pages/:id')
-  updatePage(@Param('id') id: string, @Body() body: any) {
+  updatePage(@Param('id') id: string, @Body() body: UpdatePageDto) {
     return this.cmsService.updatePage(id, body);
   }
 
@@ -74,12 +75,12 @@ export class CmsAdminController {
   }
 
   @Post('faqs')
-  createFaq(@Body() body: any) {
+  createFaq(@Body() body: CreateFaqDto) {
     return this.cmsService.createFaq(body);
   }
 
   @Put('faqs/:id')
-  updateFaq(@Param('id') id: string, @Body() body: any) {
+  updateFaq(@Param('id') id: string, @Body() body: UpdateFaqDto) {
     return this.cmsService.updateFaq(id, body);
   }
 

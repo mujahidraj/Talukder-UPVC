@@ -6,6 +6,7 @@ import {
   UploadedFile,
   Body,
   UseGuards,
+  BadRequestException,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
@@ -38,6 +39,13 @@ export class ImportController {
           cb(null, `import-${uniqueSuffix}${extname(file.originalname)}`);
         },
       }),
+      limits: { fileSize: 10 * 1024 * 1024 }, // 10MB limit
+      fileFilter: (req, file, cb) => {
+        if (!file.originalname.match(/\.(csv|xlsx|xls)$/i)) {
+          return cb(new BadRequestException('Only Excel or CSV files are allowed!'), false);
+        }
+        cb(null, true);
+      },
     }),
   )
   uploadExcel(

@@ -1,7 +1,8 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { ThrottlerModule } from '@nestjs/throttler';
+import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 import { ScheduleModule } from '@nestjs/schedule';
+import { APP_GUARD } from '@nestjs/core';
 import { join } from 'path';
 import appConfig from './config/app.config';
 import { PrismaModule } from './prisma/prisma.module';
@@ -28,8 +29,8 @@ import { DashboardModule } from './modules/dashboard/dashboard.module';
     }),
     ThrottlerModule.forRoot([
       {
-        ttl: parseInt(process.env.RATE_LIMIT_WINDOW_MS || '600000', 10),
-        limit: parseInt(process.env.RATE_LIMIT_MAX || '500', 10),
+        ttl: parseInt(process.env.RATE_LIMIT_WINDOW_MS || '60000', 10),
+        limit: parseInt(process.env.RATE_LIMIT_MAX || '100', 10),
       },
     ]),
     ScheduleModule.forRoot(),
@@ -48,6 +49,12 @@ import { DashboardModule } from './modules/dashboard/dashboard.module';
     WishlistModule,
     SitemapModule,
     DashboardModule,
+  ],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
+    },
   ],
 })
 export class AppModule {}

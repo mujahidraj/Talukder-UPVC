@@ -6,6 +6,10 @@ import helmet from 'helmet';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  // Parse cookies
+  const cookieParser = require('cookie-parser');
+  app.use(cookieParser());
+
   // Security
   app.use(
     helmet({
@@ -14,18 +18,36 @@ async function bootstrap() {
   );
 
   // CORS
+  const isProd = process.env.NODE_ENV === 'production';
+  const corsOrigin = process.env.CORS_ORIGIN || (isProd ? false : 'http://localhost:5173');
+
+  if (isProd && !process.env.CORS_ORIGIN) {
+    console.warn('WARNING: CORS_ORIGIN is not set in production! Defaulting to deny all CORS requests.');
+  }
+
   app.enableCors({
-    origin: process.env.CORS_ORIGIN || 'http://localhost:5173',
+    origin: corsOrigin,
     credentials: true,
   });
 
   // Global prefix
   app.setGlobalPrefix('api');
 
-  // Serve uploads directly using express static to avoid ServeStaticModule conflicts
+  // Serve uploads securely
   const express = require('express');
   const { join } = require('path');
-  app.use('/uploads', express.static(join(process.cwd(), process.env.UPLOAD_LOCAL_PATH || 'uploads')));
+  
+  // Block access to temp directory
+  app.use('/uploads/temp', (req: any, res: any) => res.status(403).send('Forbidden'));
+  
+  // Serve other uploads without directory listing
+  app.use(
+    '/uploads',
+    express.static(join(process.cwd(), process.env.UPLOAD_LOCAL_PATH || 'uploads'), {
+      dotfiles: 'ignore',
+      index: false,
+    })
+  );
 
   // Validation
   app.useGlobalPipes(

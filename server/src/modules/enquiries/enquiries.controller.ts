@@ -1,4 +1,5 @@
 import { Controller, Post, Body } from '@nestjs/common';
+import { Throttle } from '@nestjs/throttler';
 import { EnquiriesService } from './enquiries.service';
 import {
   IsString,
@@ -39,6 +40,7 @@ export class EnquiriesController {
   constructor(private enquiriesService: EnquiriesService) {}
 
   @Post()
+  @Throttle({ default: { ttl: 600000, limit: 3 } }) // Max 3 enquiries per 10 minutes
   submit(@Body() dto: SubmitEnquiryDto) {
     return this.enquiriesService.submit(dto);
   }

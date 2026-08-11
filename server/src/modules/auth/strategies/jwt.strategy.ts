@@ -6,11 +6,20 @@ import { ConfigService } from '@nestjs/config';
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(configService: ConfigService) {
+    const secret = configService.get<string>('app.jwt.accessSecret');
+    if (!secret) {
+      throw new Error(
+        'CRITICAL: JWT_ACCESS_SECRET is not set. Refusing to start with an insecure configuration.',
+      );
+    }
     super({
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      jwtFromRequest: ExtractJwt.fromExtractors([
+        (request: any) => {
+          return request?.cookies?.accessToken;
+        },
+      ]),
       ignoreExpiration: false,
-      secretOrKey:
-        configService.get('app.jwt.accessSecret') || 'fallback_secret',
+      secretOrKey: secret,
     });
   }
 

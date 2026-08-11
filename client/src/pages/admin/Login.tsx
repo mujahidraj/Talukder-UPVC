@@ -28,9 +28,9 @@ export default function Login() {
     setIsLoading(true);
     try {
       const response = await api.post('/auth/login', data);
-      const { user, accessToken, refreshToken } = response.data;
+      const { user } = response.data;
       
-      setAuth(user, accessToken, refreshToken);
+      setAuth(user);
       toast.success('Welcome back!');
       
       navigate('/admin');

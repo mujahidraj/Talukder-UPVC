@@ -9,17 +9,6 @@ const api = axios.create({
   },
 });
 
-api.interceptors.request.use(
-  (config) => {
-    const token = useAuthStore.getState().accessToken;
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
-
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
@@ -30,23 +19,21 @@ api.interceptors.response.use(
       originalRequest._retry = true;
       
       try {
-        const { refreshToken, user, setAuth, logout } = useAuthStore.getState();
+        const { user, setAuth, logout } = useAuthStore.getState();
         
-        if (!refreshToken || !user) {
+        if (!user) {
           logout();
           return Promise.reject(error);
         }
         
-        const response = await axios.post(`${api.defaults.baseURL}/auth/refresh`, {
-          userId: user.id,
-          refreshToken,
-        });
+        // This will automatically send the refreshToken cookie
+        const response = await axios.post(`${api.defaults.baseURL}/auth/refresh`, {}, { withCredentials: true });
         
-        const { accessToken, refreshToken: newRefresh } = response.data;
+        const { user: updatedUser } = response.data;
         
-        setAuth(user, accessToken, newRefresh);
+        setAuth(updatedUser);
         
-        originalRequest.headers.Authorization = `Bearer ${accessToken}`;
+        // Retry the original request (cookies will be automatically included)
         return api(originalRequest);
       } catch (refreshError) {
         useAuthStore.getState().logout();

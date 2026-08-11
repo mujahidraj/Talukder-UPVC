@@ -117,20 +117,23 @@ export class MediaService {
     const img = await this.prisma.productImage.findUnique({ where: { id } });
     if (!img) return;
 
-    // Delete files
+    // Delete files securely
     try {
-      if (img.fullPath)
-        await fs
-          .unlink(path.join(__dirname, '..', '..', '..', img.fullPath))
-          .catch(() => {});
-      if (img.mediumPath)
-        await fs
-          .unlink(path.join(__dirname, '..', '..', '..', img.mediumPath))
-          .catch(() => {});
-      if (img.thumbPath)
-        await fs
-          .unlink(path.join(__dirname, '..', '..', '..', img.thumbPath))
-          .catch(() => {});
+      const rootDir = path.resolve(__dirname, '..', '..', '..');
+      
+      const safeUnlink = async (filePath: string | null) => {
+        if (!filePath) return;
+        const targetPath = path.resolve(rootDir, filePath);
+        if (!targetPath.startsWith(rootDir)) {
+          console.warn('Security Warning: Path traversal detected in image deletion', targetPath);
+          return;
+        }
+        await fs.unlink(targetPath).catch(() => {});
+      };
+
+      await safeUnlink(img.fullPath);
+      await safeUnlink(img.mediumPath);
+      await safeUnlink(img.thumbPath);
     } catch (e) {
       console.warn('Failed to delete image files', e);
     }

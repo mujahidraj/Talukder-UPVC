@@ -8,6 +8,7 @@ import {
   UploadedFile,
   UseGuards,
   Body,
+  BadRequestException,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { MediaService } from './media.service';
@@ -28,7 +29,17 @@ export class MediaController {
   }
 
   @Post('upload')
-  @UseInterceptors(FileInterceptor('file'))
+  @UseInterceptors(
+    FileInterceptor('file', {
+      limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
+      fileFilter: (req, file, cb) => {
+        if (!file.mimetype.match(/^image\/(jpg|jpeg|png|webp|gif)$/)) {
+          return cb(new BadRequestException('Only specific image formats (jpg, png, webp, gif) are allowed!'), false);
+        }
+        cb(null, true);
+      },
+    }),
+  )
   uploadFile(
     @UploadedFile() file: Express.Multer.File,
     @Body('productId') productId: string,

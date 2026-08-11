@@ -28,6 +28,12 @@ export default registerAs('app', () => ({
   },
   seed: {
     superAdminEmail: process.env.SUPER_ADMIN_EMAIL || 'admin@talukder-upvc.com',
-    superAdminPassword: process.env.SUPER_ADMIN_PASSWORD || 'Admin@123456',
+    get superAdminPassword() {
+      const pwd = process.env.SUPER_ADMIN_PASSWORD;
+      if (!pwd) {
+        throw new Error('CRITICAL: SUPER_ADMIN_PASSWORD environment variable must be set for database seeding.');
+      }
+      return pwd;
+    },
   },
 }));

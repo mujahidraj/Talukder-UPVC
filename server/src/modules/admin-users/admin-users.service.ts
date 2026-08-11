@@ -37,9 +37,12 @@ export class AdminUsersService {
     });
     if (existing) throw new BadRequestException('Email already in use');
 
-    const passwordHash = await bcrypt.hash(data.password || 'Admin@123456', 12);
+    // Generate a temporary password if not provided
+    const isGenerated = !data.password;
+    const plainPassword = data.password || `Temp@${Math.random().toString(36).slice(-8)}${Math.floor(Math.random() * 10)}`;
+    const passwordHash = await bcrypt.hash(plainPassword, 12);
 
-    return this.prisma.adminUser.create({
+    const user = await this.prisma.adminUser.create({
       data: {
         name: data.name,
         email: data.email,
@@ -49,6 +52,11 @@ export class AdminUsersService {
       },
       select: { id: true, name: true, email: true, role: true },
     });
+
+    return {
+      ...user,
+      ...(isGenerated ? { temporaryPassword: plainPassword } : {}),
+    };
   }
 
   async update(
@@ -76,11 +84,19 @@ export class AdminUsersService {
   }
 
   async resetPassword(id: string, newPassword?: string) {
-    const passwordHash = await bcrypt.hash(newPassword || 'Admin@123456', 12);
-    return this.prisma.adminUser.update({
+    const isGenerated = !newPassword;
+    const plainPassword = newPassword || `Temp@${Math.random().toString(36).slice(-8)}${Math.floor(Math.random() * 10)}`;
+    const passwordHash = await bcrypt.hash(plainPassword, 12);
+    
+    await this.prisma.adminUser.update({
       where: { id },
       data: { passwordHash, mustChangePassword: true },
     });
+
+    return {
+      message: 'Password reset successfully',
+      ...(isGenerated ? { temporaryPassword: plainPassword } : {}),
+    };
   }
 
   async delete(id: string) {
