@@ -186,44 +186,72 @@ export default function PublicHeader({ onEnquiryClick }: HeaderProps = {}) {
             {/* Right Actions */}
             <div className="flex items-center gap-6">
               {/* Search */}
-              <div ref={searchRef} className="relative">
-                <button onClick={() => setShowSearch(!showSearch)} className="text-gray-600 hover:text-brand-700 transition-colors">
+              <div ref={searchRef} className="relative flex items-center">
+                <button onClick={() => setShowSearch(!showSearch)} className="p-2 text-gray-600 hover:text-brand-700 bg-gray-50 hover:bg-gray-100 rounded-full transition-all">
                   <Search className="h-5 w-5" />
                 </button>
+                
                 {showSearch && (
-                  <div className="absolute -right-16 sm:right-0 mt-4 w-[90vw] sm:w-96 max-w-md bg-white shadow-xl border border-gray-100 p-4 z-50 rounded-lg">
-                    <input
-                      type="text"
-                      className="w-full border border-gray-200 px-4 py-2.5 text-sm focus:ring-1 focus:ring-brand-600 focus:border-brand-600 outline-none"
-                      placeholder="Search products..."
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      autoFocus
-                    />
-                    {searchResults.length > 0 && (
-                      <ul className="mt-4 max-h-64 overflow-y-auto divide-y divide-gray-100 border-t border-gray-100">
-                        {searchResults.map((p: any) => (
-                          <li key={p.id}>
-                            <button
-                              onClick={() => { navigate(`/products/${p.slug}`); setShowSearch(false); setSearchQuery(''); }}
-                              className="w-full text-left py-3 hover:bg-gray-50 text-sm flex items-center gap-4 transition-colors px-2"
-                            >
-                              <div className="h-10 w-10 bg-white border border-gray-100 flex-shrink-0 flex items-center justify-center p-1">
-                                {p.images?.[0]?.thumbPath ? (
-                                  <img src={`http://localhost:3000${p.images[0].thumbPath}`} className="h-full w-full object-contain" />
-                                ) : (
-                                  <span className="text-gray-300 text-xs">IMG</span>
-                                )}
-                              </div>
-                              <div className="min-w-0">
-                                <p className="font-semibold text-gray-900 truncate">{p.productName}</p>
-                                <p className="text-[11px] text-gray-500 mt-0.5 uppercase tracking-wide">{p.productCode}</p>
-                              </div>
-                            </button>
-                          </li>
-                        ))}
-                      </ul>
-                    )}
+                  <div className="absolute right-0 top-full mt-3 w-[90vw] sm:w-[28rem] max-w-lg bg-white shadow-2xl rounded-2xl border border-gray-100 overflow-hidden z-50 animate-in fade-in zoom-in-95 duration-200">
+                    <div className="p-4 border-b border-gray-100 bg-gray-50/50">
+                      <div className="relative">
+                        <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+                        <input
+                          type="text"
+                          className="w-full bg-white border border-gray-200 rounded-xl pl-10 pr-4 py-3 text-sm focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none transition-all placeholder:text-gray-400"
+                          placeholder="Search for products, codes, or categories..."
+                          value={searchQuery}
+                          onChange={(e) => setSearchQuery(e.target.value)}
+                          autoFocus
+                        />
+                      </div>
+                    </div>
+                    
+                    <div className="max-h-[60vh] overflow-y-auto">
+                      {searchQuery.length >= 2 ? (
+                        searchResults.length > 0 ? (
+                          <ul className="py-2">
+                            {searchResults.map((p: any) => (
+                              <li key={p.id}>
+                                <button
+                                  onClick={() => { navigate(`/products/${p.slug}`); setShowSearch(false); setSearchQuery(''); }}
+                                  className="w-full text-left px-4 py-3 hover:bg-gray-50 text-sm flex items-start gap-4 transition-colors group"
+                                >
+                                  <div className="h-12 w-12 bg-white rounded-lg border border-gray-100 flex-shrink-0 flex items-center justify-center p-1.5 shadow-sm group-hover:border-brand-200 transition-colors">
+                                    {p.images?.[0]?.thumbPath ? (
+                                      <img src={`http://localhost:3000${p.images[0].thumbPath}`} className="h-full w-full object-contain" />
+                                    ) : (
+                                      <span className="text-gray-300 text-xs">IMG</span>
+                                    )}
+                                  </div>
+                                  <div className="min-w-0 flex-1 pt-0.5">
+                                    <div className="flex items-center justify-between gap-2 mb-1">
+                                      <p className="font-bold text-gray-900 truncate group-hover:text-brand-700 transition-colors">{p.productName}</p>
+                                      {p.category?.name && (
+                                        <span className="flex-shrink-0 text-[10px] font-semibold text-brand-600 bg-brand-50 px-2 py-0.5 rounded-full whitespace-nowrap">
+                                          {p.category.name}
+                                        </span>
+                                      )}
+                                    </div>
+                                    <p className="text-[11px] text-gray-500 uppercase tracking-wider font-medium">Code: {p.productCode}</p>
+                                  </div>
+                                </button>
+                              </li>
+                            ))}
+                          </ul>
+                        ) : (
+                          <div className="py-12 text-center">
+                            <Search className="mx-auto h-8 w-8 text-gray-200 mb-3" />
+                            <p className="text-sm text-gray-500 font-medium">No products found for "{searchQuery}"</p>
+                            <p className="text-xs text-gray-400 mt-1">Try checking for typos or using general terms.</p>
+                          </div>
+                        )
+                      ) : (
+                        <div className="py-8 text-center bg-white">
+                          <p className="text-sm text-gray-400">Type at least 2 characters to search...</p>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 )}
               </div>

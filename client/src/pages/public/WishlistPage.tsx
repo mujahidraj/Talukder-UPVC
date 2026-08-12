@@ -4,7 +4,14 @@ import { Heart, Trash2, ShoppingCart } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 export default function WishlistPage() {
-  const [items, setItems] = useState<any[]>(() => JSON.parse(localStorage.getItem('talukder-wishlist') || '[]'));
+  const [items, setItems] = useState<any[]>(() => {
+    try {
+      const data = JSON.parse(localStorage.getItem('talukder-wishlist') || '[]');
+      return Array.isArray(data) ? data : [];
+    } catch {
+      return [];
+    }
+  });
 
   const remove = (id: string) => {
     const next = items.filter(i => i.id !== id);
@@ -14,7 +21,12 @@ export default function WishlistPage() {
   };
 
   const moveToEnquiry = (item: any) => {
-    const enq = JSON.parse(localStorage.getItem('talukder-enquiry') || '[]');
+    let enq = [];
+    try {
+      const parsed = JSON.parse(localStorage.getItem('talukder-enquiry') || '[]');
+      enq = Array.isArray(parsed) ? parsed : [];
+    } catch {}
+    
     if (!enq.find((e: any) => e.id === item.id)) {
       enq.push({ id: item.id, name: item.name, code: item.code, size: item.size, quantity: 1 });
       localStorage.setItem('talukder-enquiry', JSON.stringify(enq));
