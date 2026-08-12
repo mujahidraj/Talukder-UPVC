@@ -120,12 +120,15 @@ export class MediaService {
     // Delete files securely
     try {
       const rootDir = path.resolve(__dirname, '..', '..', '..');
-      
+
       const safeUnlink = async (filePath: string | null) => {
         if (!filePath) return;
         const targetPath = path.resolve(rootDir, filePath);
         if (!targetPath.startsWith(rootDir)) {
-          console.warn('Security Warning: Path traversal detected in image deletion', targetPath);
+          console.warn(
+            'Security Warning: Path traversal detected in image deletion',
+            targetPath,
+          );
           return;
         }
         await fs.unlink(targetPath).catch(() => {});

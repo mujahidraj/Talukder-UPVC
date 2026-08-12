@@ -13,7 +13,14 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { AdminRole } from '@prisma/client';
-import { CreateBannerDto, UpdateBannerDto, CreatePageDto, UpdatePageDto, CreateFaqDto, UpdateFaqDto } from './dto/cms.dto';
+import {
+  CreateBannerDto,
+  UpdateBannerDto,
+  CreatePageDto,
+  UpdatePageDto,
+  CreateFaqDto,
+  UpdateFaqDto,
+} from './dto/cms.dto';
 
 @Controller('admin/cms')
 @UseGuards(JwtAuthGuard, RolesGuard)

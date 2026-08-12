@@ -35,14 +35,18 @@ export class ImportController {
       storage: diskStorage({
         destination: './uploads/temp',
         filename: (req, file, cb) => {
-          const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+          const uniqueSuffix =
+            Date.now() + '-' + Math.round(Math.random() * 1e9);
           cb(null, `import-${uniqueSuffix}${extname(file.originalname)}`);
         },
       }),
       limits: { fileSize: 10 * 1024 * 1024 }, // 10MB limit
       fileFilter: (req, file, cb) => {
         if (!file.originalname.match(/\.(csv|xlsx|xls)$/i)) {
-          return cb(new BadRequestException('Only Excel or CSV files are allowed!'), false);
+          return cb(
+            new BadRequestException('Only Excel or CSV files are allowed!'),
+            false,
+          );
         }
         cb(null, true);
       },

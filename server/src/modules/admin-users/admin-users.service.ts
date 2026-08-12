@@ -39,7 +39,9 @@ export class AdminUsersService {
 
     // Generate a temporary password if not provided
     const isGenerated = !data.password;
-    const plainPassword = data.password || `Temp@${Math.random().toString(36).slice(-8)}${Math.floor(Math.random() * 10)}`;
+    const plainPassword =
+      data.password ||
+      `Temp@${Math.random().toString(36).slice(-8)}${Math.floor(Math.random() * 10)}`;
     const passwordHash = await bcrypt.hash(plainPassword, 12);
 
     const user = await this.prisma.adminUser.create({
@@ -85,9 +87,11 @@ export class AdminUsersService {
 
   async resetPassword(id: string, newPassword?: string) {
     const isGenerated = !newPassword;
-    const plainPassword = newPassword || `Temp@${Math.random().toString(36).slice(-8)}${Math.floor(Math.random() * 10)}`;
+    const plainPassword =
+      newPassword ||
+      `Temp@${Math.random().toString(36).slice(-8)}${Math.floor(Math.random() * 10)}`;
     const passwordHash = await bcrypt.hash(plainPassword, 12);
-    
+
     await this.prisma.adminUser.update({
       where: { id },
       data: { passwordHash, mustChangePassword: true },

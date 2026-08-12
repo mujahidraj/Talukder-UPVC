@@ -31,7 +31,9 @@ export default registerAs('app', () => ({
     get superAdminPassword() {
       const pwd = process.env.SUPER_ADMIN_PASSWORD;
       if (!pwd) {
-        throw new Error('CRITICAL: SUPER_ADMIN_PASSWORD environment variable must be set for database seeding.');
+        throw new Error(
+          'CRITICAL: SUPER_ADMIN_PASSWORD environment variable must be set for database seeding.',
+        );
       }
       return pwd;
     },

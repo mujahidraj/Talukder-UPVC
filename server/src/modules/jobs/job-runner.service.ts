@@ -39,9 +39,13 @@ export class JobRunnerService {
       if (job.type === JobType.EXCEL_IMPORT) {
         const payload: any = job.payload || {};
         if (payload.filePath) {
-           result = await this.importProcessor.processExcelImport(job.id, payload.filePath, job.uploadedById);
+          result = await this.importProcessor.processExcelImport(
+            job.id,
+            payload.filePath,
+            job.uploadedById,
+          );
         } else {
-           throw new Error('No filePath found in job payload');
+          throw new Error('No filePath found in job payload');
         }
       } else if (job.type === JobType.BULK_IMAGE_RESIZE) {
         await this.simulateWork(job.id);

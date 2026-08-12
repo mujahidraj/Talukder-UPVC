@@ -94,9 +94,10 @@ export class ProductsAdminController {
       escCsv(p.createdAt?.toISOString?.() || p.createdAt),
     ]);
 
-    const csv = [headers.join(','), ...rows.map((r: any[]) => r.join(','))].join(
-      '\n',
-    );
+    const csv = [
+      headers.join(','),
+      ...rows.map((r: any[]) => r.join(',')),
+    ].join('\n');
 
     res.setHeader('Content-Type', 'text/csv');
     res.setHeader(
@@ -161,8 +162,6 @@ export class ProductsAdminController {
   hardDelete(@Param('id') id: string) {
     return this.productsService.hardDelete(id);
   }
-
-
 
   @Put(':id/restore')
   restore(@Param('id') id: string) {

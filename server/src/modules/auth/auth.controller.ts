@@ -26,8 +26,10 @@ export class AuthController {
   @HttpCode(200)
   @Throttle({ default: { ttl: 60000, limit: 5 } }) // 5 login attempts per minute
   async login(@Req() req: any, @Res({ passthrough: true }) res: any) {
-    const { accessToken, refreshToken, user } = await this.authService.login(req.user);
-    
+    const { accessToken, refreshToken, user } = await this.authService.login(
+      req.user,
+    );
+
     this.setCookies(res, accessToken, refreshToken);
     return { user };
   }
@@ -39,7 +41,7 @@ export class AuthController {
     if (!refreshToken) {
       throw new UnauthorizedException('Refresh token missing');
     }
-    
+
     // We decode the refresh token to get the user ID
     // We don't verify it here because authService.refreshTokens verifies it against the DB hash
     const jwt = require('jsonwebtoken');
@@ -48,8 +50,12 @@ export class AuthController {
       throw new UnauthorizedException('Invalid refresh token');
     }
 
-    const { accessToken, refreshToken: newRefreshToken, user } = await this.authService.refreshTokens(decoded.sub, refreshToken);
-    
+    const {
+      accessToken,
+      refreshToken: newRefreshToken,
+      user,
+    } = await this.authService.refreshTokens(decoded.sub, refreshToken);
+
     this.setCookies(res, accessToken, newRefreshToken);
     return { user };
   }

@@ -5,6 +5,7 @@ import * as ExcelJS from 'exceljs';
 import * as fs from 'fs';
 import { ProductStatus } from '@prisma/client';
 import { v4 as uuidv4 } from 'uuid';
+import { deleteProductImageFiles } from '../../utils/file.utils';
 
 @Injectable()
 export class ImportProcessor {
@@ -16,7 +17,9 @@ export class ImportProcessor {
   ) {}
 
   async processExcelImport(jobId: string, filePath: string, userId: string) {
-    this.logger.log(`Processing Excel import job ${jobId} with file ${filePath}`);
+    this.logger.log(
+      `Processing Excel import job ${jobId} with file ${filePath}`,
+    );
 
     if (!fs.existsSync(filePath)) {
       throw new Error(`File not found: ${filePath}`);
@@ -24,7 +27,7 @@ export class ImportProcessor {
 
     const workbook = new ExcelJS.Workbook();
     await workbook.xlsx.readFile(filePath);
-    
+
     const worksheet = workbook.worksheets[0];
     if (!worksheet) {
       throw new Error('No worksheets found in the Excel file');
@@ -37,14 +40,20 @@ export class ImportProcessor {
 
     // Process categories cache
     const categoryCache = new Map<string, string>();
-    
-    const getOrCreateCategory = async (mainName: string, subName?: string, subSubName?: string) => {
+
+    const getOrCreateCategory = async (
+      mainName: string,
+      subName?: string,
+      subSubName?: string,
+    ) => {
       let currentParentId: string | null = null;
-      const categories = [mainName, subName, subSubName].filter(Boolean) as string[];
-      
+      const categories = [mainName, subName, subSubName].filter(
+        Boolean,
+      ) as string[];
+
       let lastId: string | null = null;
       let path = '';
-      
+
       for (const catName of categories) {
         path += catName + '>';
         if (categoryCache.has(path)) {
@@ -53,8 +62,11 @@ export class ImportProcessor {
           continue;
         }
 
-        const slug = catName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
-        
+        const slug = catName
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, '-')
+          .replace(/(^-|-$)/g, '');
+
         let category: any = await this.prisma.category.findFirst({
           where: { name: catName, parentId: currentParentId },
         });
@@ -69,8 +81,10 @@ export class ImportProcessor {
           // calculate level
           let level = 0;
           if (currentParentId) {
-             const parent = await this.prisma.category.findUnique({ where: { id: currentParentId } });
-             if (parent) level = parent.level + 1;
+            const parent = await this.prisma.category.findUnique({
+              where: { id: currentParentId },
+            });
+            if (parent) level = parent.level + 1;
           }
 
           category = await this.prisma.category.create({
@@ -80,15 +94,15 @@ export class ImportProcessor {
               parentId: currentParentId,
               level,
               sortOrder: (maxOrder._max.sortOrder || 0) + 1,
-            }
+            },
           });
         }
-        
+
         lastId = category.id;
         currentParentId = lastId;
         categoryCache.set(path, lastId!);
       }
-      
+
       return lastId;
     };
 
@@ -132,19 +146,19 @@ export class ImportProcessor {
         let statusStr = row.getCell(17).text;
 
         if (!productCode || !productName) {
-           continue; // skip empty rows
+          continue; // skip empty rows
         }
 
-
-        
         // Get Category
         let categoryId = null;
         if (mainCat) {
-           categoryId = await getOrCreateCategory(mainCat, subCat, subSubCat);
+          categoryId = await getOrCreateCategory(mainCat, subCat, subSubCat);
         }
 
         if (!categoryId) {
-           throw new Error(`Category is required but missing on row ${rowIndex}`);
+          throw new Error(
+            `Category is required but missing on row ${rowIndex}`,
+          );
         }
 
         // Status
@@ -154,8 +168,18 @@ export class ImportProcessor {
           status = statusStr as ProductStatus;
         }
 
-        const features = featuresStr ? featuresStr.split(',').map(s => s.trim()).filter(Boolean) : [];
-        const applications = applicationsStr ? applicationsStr.split(',').map(s => s.trim()).filter(Boolean) : [];
+        const features = featuresStr
+          ? featuresStr
+              .split(',')
+              .map((s) => s.trim())
+              .filter(Boolean)
+          : [];
+        const applications = applicationsStr
+          ? applicationsStr
+              .split(',')
+              .map((s) => s.trim())
+              .filter(Boolean)
+          : [];
 
         // Check if exists
         let product = await this.prisma.product.findUnique({
@@ -164,7 +188,10 @@ export class ImportProcessor {
 
         const data = {
           productName,
-          slug: productCode.toLowerCase().replace(/[^a-z0-9]+/g, '-') + '-' + uuidv4().slice(0, 4),
+          slug:
+            productCode.toLowerCase().replace(/[^a-z0-9]+/g, '-') +
+            '-' +
+            uuidv4().slice(0, 4),
           categoryId,
           fittingConnectionType: fittingType || null,
           size: size || 'Standard',
@@ -183,7 +210,12 @@ export class ImportProcessor {
         if (product) {
           product = await this.prisma.product.update({
             where: { id: product.id },
-            data: { ...data, lastModifiedById: userId, isDeleted: false, slug: product.slug },
+            data: {
+              ...data,
+              lastModifiedById: userId,
+              isDeleted: false,
+              slug: product.slug,
+            },
           });
         } else {
           product = await this.prisma.product.create({
@@ -192,36 +224,48 @@ export class ImportProcessor {
               ...data,
               createdById: userId,
               lastModifiedById: userId,
-            }
+            },
           });
         }
 
         // Process images (array)
         const rowImages = imageRowMap.get(rowIndex - 1);
         if (rowImages && rowImages.length > 0) {
-           // Delete existing images for this product since we are overriding from excel
-           await this.prisma.productImage.deleteMany({ where: { productId: product.id } });
-           
-           for (let i = 0; i < rowImages.length; i++) {
-             const imgDef = rowImages[i];
-             const mediaId = imgDef.imageId;
-             // @ts-ignore
-             const mediaData = workbook.model.media[mediaId];
-             if (mediaData && mediaData.buffer) {
-               const buffer = mediaData.buffer;
-               const ext = mediaData.extension || 'png';
-  
-               const multerFile = {
-                 buffer,
-                 originalname: `import-${productCode}-${i}.${ext}`,
-                 mimetype: ext === 'png' ? 'image/png' : 'image/jpeg',
-                 size: buffer.byteLength,
-               } as unknown as Express.Multer.File;
-  
-               // first image is primary
-               await this.mediaService.uploadProductImage(product.id, multerFile, i === 0);
-             }
-           }
+          // Delete existing images for this product since we are overriding from excel
+          const existingImages = await this.prisma.productImage.findMany({
+            where: { productId: product.id },
+          });
+          if (existingImages.length > 0) {
+            await deleteProductImageFiles(existingImages);
+          }
+          await this.prisma.productImage.deleteMany({
+            where: { productId: product.id },
+          });
+
+          for (let i = 0; i < rowImages.length; i++) {
+            const imgDef = rowImages[i];
+            const mediaId = imgDef.imageId;
+            // @ts-ignore
+            const mediaData = workbook.model.media[mediaId];
+            if (mediaData && mediaData.buffer) {
+              const buffer = mediaData.buffer;
+              const ext = mediaData.extension || 'png';
+
+              const multerFile = {
+                buffer,
+                originalname: `import-${productCode}-${i}.${ext}`,
+                mimetype: ext === 'png' ? 'image/png' : 'image/jpeg',
+                size: buffer.byteLength,
+              } as unknown as Express.Multer.File;
+
+              // first image is primary
+              await this.mediaService.uploadProductImage(
+                product.id,
+                multerFile,
+                i === 0,
+              );
+            }
+          }
         }
 
         rowsSuccess++;

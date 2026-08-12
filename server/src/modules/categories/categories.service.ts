@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
+import { deleteProductImageFiles } from '../../utils/file.utils';
 
 @Injectable()
 export class CategoriesService {
@@ -16,7 +17,7 @@ export class CategoriesService {
             children: {
               where: { isVisible: true },
               orderBy: { sortOrder: 'asc' },
-              include: { _count: { select: { products: true } } }
+              include: { _count: { select: { products: true } } },
             },
             _count: { select: { products: true } },
           },
@@ -31,7 +32,10 @@ export class CategoriesService {
       let total = cat._count?.products || 0;
       if (cat.children && cat.children.length > 0) {
         cat.children = cat.children.map(calculateTotalProducts);
-        total += cat.children.reduce((acc: number, child: any) => acc + child.totalProducts, 0);
+        total += cat.children.reduce(
+          (acc: number, child: any) => acc + child.totalProducts,
+          0,
+        );
       }
       return { ...cat, totalProducts: total };
     };
@@ -68,7 +72,10 @@ export class CategoriesService {
       let total = cat._count?.products || 0;
       if (cat.children && cat.children.length > 0) {
         cat.children = cat.children.map(calculateTotalProducts);
-        total += cat.children.reduce((acc: number, child: any) => acc + child.totalProducts, 0);
+        total += cat.children.reduce(
+          (acc: number, child: any) => acc + child.totalProducts,
+          0,
+        );
       }
       return { ...cat, totalProducts: total };
     };
@@ -198,7 +205,7 @@ export class CategoriesService {
 
     if (softDeletedProducts.length > 0) {
       const ids = softDeletedProducts.map((p) => p.id);
-      
+
       // Clean up relations that would block product hard deletion
       await this.prisma.enquiryItem.deleteMany({
         where: { productId: { in: ids } },
@@ -206,6 +213,12 @@ export class CategoriesService {
       await this.prisma.wishlistItem.deleteMany({
         where: { productId: { in: ids } },
       });
+      const imagesToDelete = await this.prisma.productImage.findMany({
+        where: { productId: { in: ids } },
+      });
+      if (imagesToDelete.length > 0) {
+        await deleteProductImageFiles(imagesToDelete);
+      }
       await this.prisma.productImage.deleteMany({
         where: { productId: { in: ids } },
       });

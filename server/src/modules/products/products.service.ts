@@ -4,6 +4,7 @@ import { Prisma, ProductStatus } from '@prisma/client';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { QueryProductsDto } from './dto/query-products.dto';
+import { deleteProductImageFiles } from '../../utils/file.utils';
 
 @Injectable()
 export class ProductsService {
@@ -179,8 +180,8 @@ export class ProductsService {
           OR: [
             { productName: { contains: search, mode: 'insensitive' } },
             { productCode: { contains: search, mode: 'insensitive' } },
-          ]
-        }
+          ],
+        },
       ];
     }
 
@@ -209,7 +210,10 @@ export class ProductsService {
     };
   }
 
-  async getAllIds(query: QueryProductsDto, isDeleted: boolean = false): Promise<string[]> {
+  async getAllIds(
+    query: QueryProductsDto,
+    isDeleted: boolean = false,
+  ): Promise<string[]> {
     const {
       search,
       categoryId,
@@ -233,19 +237,20 @@ export class ProductsService {
     if (categoryId && categoryId !== '') {
       where.categoryId = categoryId;
     }
-    if (status && (status as any) !== '') where.status = status as ProductStatus;
+    if (status && (status as any) !== '') where.status = status;
     if (size && size !== '') where.size = size;
     if (color && color !== '') where.color = color;
     if (material && material !== '') where.material = material;
     if (classType && classType !== '') where.classType = classType;
-    if (fittingType && fittingType !== '') where.fittingConnectionType = fittingType;
+    if (fittingType && fittingType !== '')
+      where.fittingConnectionType = fittingType;
 
     const products = await this.prisma.product.findMany({
       where,
       select: { id: true },
     });
 
-    return products.map(p => p.id);
+    return products.map((p) => p.id);
   }
 
   async findBySlug(slug: string) {
@@ -299,9 +304,9 @@ export class ProductsService {
 
   async getRelatedProducts(productId: string, categoryId: string, limit = 6) {
     // Fetch the original product to get its name
-    const original = await this.prisma.product.findUnique({ 
+    const original = await this.prisma.product.findUnique({
       where: { id: productId },
-      select: { productName: true, categoryId: true }
+      select: { productName: true, categoryId: true },
     });
 
     if (!original) return [];
@@ -324,8 +329,8 @@ export class ProductsService {
     // Fallback: If not enough variations, fill with other products from the same category
     if (related.length < limit) {
       const remainingLimit = limit - related.length;
-      const excludeIds = [productId, ...related.map(p => p.id)];
-      
+      const excludeIds = [productId, ...related.map((p) => p.id)];
+
       const fallbackProducts = await this.prisma.product.findMany({
         where: {
           categoryId: original.categoryId,
@@ -338,7 +343,7 @@ export class ProductsService {
         },
         take: remainingLimit,
       });
-      
+
       related = [...related, ...fallbackProducts];
     }
 
@@ -445,6 +450,12 @@ export class ProductsService {
     // Delete relations that might block hard deletion
     await this.prisma.enquiryItem.deleteMany({ where: { productId: id } });
     await this.prisma.wishlistItem.deleteMany({ where: { productId: id } });
+    const images = await this.prisma.productImage.findMany({
+      where: { productId: id },
+    });
+    if (images.length > 0) {
+      await deleteProductImageFiles(images);
+    }
     await this.prisma.productImage.deleteMany({ where: { productId: id } });
 
     return this.prisma.product.delete({
@@ -523,7 +534,7 @@ export class ProductsService {
 
   async getFilterOptions(categoryId?: string) {
     const where: Prisma.ProductWhereInput = { isDeleted: false };
-    
+
     if (categoryId) {
       where.OR = [
         { categoryId },

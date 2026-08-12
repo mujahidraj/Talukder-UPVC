@@ -1,4 +1,11 @@
-import { IsBoolean, IsEmail, IsEnum, IsOptional, IsString, MaxLength } from 'class-validator';
+import {
+  IsBoolean,
+  IsEmail,
+  IsEnum,
+  IsOptional,
+  IsString,
+  MaxLength,
+} from 'class-validator';
 import { AdminRole } from '@prisma/client';
 
 export class UpdateAdminUserDto {

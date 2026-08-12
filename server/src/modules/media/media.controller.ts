@@ -34,7 +34,12 @@ export class MediaController {
       limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
       fileFilter: (req, file, cb) => {
         if (!file.mimetype.match(/^image\/(jpg|jpeg|png|webp|gif)$/)) {
-          return cb(new BadRequestException('Only specific image formats (jpg, png, webp, gif) are allowed!'), false);
+          return cb(
+            new BadRequestException(
+              'Only specific image formats (jpg, png, webp, gif) are allowed!',
+            ),
+            false,
+          );
         }
         cb(null, true);
       },

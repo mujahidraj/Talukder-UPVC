@@ -44,11 +44,12 @@ export class DashboardService {
     });
     // Hydrate category names
     const categories = await this.prisma.category.findMany({
-      where: { id: { in: categoryDistribution.map(c => c.categoryId) } },
+      where: { id: { in: categoryDistribution.map((c) => c.categoryId) } },
       select: { id: true, name: true },
     });
-    const categoryData = categoryDistribution.map(c => ({
-      name: categories.find(cat => cat.id === c.categoryId)?.name || 'Unknown',
+    const categoryData = categoryDistribution.map((c) => ({
+      name:
+        categories.find((cat) => cat.id === c.categoryId)?.name || 'Unknown',
       value: c._count.id,
     }));
 
@@ -92,19 +93,29 @@ export class DashboardService {
     });
 
     // 10 MORE METRICS
-    const totalProducts = await this.prisma.product.count({ where: { isDeleted: false } });
-    const activeProducts = await this.prisma.product.count({ where: { isDeleted: false, status: 'ACTIVE' } });
-    const deletedProducts = await this.prisma.product.count({ where: { isDeleted: true } });
-    
+    const totalProducts = await this.prisma.product.count({
+      where: { isDeleted: false },
+    });
+    const activeProducts = await this.prisma.product.count({
+      where: { isDeleted: false, status: 'ACTIVE' },
+    });
+    const deletedProducts = await this.prisma.product.count({
+      where: { isDeleted: true },
+    });
+
     const totalEnquiries = await this.prisma.enquiry.count();
-    const newEnquiries = await this.prisma.enquiry.count({ where: { status: 'NEW' } });
-    
+    const newEnquiries = await this.prisma.enquiry.count({
+      where: { status: 'NEW' },
+    });
+
     const totalBanners = await this.prisma.banner.count();
     const totalFaqs = await this.prisma.fAQ.count();
-    
+
     const totalImportJobs = await this.prisma.importJob.count();
-    const failedImportJobs = await this.prisma.importJob.count({ where: { status: 'FAILED' } });
-    
+    const failedImportJobs = await this.prisma.importJob.count({
+      where: { status: 'FAILED' },
+    });
+
     const totalActivityLogs = await this.prisma.activityLog.count();
 
     // 5 EVEN MORE METRICS
@@ -114,23 +125,30 @@ export class DashboardService {
         OR: [
           { description: null },
           { description: '' },
-          { features: { isEmpty: true } }
-        ]
-      }
+          { features: { isEmpty: true } },
+        ],
+      },
     });
-    
+
     const totalCategoriesCount = await this.prisma.category.count();
-    const pendingEnquiries = await this.prisma.enquiry.count({ where: { status: 'IN_PROGRESS' } });
-    const quotedEnquiries = await this.prisma.enquiry.count({ where: { status: 'QUOTED' } });
-    
+    const pendingEnquiries = await this.prisma.enquiry.count({
+      where: { status: 'IN_PROGRESS' },
+    });
+    const quotedEnquiries = await this.prisma.enquiry.count({
+      where: { status: 'QUOTED' },
+    });
+
     const wishlistStats = await this.prisma.product.aggregate({
-      _sum: { wishlistCount: true }
+      _sum: { wishlistCount: true },
     });
     const totalWishlistSaves = wishlistStats._sum.wishlistCount || 0;
 
     return {
       topProducts,
-      enquiriesByStatus: enquiriesByStatus.map(e => ({ name: e.status, value: e._count.id })),
+      enquiriesByStatus: enquiriesByStatus.map((e) => ({
+        name: e.status,
+        value: e._count.id,
+      })),
       topWishlisted,
       categoryDistribution: categoryData,
       recentEnquiries,
@@ -156,8 +174,8 @@ export class DashboardService {
         totalCategoriesCount,
         pendingEnquiries,
         quotedEnquiries,
-        totalWishlistSaves
-      }
+        totalWishlistSaves,
+      },
     };
   }
 }
