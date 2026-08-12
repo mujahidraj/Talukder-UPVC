@@ -13,9 +13,8 @@ import { Throttle } from '@nestjs/throttler';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
-import { LoginDto } from './dto/login.dto';
 import { ChangePasswordDto } from './dto/change-password.dto';
-import { RefreshTokenDto } from './dto/refresh-token.dto';
+import { decode } from 'jsonwebtoken';
 
 @Controller('auth')
 export class AuthController {
@@ -43,9 +42,7 @@ export class AuthController {
     }
 
     // We decode the refresh token to get the user ID
-    // We don't verify it here because authService.refreshTokens verifies it against the DB hash
-    const jwt = require('jsonwebtoken');
-    const decoded = jwt.decode(refreshToken);
+    const decoded = decode(refreshToken) as any;
     if (!decoded || !decoded.sub) {
       throw new UnauthorizedException('Invalid refresh token');
     }

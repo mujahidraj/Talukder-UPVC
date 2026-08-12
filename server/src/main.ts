@@ -2,12 +2,14 @@ import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { AppModule } from './app.module';
 import helmet from 'helmet';
+import cookieParser from 'cookie-parser';
+import * as express from 'express';
+import { join } from 'path';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   // Parse cookies
-  const cookieParser = require('cookie-parser');
   app.use(cookieParser());
 
   // Security
@@ -37,8 +39,6 @@ async function bootstrap() {
   app.setGlobalPrefix('api');
 
   // Serve uploads securely
-  const express = require('express');
-  const { join } = require('path');
 
   // Block access to temp directory
   app.use('/uploads/temp', (req: any, res: any) =>
@@ -73,4 +73,4 @@ async function bootstrap() {
   await app.listen(port);
   console.log(`🚀 Server running on http://localhost:${port}`);
 }
-bootstrap();
+bootstrap().catch((err) => console.error(err));

@@ -245,7 +245,6 @@ export class ImportProcessor {
           for (let i = 0; i < rowImages.length; i++) {
             const imgDef = rowImages[i];
             const mediaId = imgDef.imageId;
-            // @ts-ignore
             const mediaData = workbook.model.media[mediaId];
             if (mediaData && mediaData.buffer) {
               const buffer = mediaData.buffer;
