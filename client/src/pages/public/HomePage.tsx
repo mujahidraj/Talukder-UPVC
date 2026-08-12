@@ -7,6 +7,7 @@ import SEO from '../../components/SEO';
 export default function HomePage() {
   const [categories, setCategories] = useState<any[]>([]);
   const [featured, setFeatured] = useState<any[]>([]);
+  const [tubewells, setTubewells] = useState<any[]>([]);
   const [banners, setBanners] = useState<any[]>([]);
   const [currentBanner, setCurrentBanner] = useState(0);
 
@@ -26,7 +27,13 @@ export default function HomePage() {
       
       setCategories(filtered.slice(0, 5));
     }).catch(() => {});
-    api.get('/products', { params: { limit: 8 } }).then(r => setFeatured(r.data.data)).catch(() => {});
+    api.get('/products', { params: { limit: 50 } }).then(r => {
+      const all = r.data.data || [];
+      const tbw = all.filter((p: any) => p.category?.name?.toLowerCase().includes('tubewell'));
+      const others = all.filter((p: any) => !p.category?.name?.toLowerCase().includes('tubewell'));
+      setFeatured(others.slice(0, 8));
+      setTubewells(tbw.slice(0, 8));
+    }).catch(() => {});
   }, []);
 
   useEffect(() => {
@@ -306,6 +313,49 @@ export default function HomePage() {
           </div>
           <div className="sm:hidden mt-8 text-center">
             <Link to="/products" className="admin-btn-primary">View All Products</Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Tubewell Products */}
+      <section className="py-16 md:py-24 bg-gray-50 border-t border-gray-100">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="flex items-end justify-between mb-12">
+            <div>
+              <h2 className="text-3xl md:text-4xl font-heading font-bold text-brand-950">Tubewells</h2>
+              <p className="mt-3 text-gray-500">Premium tubewell pipes and accessories</p>
+            </div>
+            <Link to="/products?search=tubewell" className="hidden sm:flex items-center gap-2 text-brand-600 font-semibold hover:text-brand-700 transition-colors">
+              View all <ArrowRight className="h-5 w-5" />
+            </Link>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {tubewells.map((product: any) => (
+              <Link
+                key={product.id}
+                to={`/products/${product.slug}`}
+                className="group bg-white rounded-2xl overflow-hidden magic-border magic-border-white hover:shadow-[0_0_25px_rgba(59,130,246,0.3)] hover:-translate-y-2 transition-all duration-500"
+              >
+                <div className="aspect-square bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center p-4 overflow-hidden">
+                  {product.images?.[0]?.thumbPath ? (
+                    <img src={`http://localhost:3000${product.images[0].thumbPath}`} alt={product.productName} className="h-full w-full object-contain group-hover:scale-110 transition-transform duration-500" />
+                  ) : (
+                    <Droplets className="h-16 w-16 text-gray-300" />
+                  )}
+                </div>
+                <div className="p-4">
+                  <p className="text-xs text-brand-600 font-medium">{product.category?.name}</p>
+                  <h3 className="font-semibold text-gray-900 mt-1 line-clamp-2 text-sm group-hover:text-brand-600 transition-colors">{product.productName}</h3>
+                  <div className="mt-3 flex flex-wrap items-center gap-2">
+                    <span className="text-xs font-bold text-gray-900 bg-gray-100 px-2 py-1 rounded-md border border-gray-200">Size: {product.size}</span>
+                    <span className="text-xs font-bold text-gray-900 bg-brand-50 px-2 py-1 rounded-md border border-brand-100">Code: {product.productCode}</span>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+          <div className="sm:hidden mt-8 text-center">
+            <Link to="/products?search=tubewell" className="admin-btn-primary">View All Tubewells</Link>
           </div>
         </div>
       </section>
