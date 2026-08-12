@@ -205,7 +205,7 @@ export default function HomePage() {
                 <Link
                   key={cat.id}
                   to={`/categories/${cat.slug}`}
-                  className="flex-1 min-w-[240px] max-w-sm group relative rounded-3xl p-6 border border-gray-100/80 hover:border-brand-200 hover:shadow-2xl hover:shadow-brand-900/5 transition-all duration-300 overflow-hidden block"
+                  className="flex-1 min-w-[240px] max-w-sm group relative rounded-3xl p-6 magic-border magic-border-image hover:shadow-[0_0_30px_rgba(59,130,246,0.35)] hover:-translate-y-2 transition-all duration-500 overflow-hidden block"
                 >
                   {/* Product Image Background */}
                   <div 
@@ -254,12 +254,13 @@ export default function HomePage() {
               { title: 'Industrial', desc: 'Heavy-duty pipes for chemical and waste transport.', icon: Factory },
               { title: 'Infrastructure', desc: 'Underground sewerage and main water supply lines.', icon: HardHat },
             ].map((app) => (
-              <div key={app.title} className="bg-slate-50 rounded-2xl p-6 border border-gray-100 hover:border-brand-300 hover:shadow-lg transition-all text-center group">
-                <div className="h-16 w-16 mx-auto rounded-full bg-brand-100 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+              <div key={app.title} className="bg-slate-50 rounded-2xl p-6 magic-border magic-border-slate hover:shadow-[0_0_25px_rgba(59,130,246,0.3)] hover:-translate-y-2 transition-all duration-500 text-center group relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-brand-100/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+                <div className="h-16 w-16 mx-auto rounded-full bg-brand-100 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform relative z-10">
                   <app.icon className="h-8 w-8 text-brand-600" />
                 </div>
-                <h3 className="font-heading font-semibold text-lg text-gray-900 mb-2">{app.title}</h3>
-                <p className="text-sm text-gray-500">{app.desc}</p>
+                <h3 className="font-heading font-semibold text-lg text-gray-900 mb-2 relative z-10">{app.title}</h3>
+                <p className="text-sm text-gray-500 relative z-10">{app.desc}</p>
               </div>
             ))}
           </div>
@@ -283,7 +284,7 @@ export default function HomePage() {
               <Link
                 key={product.id}
                 to={`/products/${product.slug}`}
-                className="group bg-white rounded-2xl border border-gray-100 overflow-hidden hover:shadow-xl hover:border-brand-200 transition-all duration-300"
+                className="group bg-white rounded-2xl overflow-hidden magic-border magic-border-white hover:shadow-[0_0_25px_rgba(59,130,246,0.3)] hover:-translate-y-2 transition-all duration-500"
               >
                 <div className="aspect-square bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center p-4 overflow-hidden">
                   {product.images?.[0]?.thumbPath ? (
@@ -329,7 +330,7 @@ export default function HomePage() {
               { title: 'Modern Manufacturing', desc: 'State-of-the-art factory equipped with auto-belling machines, ensuring consistent wall thickness and accuracy.', icon: Factory },
               { title: 'Nationwide Distribution', desc: 'Comprehensive distribution network ensuring timely delivery across Bangladesh with dedicated logistics support.', icon: Shield },
             ].map((item, idx) => (
-              <div key={item.title} className="group relative bg-brand-900/40 backdrop-blur-md border border-brand-700/50 rounded-3xl p-8 hover:bg-brand-800/60 hover:border-brand-500/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(59,130,246,0.2)] overflow-hidden">
+              <div key={item.title} className="group relative bg-brand-900/40 backdrop-blur-md border border-brand-700/50 rounded-3xl p-8 hover:bg-brand-800/60 hover:border-brand-400/80 transition-all duration-500 hover:-translate-y-3 hover:shadow-[0_0_30px_rgba(59,130,246,0.4)] overflow-hidden">
                 {/* Accent top border */}
                 <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-brand-500 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 
