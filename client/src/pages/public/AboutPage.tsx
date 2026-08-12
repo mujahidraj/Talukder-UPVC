@@ -12,21 +12,26 @@ export default function AboutPage() {
       />
 
       {/* 1. Hero Section */}
-      <section className="relative text-white overflow-hidden bg-gray-900 py-32 md:py-48 flex items-center">
+      <section className="relative overflow-hidden bg-brand-950 py-20 md:py-24 flex items-center border-b border-brand-800">
         <div className="absolute inset-0 w-full h-full">
           <img 
             src="/images/HERO-IMAGE-1.png" 
-            className="w-full h-full object-cover object-center opacity-40 mix-blend-overlay"
+            className="w-full h-full object-cover object-center opacity-30 mix-blend-luminosity grayscale"
             alt="Talukder Factory"
           />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-r from-brand-950 via-brand-950/80 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-brand-950 via-brand-950/90 to-brand-900/40" />
         <div className="max-w-7xl mx-auto px-4 relative z-10 w-full">
-          <div className="max-w-2xl">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold tracking-tight mb-6">
-              Building the Future of <span className="text-brand-300">Piping Systems</span>
+          <div className="max-w-3xl">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-800/50 border border-brand-700/50 backdrop-blur-md mb-6 shadow-sm">
+              <span className="h-2 w-2 rounded-full bg-brand-400 animate-pulse"></span>
+              <span className="text-xs font-semibold text-brand-200 tracking-wider uppercase">About Our Company</span>
+            </div>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold tracking-tight mb-6 text-white leading-[1.15]">
+              Building the Future of <br className="hidden md:block" />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-300 to-brand-50">Piping Systems</span>
             </h1>
-            <p className="text-lg text-brand-100/90 leading-relaxed">
+            <p className="text-lg md:text-xl text-brand-200/90 leading-relaxed max-w-2xl font-medium">
               Talukder uPVC Fittings Industries Ltd., a proud concern of Talukder Group of Industries, has been delivering uncompromising quality across Bangladesh for years.
             </p>
           </div>
@@ -71,7 +76,7 @@ export default function AboutPage() {
                   Our manufacturing facility is equipped with state-of-the-art machinery, including high-precision auto-belling machines, ensuring consistent quality and structural integrity across all our products. We specialize in solutions for water supply, deep tube-wells, drainage, irrigation, and modern sanitation applications.
                 </p>
                 <p>
-                  Every pipe and fitting is manufactured strictly adhering to the <strong>BS-3505 standard</strong>, using only 100% virgin raw materials without any compromises.
+                  Every pipe and fitting is manufactured strictly adhering to the highest quality standards, using only 100% virgin raw materials without any compromises.
                 </p>
               </div>
             </div>
@@ -85,7 +90,7 @@ export default function AboutPage() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 divide-x divide-brand-800/50">
             {[
               { icon: Building2, stat: 'Modern', label: 'Manufacturing Facility' },
-              { icon: Shield, stat: 'BS-3505', label: 'Certified Standard' },
+              { icon: Shield, stat: 'Premium', label: 'Quality Assured' },
               { icon: Users, stat: '240+', label: 'Total Products' },
               { icon: Globe, stat: 'Nationwide', label: 'Distribution Network' },
             ].map((s, idx) => (
@@ -187,7 +192,7 @@ export default function AboutPage() {
                   'High-Precision Auto-Belling Machines',
                   'Automated Extrusion Lines',
                   'Rigorous Pressure & Impact Testing',
-                  'Compliance with BS-3505 British Standards'
+                  'Compliance with International Standards'
                 ].map((item, i) => (
                   <li key={i} className="flex items-center gap-3">
                     <CheckCircle className="h-5 w-5 text-brand-400 shrink-0" />

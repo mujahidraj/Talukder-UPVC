@@ -51,7 +51,7 @@ export default function HomePage() {
     <div>
       <SEO
         title="Home"
-        description="Bangladesh's leading manufacturer of uPVC pipes and fittings. BS-3505 certified, 100% virgin material for water supply, drainage, and irrigation."
+        description="Bangladesh's leading manufacturer of uPVC pipes and fittings. 100% virgin material for water supply, drainage, and irrigation."
         canonical="/"
       />
       <section className="relative text-white overflow-hidden bg-gray-900 min-h-[85vh] flex items-center transition-all duration-1000">
@@ -133,7 +133,7 @@ export default function HomePage() {
             <div className="max-w-7xl mx-auto px-4 py-24 md:py-32 relative w-full z-10">
               <div className="max-w-3xl">
                 <div className="inline-flex items-center gap-2 bg-brand-700/50 backdrop-blur-sm text-brand-200 text-xs font-semibold px-4 py-2 rounded-full mb-6 border border-brand-600/30">
-                  <Award className="h-3.5 w-3.5" /> BS-3505 Standard · 100% Virgin Material
+                  <Award className="h-3.5 w-3.5" /> Premium Quality · 100% Virgin Material
                 </div>
                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold tracking-tight text-white leading-[1.1]">
                   Bangladesh's Trusted
@@ -162,7 +162,7 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-12">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 md:gap-0 md:divide-x divide-brand-800/50">
             {[
-              { icon: Shield, label: 'BS-3505 Certified', desc: 'International standard' },
+              { icon: Shield, label: 'Quality Certified', desc: 'International standard' },
               { icon: Factory, label: 'Modern Factory', desc: 'Auto-belling machines' },
               { icon: Droplets, label: '100% Virgin Material', desc: 'No recycled content' },
               { icon: Award, label: '50+ Year Lifespan', desc: 'Proven durability' },
@@ -376,7 +376,7 @@ export default function HomePage() {
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
             {[
-              { title: 'International Standards', desc: 'All products manufactured as per BS-3505 standard with rigorous quality control at every stage of production.', icon: Award },
+              { title: 'International Standards', desc: 'All products manufactured with rigorous quality control at every stage of production.', icon: Award },
               { title: 'Modern Manufacturing', desc: 'State-of-the-art factory equipped with auto-belling machines, ensuring consistent wall thickness and accuracy.', icon: Factory },
               { title: 'Nationwide Distribution', desc: 'Comprehensive distribution network ensuring timely delivery across Bangladesh with dedicated logistics support.', icon: Shield },
             ].map((item, idx) => (
