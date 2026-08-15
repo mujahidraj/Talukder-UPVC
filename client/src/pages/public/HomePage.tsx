@@ -135,12 +135,12 @@ export default function HomePage() {
                 <div className="inline-flex items-center gap-2 bg-brand-700/50 backdrop-blur-sm text-brand-200 text-xs font-semibold px-4 py-2 rounded-full mb-6 border border-brand-600/30">
                   <Award className="h-3.5 w-3.5" /> Premium Quality · 100% Virgin Material
                 </div>
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold tracking-tight text-white leading-[1.1]">
+                <h1 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold tracking-tight text-white leading-[1.1] drop-shadow-md">
                   Bangladesh's Trusted
-                  <span className="block text-brand-300">uPVC Pipe & Fittings</span>
+                  <span className="block text-accent-500">uPVC Pipe & Fittings</span>
                   Manufacturer
                 </h1>
-                <p className="mt-6 text-lg text-brand-100 max-w-xl leading-relaxed">
+                <p className="mt-6 text-lg text-white max-w-xl leading-relaxed">
                   Talukder uPVC Fittings Ltd. delivers premium quality pipes and fittings for water supply, drainage, and irrigation across the nation.
                 </p>
                 <div className="mt-8 flex flex-wrap gap-4">

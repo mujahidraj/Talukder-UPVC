@@ -25,13 +25,13 @@ export default function AboutPage() {
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-800/50 border border-brand-700/50 backdrop-blur-md mb-6 shadow-sm">
               <span className="h-2 w-2 rounded-full bg-brand-400 animate-pulse"></span>
-              <span className="text-xs font-semibold text-brand-200 tracking-wider uppercase">About Our Company</span>
+              <span className="text-xs font-semibold text-accent-400 tracking-wider uppercase">About Our Company</span>
             </div>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold tracking-tight mb-6 text-white leading-[1.15]">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold tracking-tight mb-6 text-white leading-[1.15] drop-shadow-md">
               Building the Future of <br className="hidden md:block" />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-300 to-brand-50">Piping Systems</span>
             </h1>
-            <p className="text-lg md:text-xl text-brand-200/90 leading-relaxed max-w-2xl font-medium">
+            <p className="text-lg md:text-xl text-white leading-relaxed max-w-2xl font-medium">
               Talukder uPVC Fittings Ltd., a proud concern of Talukder Group of Industries, has been delivering uncompromising quality across Bangladesh for years.
             </p>
           </div>
