@@ -29,13 +29,13 @@ export default function SEO({ title, description, canonical, type = 'website', i
     description: DEFAULT_DESCRIPTION,
     address: {
       '@type': 'PostalAddress',
-      streetAddress: 'Dhaka-Aricha Highway, Savar',
-      addressLocality: 'Dhaka',
+      streetAddress: 'Baniargati, Bashundia',
+      addressLocality: 'Jashore',
       addressCountry: 'BD',
     },
     contactPoint: {
       '@type': 'ContactPoint',
-      telephone: '+880-123-456-789',
+      telephone: '+8801966333355',
       contactType: 'sales',
     },
   };

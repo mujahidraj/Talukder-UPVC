@@ -55,8 +55,8 @@ export default function PrivacyPolicyPage() {
             </p>
             <div className="bg-gray-50 p-6 rounded-xl mt-4">
               <strong>Talukder uPVC Fittings Ltd.</strong><br/>
-              Email: info@talukderupvc.com<br/>
-              Phone: +880 1234 567890
+              Email: info@talukder-group.com.bd<br/>
+              Phone: +880 1966-333355
             </div>
           </div>
         </div>

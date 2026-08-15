@@ -74,16 +74,16 @@ export default function PublicFooter() {
               <h4 className="text-white font-heading font-semibold mb-4">Contact Us</h4>
               <ul className="space-y-4">
                 <li className="flex items-start gap-3 text-sm">
-                  <MapPin className="h-5 w-5 text-brand-400 flex-shrink-0 mt-0.5" />
-                  <span className="text-brand-300">Factory: Dhaka-Aricha Highway, Savar, Dhaka, Bangladesh</span>
+                  <MapPin className="h-5 w-5 text-accent-400 flex-shrink-0 mt-0.5" />
+                  <span className="text-brand-300">Factory: Baniargati, Bashundia, Jashore, Bangladesh</span>
                 </li>
                 <li className="flex items-center gap-3 text-sm">
-                  <Phone className="h-5 w-5 text-brand-400 flex-shrink-0" />
-                  <a href="tel:+880123456789" className="text-brand-300 hover:text-white transition-colors">+880-123-456-789</a>
+                  <Phone className="h-5 w-5 text-accent-400 flex-shrink-0" />
+                  <a href="tel:+8801966333355" className="text-brand-300 hover:text-white transition-colors">+880 1966-333355</a>
                 </li>
                 <li className="flex items-center gap-3 text-sm">
-                  <Mail className="h-5 w-5 text-brand-400 flex-shrink-0" />
-                  <a href="mailto:info@talukder-upvc.com" className="text-brand-300 hover:text-white transition-colors">info@talukder-upvc.com</a>
+                  <Mail className="h-5 w-5 text-accent-400 flex-shrink-0" />
+                  <a href="mailto:info@talukder-group.com.bd" className="text-brand-300 hover:text-white transition-colors">info@talukder-group.com.bd</a>
                 </li>
               </ul>
             </div>
@@ -106,7 +106,7 @@ export default function PublicFooter() {
 
       {/* WhatsApp Floating Button */}
       <a
-        href="https://wa.me/880123456789"
+        href="https://wa.me/8801966333355"
         target="_blank"
         rel="noopener noreferrer"
         className="fixed bottom-6 right-6 z-50 h-14 w-14 bg-green-500 rounded-full flex items-center justify-center shadow-lg hover:bg-green-600 transition-colors hover:scale-110 duration-200"

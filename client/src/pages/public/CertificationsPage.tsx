@@ -19,7 +19,7 @@ export default function CertificationsPage() {
           ].map(cert => (
             <div key={cert.title} className="bg-white rounded-2xl border border-gray-100 p-8 text-center hover:shadow-lg transition-shadow">
               <div className="h-16 w-16 mx-auto rounded-2xl bg-brand-50 flex items-center justify-center mb-5">
-                <cert.icon className="h-8 w-8 text-brand-600" />
+                <cert.icon className="h-8 w-8 text-accent-600" />
               </div>
               <h3 className="text-xl font-heading font-bold text-brand-950">{cert.title}</h3>
               <p className="mt-3 text-sm text-gray-600 leading-relaxed">{cert.desc}</p>

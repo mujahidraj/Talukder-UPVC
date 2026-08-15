@@ -96,7 +96,7 @@ export default function AboutPage() {
             ].map((s, idx) => (
               <div key={s.label} className={`text-center ${idx !== 0 ? 'pl-8' : ''}`}>
                 <div className="h-14 w-14 mx-auto rounded-2xl bg-brand-900 border border-brand-800 flex items-center justify-center mb-4">
-                  <s.icon className="h-7 w-7 text-brand-300" />
+                  <s.icon className="h-7 w-7 text-accent-400" />
                 </div>
                 <p className="text-2xl md:text-3xl font-heading font-bold text-white mb-1">{s.stat}</p>
                 <p className="text-sm text-brand-300/80">{s.label}</p>
@@ -158,7 +158,7 @@ export default function AboutPage() {
             ].map((value, i) => (
               <div key={i} className="p-8 bg-gray-50 rounded-2xl border border-gray-100 hover:shadow-lg hover:border-brand-200 transition-all">
                 <div className="h-12 w-12 bg-white rounded-xl shadow-sm border border-gray-100 flex items-center justify-center mb-6">
-                  <value.icon className="h-6 w-6 text-brand-600" />
+                  <value.icon className="h-6 w-6 text-accent-600" />
                 </div>
                 <h3 className="text-xl font-heading font-bold text-gray-900 mb-3">{value.title}</h3>
                 <p className="text-gray-600 leading-relaxed">{value.desc}</p>
@@ -184,7 +184,7 @@ export default function AboutPage() {
                 Manufacturing Excellence
               </h2>
               <p className="text-lg text-gray-300 leading-relaxed mb-8">
-                Our advanced factory located on the Dhaka-Aricha Highway is a testament to modern industrial engineering. We employ rigorous quality control checks at every phase of production.
+                Our advanced factory located in Baniargati, Bashundia, Jashore is a testament to modern industrial engineering. We employ rigorous quality control checks at every phase of production.
               </p>
               <ul className="space-y-4">
                 {[

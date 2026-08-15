@@ -12,7 +12,7 @@ export default function FactoryPage() {
       </section>
       <section className="max-w-5xl mx-auto px-4 py-16">
         <div className="prose prose-lg max-w-none text-gray-600 mb-12">
-          <p>Our manufacturing facility, located on the Dhaka-Aricha Highway in Savar, is equipped with modern machinery and technology to produce uPVC pipes and fittings of the highest quality.</p>
+          <p>Our manufacturing facility, located in Baniargati, Bashundia, Jashore, is equipped with modern machinery and technology to produce uPVC pipes and fittings of the highest quality.</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {[
@@ -22,7 +22,7 @@ export default function FactoryPage() {
             { icon: Zap, title: 'High Capacity', desc: 'Large-scale production to meet national demand' },
           ].map(f => (
             <div key={f.title} className="bg-white rounded-2xl border border-gray-100 p-6 hover:shadow-lg transition-shadow">
-              <div className="h-12 w-12 rounded-xl bg-brand-50 flex items-center justify-center mb-4"><f.icon className="h-6 w-6 text-brand-600" /></div>
+              <div className="h-12 w-12 rounded-xl bg-accent-50 flex items-center justify-center mb-4"><f.icon className="h-6 w-6 text-accent-600" /></div>
               <h3 className="font-heading font-semibold text-gray-900">{f.title}</h3>
               <p className="text-sm text-gray-500 mt-2">{f.desc}</p>
             </div>

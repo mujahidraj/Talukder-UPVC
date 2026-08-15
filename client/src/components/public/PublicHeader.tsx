@@ -76,11 +76,11 @@ export default function PublicHeader({ onEnquiryClick }: HeaderProps = {}) {
       <div className="bg-brand-950 text-brand-200 text-xs py-2 hidden md:block">
         <div className="max-w-7xl mx-auto px-4 flex items-center justify-between">
           <div className="flex items-center gap-6">
-            <a href="tel:+880123456789" className="flex items-center gap-1.5 hover:text-white transition-colors">
-              <Phone className="h-3 w-3" /> +880-123-456-789
+            <a href="tel:+8801966333355" className="flex items-center gap-1.5 hover:text-white transition-colors">
+              <Phone className="h-3 w-3" /> +880 1966-333355
             </a>
-            <a href="mailto:info@talukder-upvc.com" className="flex items-center gap-1.5 hover:text-white transition-colors">
-              <Mail className="h-3 w-3" /> info@talukder-upvc.com
+            <a href="mailto:info@talukder-group.com.bd" className="flex items-center gap-1.5 hover:text-white transition-colors">
+              <Mail className="h-3 w-3" /> info@talukder-group.com.bd
             </a>
           </div>
           <span>A Concern of Talukder Group of Industries</span>

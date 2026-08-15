@@ -41,13 +41,13 @@ export default function ContactPage() {
           <h2 className="text-2xl font-heading font-bold text-brand-950 mb-6">Get In Touch</h2>
           <div className="space-y-6">
             {[
-              { icon: MapPin, title: 'Factory Address', detail: 'Dhaka-Aricha Highway, Savar, Dhaka, Bangladesh' },
-              { icon: Phone, title: 'Phone', detail: '+880-123-456-789' },
-              { icon: Mail, title: 'Email', detail: 'info@talukder-upvc.com' },
+              { icon: MapPin, title: 'Factory Address', detail: 'Baniargati, Bashundia, Jashore, Bangladesh' },
+              { icon: Phone, title: 'Phone', detail: '+880 1966-333355' },
+              { icon: Mail, title: 'Email', detail: 'info@talukder-group.com.bd' },
               { icon: Clock, title: 'Office Hours', detail: 'Saturday - Thursday, 9:00 AM - 6:00 PM' },
             ].map(c => (
               <div key={c.title} className="flex gap-4">
-                <div className="h-12 w-12 rounded-xl bg-brand-50 flex items-center justify-center flex-shrink-0"><c.icon className="h-6 w-6 text-brand-600" /></div>
+                <div className="h-12 w-12 rounded-xl bg-accent-50 flex items-center justify-center flex-shrink-0"><c.icon className="h-6 w-6 text-accent-600" /></div>
                 <div>
                   <p className="font-semibold text-gray-900">{c.title}</p>
                   <p className="text-sm text-gray-500">{c.detail}</p>

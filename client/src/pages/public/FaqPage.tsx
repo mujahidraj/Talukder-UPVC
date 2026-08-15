@@ -33,7 +33,7 @@ export default function FaqPage() {
                 className="w-full flex items-center justify-between px-6 py-5 text-left"
               >
                 <span className="font-semibold text-gray-900 pr-4">{faq.question}</span>
-                {openId === faq.id ? <ChevronUp className="h-5 w-5 text-brand-600 flex-shrink-0" /> : <ChevronDown className="h-5 w-5 text-gray-400 flex-shrink-0" />}
+                {openId === faq.id ? <ChevronUp className="h-5 w-5 text-accent-600 flex-shrink-0" /> : <ChevronDown className="h-5 w-5 text-gray-400 flex-shrink-0" />}
               </button>
               {openId === faq.id && (
                 <div className="px-6 pb-5 text-gray-600 text-sm leading-relaxed border-t border-gray-50 pt-4">

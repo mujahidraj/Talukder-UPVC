@@ -169,7 +169,7 @@ export default function HomePage() {
             ].map((item, idx) => (
               <div key={item.label} className={`flex items-center gap-5 group ${idx !== 0 ? 'md:pl-10' : 'md:pr-10'} ${idx === 1 || idx === 2 ? 'md:px-10' : ''}`}>
                 <div className="h-16 w-16 rounded-2xl bg-brand-900 border border-brand-700/50 flex items-center justify-center group-hover:bg-brand-800 group-hover:border-brand-500/50 group-hover:shadow-[0_0_30px_rgba(59,130,246,0.2)] transition-all duration-300 flex-shrink-0 group-hover:-translate-y-1">
-                  <item.icon className="h-7 w-7 text-brand-300 group-hover:text-white transition-colors" />
+                  <item.icon className="h-7 w-7 text-accent-400 group-hover:text-white transition-colors" />
                 </div>
                 <div>
                   <p className="text-base font-bold text-white tracking-wide">{item.label}</p>
@@ -264,7 +264,7 @@ export default function HomePage() {
               <div key={app.title} className="bg-slate-50 rounded-2xl p-6 magic-border magic-border-slate hover:shadow-[0_0_25px_rgba(59,130,246,0.3)] hover:-translate-y-2 transition-all duration-500 text-center group relative overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-br from-brand-100/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
                 <div className="h-16 w-16 mx-auto rounded-full bg-brand-100 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform relative z-10">
-                  <app.icon className="h-8 w-8 text-brand-600" />
+                  <app.icon className="h-8 w-8 text-accent-600" />
                 </div>
                 <h3 className="font-heading font-semibold text-lg text-gray-900 mb-2 relative z-10">{app.title}</h3>
                 <p className="text-sm text-gray-500 relative z-10">{app.desc}</p>
@@ -386,12 +386,12 @@ export default function HomePage() {
                 
                 {/* Large faded background icon */}
                 <div className="absolute -right-6 -bottom-6 opacity-[0.03] group-hover:opacity-[0.06] group-hover:scale-110 transition-all duration-700 pointer-events-none transform -rotate-12">
-                  <item.icon className="w-48 h-48 text-brand-100" />
+                  <item.icon className="w-48 h-48 text-accent-100" />
                 </div>
                 
                 <div className="relative z-10">
                   <div className="h-16 w-16 rounded-2xl bg-gradient-to-br from-brand-800 to-brand-900 border border-brand-700 shadow-inner flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500">
-                    <item.icon className="h-8 w-8 text-brand-300 group-hover:text-white transition-colors" />
+                    <item.icon className="h-8 w-8 text-accent-400 group-hover:text-white transition-colors" />
                   </div>
                   <h3 className="text-2xl font-heading font-bold text-white mb-4 group-hover:text-brand-100 transition-colors">{item.title}</h3>
                   <p className="text-brand-200/70 text-base leading-relaxed">{item.desc}</p>
