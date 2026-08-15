@@ -57,19 +57,19 @@
 }
 
 .magic-border-white {
-  background-image: linear-gradient(white, white), conic-gradient(from var(--angle), transparent 60%, #93c5fd 90%, #ffffff 100%);
+  background-image: linear-gradient(white, white), conic-gradient(from var(--angle), transparent 60%, #ef5555 90%, #ffffff 100%);
 }
 
 .magic-border-slate {
-  background-image: linear-gradient(#f8fafc, #f8fafc), conic-gradient(from var(--angle), transparent 60%, #93c5fd 90%, #ffffff 100%);
+  background-image: linear-gradient(#f8fafc, #f8fafc), conic-gradient(from var(--angle), transparent 60%, #ef5555 90%, #ffffff 100%);
 }
 
 .magic-border-dark {
-  background-image: linear-gradient(rgba(15, 23, 42, 0.4), rgba(15, 23, 42, 0.4)), conic-gradient(from var(--angle), transparent 60%, #93c5fd 90%, #ffffff 100%);
+  background-image: linear-gradient(rgba(15, 23, 42, 0.4), rgba(15, 23, 42, 0.4)), conic-gradient(from var(--angle), transparent 60%, #ef5555 90%, #ffffff 100%);
 }
 
 .magic-border-image {
-  background-image: linear-gradient(transparent, transparent), conic-gradient(from var(--angle), transparent 60%, #93c5fd 90%, #ffffff 100%);
+  background-image: linear-gradient(transparent, transparent), conic-gradient(from var(--angle), transparent 60%, #ef5555 90%, #ffffff 100%);
 }
 
 

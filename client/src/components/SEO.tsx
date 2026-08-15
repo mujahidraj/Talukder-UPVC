@@ -11,7 +11,7 @@ interface SEOProps {
   noIndex?: boolean;
 }
 
-const SITE_NAME = 'Talukder uPVC Fittings Industries Ltd.';
+const SITE_NAME = 'Talukder uPVC Fittings Ltd.';
 const DEFAULT_DESCRIPTION = 'Bangladesh\'s leading manufacturer of uPVC pipes and fittings for water supply, drainage, and irrigation. BS-3505 certified, 100% virgin material.';
 const BASE_URL = 'https://talukder-upvc.com';
 
@@ -25,7 +25,7 @@ export default function SEO({ title, description, canonical, type = 'website', i
     '@type': 'Organization',
     name: SITE_NAME,
     url: BASE_URL,
-    logo: `${BASE_URL}/logo.png`,
+    logo: `${BASE_URL}/LOGO/Talukder-uPVC-Fittings-LTD-1.png`,
     description: DEFAULT_DESCRIPTION,
     address: {
       '@type': 'PostalAddress',

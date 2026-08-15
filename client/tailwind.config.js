@@ -8,17 +8,30 @@ export default {
     extend: {
       colors: {
         brand: {
-          50: '#f0f5fa',
-          100: '#e1ecf4',
-          200: '#c3d9ea',
-          300: '#94bedc',
-          400: '#5f9dca',
-          500: '#3a81b7',
-          600: '#2a6699', // primary industrial blue
-          700: '#23527e',
-          800: '#1f4569',
-          900: '#1d3a58',
-          950: '#13263c', // darkest navy
+          50: '#eef0f8',
+          100: '#d5daea',
+          200: '#aab5d6',
+          300: '#7e8fc1',
+          400: '#5369ac',
+          500: '#3a4e8f',
+          600: '#2a3a72', // primary navy
+          700: '#1f2d5e',
+          800: '#1b2a6b', // logo navy exact
+          900: '#141f50',
+          950: '#0d1433', // darkest
+        },
+        accent: {
+          50: '#fef2f2',
+          100: '#fee2e2',
+          200: '#fecaca',
+          300: '#f89a9a',
+          400: '#ef5555',
+          500: '#e63232',
+          600: '#d42027', // logo red exact
+          700: '#b91c1c',
+          800: '#991b1b',
+          900: '#7f1d1d',
+          950: '#450a0a',
         }
       },
       fontFamily: {

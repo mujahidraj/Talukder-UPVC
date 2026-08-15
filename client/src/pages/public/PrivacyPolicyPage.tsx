@@ -7,7 +7,7 @@ export default function PrivacyPolicyPage() {
     <div className="bg-gray-50 min-h-screen py-12 md:py-24">
       <SEO 
         title="Privacy Policy" 
-        description="Privacy Policy for Talukder uPVC Fittings Industries Ltd." 
+        description="Privacy Policy for Talukder uPVC Fittings Ltd." 
         canonical="/privacy-policy" 
       />
       <div className="max-w-4xl mx-auto px-4">
@@ -21,7 +21,7 @@ export default function PrivacyPolicyPage() {
           <div className="p-8 md:p-12 prose prose-brand max-w-none text-gray-600">
             <h2>1. Introduction</h2>
             <p>
-              At Talukder uPVC Fittings Industries Ltd., we take your privacy seriously. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website or make an enquiry.
+              At Talukder uPVC Fittings Ltd., we take your privacy seriously. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website or make an enquiry.
             </p>
 
             <h2>2. Information We Collect</h2>
@@ -54,7 +54,7 @@ export default function PrivacyPolicyPage() {
               If you have questions or comments about this Privacy Policy, please contact us at:
             </p>
             <div className="bg-gray-50 p-6 rounded-xl mt-4">
-              <strong>Talukder uPVC Fittings Industries Ltd.</strong><br/>
+              <strong>Talukder uPVC Fittings Ltd.</strong><br/>
               Email: info@talukderupvc.com<br/>
               Phone: +880 1234 567890
             </div>

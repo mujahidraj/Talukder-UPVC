@@ -94,18 +94,16 @@ export default function PublicHeader({ onEnquiryClick }: HeaderProps = {}) {
           <div className="flex items-center justify-between h-20 md:h-24">
             {/* Logo */}
             <Link to="/" className="flex items-center gap-3 flex-shrink-0">
-              <div className="h-10 w-10 bg-brand-700 flex items-center justify-center shadow-sm">
-                <span className="text-white text-2xl font-heading font-bold">T</span>
-              </div>
+              <img src="/LOGO/Talukder-uPVC-Fittings-LTD-3.png" alt="Talukder uPVC Fittings Ltd." className="h-12 w-auto object-contain" />
               <div className="hidden sm:block">
-                <span className="text-xl font-heading font-bold text-gray-900 tracking-tight">Talukder uPVC</span>
-                <p className="text-[10px] text-gray-500 uppercase tracking-widest font-semibold mt-0.5">Fittings Industries Ltd.</p>
+                <span className="text-xl font-heading font-bold tracking-tight"><span className="text-accent-600">Talukder uPVC</span></span>
+                <p className="text-[10px] text-brand-800 uppercase tracking-widest font-semibold mt-0.5">Fittings Ltd.</p>
               </div>
             </Link>
 
             {/* Desktop Nav Links */}
             <div className="hidden lg:flex items-center gap-8">
-              <Link to="/" className="text-sm font-semibold text-gray-700 hover:text-brand-700 transition-colors py-2 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-brand-600 after:transition-all hover:after:w-full">
+              <Link to="/" className="text-sm font-semibold text-gray-700 hover:text-brand-800 transition-colors py-2 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-accent-600 after:transition-all hover:after:w-full">
                 Home
               </Link>
 
@@ -115,7 +113,7 @@ export default function PublicHeader({ onEnquiryClick }: HeaderProps = {}) {
                 onMouseEnter={() => setMegaOpen(true)}
                 onMouseLeave={() => setMegaOpen(false)}
               >
-                <button className="text-sm font-semibold text-gray-700 hover:text-brand-700 transition-colors py-2 flex items-center gap-1.5 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-brand-600 after:transition-all hover:after:w-full">
+                <button className="text-sm font-semibold text-gray-700 hover:text-brand-800 transition-colors py-2 flex items-center gap-1.5 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-accent-600 after:transition-all hover:after:w-full">
                   Products <ChevronDown className={`h-3 w-3 transition-transform duration-200 ${megaOpen ? 'rotate-180' : ''}`} />
                 </button>
 
@@ -178,9 +176,9 @@ export default function PublicHeader({ onEnquiryClick }: HeaderProps = {}) {
                 )}
               </div>
 
-              <Link to="/about" className="text-sm font-semibold text-gray-700 hover:text-brand-700 transition-colors py-2 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-brand-600 after:transition-all hover:after:w-full">About</Link>
-              <Link to="/faq" className="text-sm font-semibold text-gray-700 hover:text-brand-700 transition-colors py-2 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-brand-600 after:transition-all hover:after:w-full">FAQ</Link>
-              <Link to="/contact" className="text-sm font-semibold text-gray-700 hover:text-brand-700 transition-colors py-2 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-brand-600 after:transition-all hover:after:w-full">Contact</Link>
+              <Link to="/about" className="text-sm font-semibold text-gray-700 hover:text-brand-800 transition-colors py-2 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-accent-600 after:transition-all hover:after:w-full">About</Link>
+              <Link to="/faq" className="text-sm font-semibold text-gray-700 hover:text-brand-800 transition-colors py-2 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-accent-600 after:transition-all hover:after:w-full">FAQ</Link>
+              <Link to="/contact" className="text-sm font-semibold text-gray-700 hover:text-brand-800 transition-colors py-2 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-accent-600 after:transition-all hover:after:w-full">Contact</Link>
             </div>
 
             {/* Right Actions */}
@@ -283,7 +281,7 @@ export default function PublicHeader({ onEnquiryClick }: HeaderProps = {}) {
               {/* Get Quote CTA */}
               <button
                 onClick={onEnquiryClick}
-                className="hidden lg:flex items-center gap-2 bg-brand-700 text-white px-7 py-2.5 rounded-md font-semibold text-sm hover:bg-brand-800 transition-colors shadow-sm ml-2"
+                className="hidden lg:flex items-center gap-2 bg-accent-600 text-white px-7 py-2.5 rounded-md font-semibold text-sm hover:bg-accent-700 transition-colors shadow-sm ml-2"
               >
                 Get a Quote
               </button>
@@ -337,7 +335,7 @@ export default function PublicHeader({ onEnquiryClick }: HeaderProps = {}) {
             <Link to="/contact" onClick={() => setMenuOpen(false)} className="block px-4 py-3 text-lg font-bold text-gray-900 border-b border-gray-100">Contact</Link>
 
             <div className="pt-6 px-4">
-              <button onClick={() => { setMenuOpen(false); onEnquiryClick?.(); }} className="block w-full text-center bg-brand-700 text-white px-7 py-3.5 rounded-lg font-bold text-lg hover:bg-brand-800 transition-colors shadow-md">
+              <button onClick={() => { setMenuOpen(false); onEnquiryClick?.(); }} className="block w-full text-center bg-accent-600 text-white px-7 py-3.5 rounded-lg font-bold text-lg hover:bg-accent-700 transition-colors shadow-md">
                 Get a Quote
               </button>
             </div>

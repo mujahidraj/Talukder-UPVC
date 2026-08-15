@@ -141,7 +141,7 @@ export default function HomePage() {
                   Manufacturer
                 </h1>
                 <p className="mt-6 text-lg text-brand-100 max-w-xl leading-relaxed">
-                  Talukder uPVC Fittings Industries Ltd. delivers premium quality pipes and fittings for water supply, drainage, and irrigation across the nation.
+                  Talukder uPVC Fittings Ltd. delivers premium quality pipes and fittings for water supply, drainage, and irrigation across the nation.
                 </p>
                 <div className="mt-8 flex flex-wrap gap-4">
                   <Link to="/products" className="inline-flex items-center gap-2 bg-white text-brand-900 px-6 py-3 rounded-xl font-semibold hover:bg-brand-50 transition-colors shadow-lg">

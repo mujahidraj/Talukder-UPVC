@@ -47,13 +47,11 @@ export default function Login() {
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-brand-100 via-slate-50 to-slate-50"></div>
       
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="flex justify-center">
-          <div className="h-16 w-16 bg-brand-600 rounded-xl flex items-center justify-center shadow-lg transform rotate-3">
-            <span className="text-white text-3xl font-heading font-bold -rotate-3">T</span>
+          <div className="h-20 w-20 mx-auto flex items-center justify-center">
+            <img src="/LOGO/Talukder-uPVC-Fittings-LTD-3.png" alt="Talukder uPVC Fittings Ltd." className="h-full w-auto object-contain" />
           </div>
-        </div>
-        <h2 className="mt-6 text-center text-3xl font-heading tracking-tight text-brand-950">
-          Talukder uPVC Admin
+        <h2 className="mt-6 text-center text-3xl font-heading tracking-tight">
+          <span className="text-accent-600">Talukder uPVC</span> <span className="text-brand-800">Admin</span>
         </h2>
         <p className="mt-2 text-center text-sm text-slate-600">
           Sign in to manage your catalog and enquiries

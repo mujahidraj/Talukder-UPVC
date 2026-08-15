@@ -12,12 +12,10 @@ export default function PublicFooter() {
             {/* Company Info */}
             <div>
               <div className="flex items-center gap-3 mb-4">
-                <div className="h-10 w-10 bg-brand-600 rounded-xl flex items-center justify-center">
-                  <span className="text-white text-xl font-heading font-bold">T</span>
-                </div>
+                <img src="/LOGO/Talukder-uPVC-Fittings-LTD-4.png" alt="Talukder uPVC Fittings Ltd." className="h-10 w-auto object-contain" />
                 <div>
-                  <h3 className="text-white font-heading font-bold text-lg">Talukder uPVC</h3>
-                  <p className="text-xs text-brand-400">Fittings Industries Ltd.</p>
+                  <h3 className="font-heading font-bold text-lg"><span className="text-accent-400">Talukder uPVC</span></h3>
+                  <p className="text-xs text-brand-300">Fittings Ltd.</p>
                 </div>
               </div>
               <p className="text-sm leading-relaxed text-brand-300">
@@ -96,7 +94,7 @@ export default function PublicFooter() {
         <div className="border-t border-brand-800">
           <div className="max-w-7xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-2">
             <p className="text-xs text-brand-400">
-              © {new Date().getFullYear()} Talukder uPVC Fittings Industries Ltd. All rights reserved.
+              © {new Date().getFullYear()} <span className="text-accent-400">Talukder uPVC</span> Fittings Ltd. All rights reserved.
             </p>
             <div className="flex gap-4 text-xs text-brand-400">
               <Link to="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link>
