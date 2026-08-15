@@ -5,7 +5,7 @@ import * as path from 'path';
 const prisma = new PrismaClient();
 
 async function main() {
-  const uploadsDir = path.join(__dirname, 'uploads', 'products');
+  const uploadsDir = path.join(__dirname, '..', 'uploads', 'products');
   const fullDir = path.join(uploadsDir, 'full');
   const mediumDir = path.join(uploadsDir, 'medium');
   const thumbDir = path.join(uploadsDir, 'thumb');

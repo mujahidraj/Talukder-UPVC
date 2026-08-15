@@ -2,9 +2,9 @@ const ExcelJS = require('exceljs');
 const fs = require('fs');
 const path = require('path');
 
-const EXCEL_PATH = path.join(__dirname, '../Files/Talukder_uPVC_Product_Catalog.xlsx');
-const OUT_PATH = path.join(__dirname, '../Files/Talukder_uPVC_Product_Catalog_Updated.xlsx');
-const IMG_DIR = path.join(__dirname, '../Files/Product Image');
+const EXCEL_PATH = path.join(__dirname, '../../Files/Talukder_uPVC_Product_Catalog.xlsx');
+const OUT_PATH = path.join(__dirname, '../../Files/Talukder_uPVC_Product_Catalog_Updated.xlsx');
+const IMG_DIR = path.join(__dirname, '../../Files/Product Image');
 
 async function run() {
   const wb = new ExcelJS.Workbook();
