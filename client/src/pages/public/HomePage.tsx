@@ -139,7 +139,7 @@ export default function HomePage() {
             <div className="max-w-7xl mx-auto px-4 py-24 md:py-32 relative w-full z-10">
               <div className="max-w-3xl" style={{ animation: 'fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards' }}>
                 <div className="inline-flex items-center gap-2 bg-brand-800/40 backdrop-blur-md text-brand-100 text-xs font-bold tracking-wide uppercase px-5 py-2.5 rounded-full mb-8 border border-brand-500/30 shadow-[0_0_20px_rgba(59,130,246,0.3)]">
-                  <Award className="h-4 w-4 text-accent-400" /> Premium Quality · 100% Virgin Material
+                  <Award className="h-4 w-4 text-accent-400" /> 100% Virgin Material
                 </div>
                 <h1 className="text-4xl md:text-6xl lg:text-7xl font-heading font-black tracking-tight text-white leading-[1.1] drop-shadow-lg">
                   Bangladesh's Trusted
