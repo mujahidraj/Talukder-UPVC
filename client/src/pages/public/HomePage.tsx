@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Shield, Award, Factory, Droplets, ChevronRight, Play, Camera, Globe, Video, MessageCircle, Tractor, Building2, HardHat, CheckCircle2, Wrench, Users } from 'lucide-react';
+import { ArrowRight, Shield, Award, Factory, Droplets, ChevronRight, Play, Camera, Globe, Video, MessageCircle, Tractor, Building2, HardHat, CheckCircle2, Wrench, Users, Layers } from 'lucide-react';
 import api from '../../lib/axios';
 import SEO from '../../components/SEO';
 
@@ -27,10 +27,10 @@ export default function HomePage() {
       
       setCategories(filtered.slice(0, 5));
     }).catch(() => {});
-    api.get('/products', { params: { limit: 50 } }).then(r => {
+    api.get('/products/grouped', { params: { limit: 50, sortBy: 'name' } }).then(r => {
       const all = r.data.data || [];
-      const tbw = all.filter((p: any) => p.category?.name?.toLowerCase().includes('tubewell'));
-      const others = all.filter((p: any) => !p.category?.name?.toLowerCase().includes('tubewell'));
+      const tbw = all.filter((p: any) => p.isTubewell);
+      const others = all.filter((p: any) => !p.isTubewell);
       setFeatured(others.slice(0, 8));
       setTubewells(tbw.slice(0, 8));
     }).catch(() => {});
@@ -304,8 +304,9 @@ export default function HomePage() {
                   <p className="text-xs text-brand-600 font-medium">{product.category?.name}</p>
                   <h3 className="font-semibold text-gray-900 mt-1 line-clamp-2 text-sm group-hover:text-brand-600 transition-colors">{product.productName}</h3>
                   <div className="mt-3 flex flex-wrap items-center gap-2">
-                    <span className="text-xs font-bold text-gray-900 bg-gray-100 px-2 py-1 rounded-md border border-gray-200">Size: {product.size}</span>
-                    <span className="text-xs font-bold text-gray-900 bg-brand-50 px-2 py-1 rounded-md border border-brand-100">Code: {product.productCode}</span>
+                    <span className="inline-flex items-center gap-1 text-xs font-bold text-brand-700 bg-brand-50 px-2.5 py-1 rounded-md border border-brand-100">
+                      <Layers className="h-3 w-3" /> {product.variantCount} {product.variantCount === 1 ? 'Variant' : 'Variants'}
+                    </span>
                   </div>
                 </div>
               </Link>
@@ -347,8 +348,8 @@ export default function HomePage() {
                   <p className="text-xs text-brand-600 font-medium">{product.category?.name}</p>
                   <h3 className="font-semibold text-gray-900 mt-1 line-clamp-2 text-sm group-hover:text-brand-600 transition-colors">{product.productName}</h3>
                   <div className="mt-3 flex flex-wrap items-center gap-2">
-                    <span className="text-xs font-bold text-gray-900 bg-gray-100 px-2 py-1 rounded-md border border-gray-200">Size: {product.size}</span>
-                    <span className="text-xs font-bold text-gray-900 bg-brand-50 px-2 py-1 rounded-md border border-brand-100">Code: {product.productCode}</span>
+                    <span className="text-xs font-bold text-gray-900 bg-gray-100 px-2 py-1 rounded-md border border-gray-200">Size: {product.variants?.[0]?.size || '-'}</span>
+                    <span className="text-xs font-bold text-gray-900 bg-brand-50 px-2 py-1 rounded-md border border-brand-100">Code: {product.variants?.[0]?.productCode}</span>
                   </div>
                 </div>
               </Link>

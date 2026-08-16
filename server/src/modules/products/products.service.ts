@@ -585,6 +585,360 @@ export class ProductsService {
     };
   }
 
+  /**
+   * Helper to check if a category chain contains "tubewell"
+   */
+  private isTubewellCategory(category: any): boolean {
+    if (!category) return false;
+    const name = category.name?.toLowerCase() || '';
+    if (name.includes('tubewell')) return true;
+    if (category.parent) return this.isTubewellCategory(category.parent);
+    return false;
+  }
+
+  /**
+   * Returns products grouped by productName.
+   * Tubewell products are returned individually (not grouped).
+   */
+  async findGrouped(query: QueryProductsDto) {
+    const {
+      page = 1,
+      limit = 12,
+      search,
+      categoryId,
+      status,
+      size,
+      sortBy = 'createdAt',
+      sortOrder = 'desc',
+    } = query;
+
+    const where: Prisma.ProductWhereInput = {
+      isDeleted: false,
+    };
+
+    if (search) {
+      where.OR = [
+        { productName: { contains: search, mode: 'insensitive' } },
+        { productCode: { contains: search, mode: 'insensitive' } },
+        { description: { contains: search, mode: 'insensitive' } },
+        { category: { name: { contains: search, mode: 'insensitive' } } },
+      ];
+    }
+
+    if (categoryId) {
+      const catFilter = [
+        { categoryId },
+        { category: { parentId: categoryId } },
+        { category: { parent: { parentId: categoryId } } },
+      ];
+      if (search) {
+        where.AND = [{ OR: catFilter }];
+      } else {
+        where.OR = catFilter;
+      }
+    }
+
+    if (status) where.status = status;
+    if (size) where.size = { contains: size, mode: 'insensitive' };
+
+    // Fetch all matching products (we group in-memory)
+    const allProducts = await this.prisma.product.findMany({
+      where,
+      include: {
+        category: {
+          include: {
+            parent: {
+              include: { parent: true },
+            },
+          },
+        },
+        images: {
+          orderBy: { sortOrder: 'asc' },
+          take: 1,
+        },
+      },
+      orderBy: { productName: 'asc' },
+    });
+
+    // Separate tubewell products from others
+    const tubewellProducts: any[] = [];
+    const otherProducts: any[] = [];
+
+    for (const product of allProducts) {
+      if (this.isTubewellCategory(product.category)) {
+        tubewellProducts.push(product);
+      } else {
+        otherProducts.push(product);
+      }
+    }
+
+    // Group non-tubewell products by productName
+    const groupMap = new Map<string, any>();
+    for (const product of otherProducts) {
+      const key = product.productName;
+      if (!groupMap.has(key)) {
+        groupMap.set(key, {
+          id: product.id, // ID of first product (used for links)
+          productName: product.productName,
+          slug: product.slug,
+          description: product.description,
+          category: product.category,
+          features: product.features,
+          applications: product.applications,
+          images: product.images,
+          isTubewell: false,
+          variantCount: 0,
+          variants: [],
+        });
+      }
+      const group = groupMap.get(key);
+      group.variantCount++;
+      group.variants.push({
+        id: product.id,
+        productCode: product.productCode,
+        slug: product.slug,
+        size: product.size,
+        thicknessMm: product.thicknessMm,
+        length: product.length,
+        color: product.color,
+        classType: product.classType,
+        material: product.material,
+        fittingConnectionType: product.fittingConnectionType,
+        brandManufacturer: product.brandManufacturer,
+        status: product.status,
+      });
+      // Use first product that has an image
+      if (
+        (!group.images || group.images.length === 0) &&
+        product.images?.length > 0
+      ) {
+        group.images = product.images;
+      }
+    }
+
+    // Add tubewell products as individual entries
+    for (const tw of tubewellProducts) {
+      groupMap.set(`__tw_${tw.id}`, {
+        id: tw.id,
+        productName: tw.productName,
+        slug: tw.slug,
+        description: tw.description,
+        category: tw.category,
+        features: tw.features,
+        applications: tw.applications,
+        images: tw.images,
+        isTubewell: true,
+        variantCount: 1,
+        variants: [
+          {
+            id: tw.id,
+            productCode: tw.productCode,
+            slug: tw.slug,
+            size: tw.size,
+            thicknessMm: tw.thicknessMm,
+            length: tw.length,
+            color: tw.color,
+            classType: tw.classType,
+            material: tw.material,
+            fittingConnectionType: tw.fittingConnectionType,
+            brandManufacturer: tw.brandManufacturer,
+            status: tw.status,
+          },
+        ],
+      });
+    }
+
+    const allGrouped = Array.from(groupMap.values());
+
+    // Sort grouped results
+    if (sortBy === 'name') {
+      allGrouped.sort((a, b) =>
+        sortOrder === 'asc'
+          ? a.productName.localeCompare(b.productName)
+          : b.productName.localeCompare(a.productName),
+      );
+    } else if (sortBy === 'variants') {
+      allGrouped.sort((a, b) =>
+        sortOrder === 'asc'
+          ? a.variantCount - b.variantCount
+          : b.variantCount - a.variantCount,
+      );
+    }
+    // Default: keep alphabetical order
+
+    // Paginate
+    const total = allGrouped.length;
+    const start = (page - 1) * limit;
+    const paginated = allGrouped.slice(start, start + limit);
+
+    return {
+      data: paginated,
+      meta: {
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit),
+      },
+    };
+  }
+
+  /**
+   * Find a product group by slug — returns the product info + all variants with the same name.
+   * For tubewell products, returns single product (old behavior).
+   */
+  async findGroupedBySlug(slug: string) {
+    const product = await this.prisma.product.findUnique({
+      where: { slug },
+      include: {
+        category: {
+          include: {
+            parent: {
+              include: { parent: true },
+            },
+          },
+        },
+        images: {
+          orderBy: { sortOrder: 'asc' },
+        },
+      },
+    });
+
+    if (!product || product.isDeleted) {
+      throw new NotFoundException('Product not found');
+    }
+
+    const isTubewell = this.isTubewellCategory(product.category);
+
+    // Increment view count on the accessed product
+    await this.prisma.product.update({
+      where: { id: product.id },
+      data: { viewCount: { increment: 1 } },
+    });
+
+    if (isTubewell) {
+      // Return single product (old behavior)
+      return {
+        ...product,
+        isTubewell: true,
+        variants: [
+          {
+            id: product.id,
+            productCode: product.productCode,
+            slug: product.slug,
+            size: product.size,
+            thicknessMm: product.thicknessMm,
+            length: product.length,
+            color: product.color,
+            classType: product.classType,
+            material: product.material,
+            fittingConnectionType: product.fittingConnectionType,
+            brandManufacturer: product.brandManufacturer,
+            status: product.status,
+          },
+        ],
+      };
+    }
+
+    // Find all sibling products with the same name
+    const siblings = await this.prisma.product.findMany({
+      where: {
+        productName: product.productName,
+        isDeleted: false,
+      },
+      include: {
+        images: {
+          orderBy: { sortOrder: 'asc' },
+          take: 1,
+        },
+      },
+      orderBy: { size: 'asc' },
+    });
+
+    const variants = siblings.map((s) => ({
+      id: s.id,
+      productCode: s.productCode,
+      slug: s.slug,
+      size: s.size,
+      thicknessMm: s.thicknessMm,
+      length: s.length,
+      color: s.color,
+      classType: s.classType,
+      material: s.material,
+      fittingConnectionType: s.fittingConnectionType,
+      brandManufacturer: s.brandManufacturer,
+      status: s.status,
+      images: s.images,
+    }));
+
+    // Collect all images from all variants for the gallery
+    const allImages = siblings.flatMap((s) => s.images || []);
+    // Deduplicate by filePath
+    const uniqueImages = Array.from(
+      new Map(allImages.map((img) => [img.filePath, img])).values(),
+    );
+
+    return {
+      ...product,
+      images: uniqueImages.length > 0 ? uniqueImages : product.images,
+      isTubewell: false,
+      variants,
+      variantCount: variants.length,
+    };
+  }
+
+  /**
+   * Get related grouped products for the detail page.
+   * Returns other product groups from the same category (not tubewells).
+   */
+  async getRelatedGroupedProducts(
+    productName: string,
+    categoryId: string,
+    limit = 6,
+  ) {
+    // Find distinct product names in the same category tree (excluding the current product)
+    const related = await this.prisma.product.findMany({
+      where: {
+        productName: { not: productName },
+        isDeleted: false,
+        status: ProductStatus.ACTIVE,
+        OR: [
+          { categoryId },
+          { category: { parentId: categoryId } },
+          { category: { parent: { parentId: categoryId } } },
+        ],
+      },
+      include: {
+        category: {
+          include: {
+            parent: { include: { parent: true } },
+          },
+        },
+        images: { orderBy: { sortOrder: 'asc' }, take: 1 },
+      },
+      orderBy: { productName: 'asc' },
+    });
+
+    // Group by productName and deduplicate
+    const seen = new Set<string>();
+    const grouped: any[] = [];
+    for (const p of related) {
+      if (this.isTubewellCategory(p.category)) continue;
+      if (seen.has(p.productName)) continue;
+      seen.add(p.productName);
+      grouped.push({
+        id: p.id,
+        productName: p.productName,
+        slug: p.slug,
+        category: p.category,
+        images: p.images,
+        isTubewell: false,
+      });
+      if (grouped.length >= limit) break;
+    }
+
+    return grouped;
+  }
+
   private generateSlug(name: string, size?: string, code?: string): string {
     const parts = [name, size, code].filter(Boolean).join(' ');
     return parts

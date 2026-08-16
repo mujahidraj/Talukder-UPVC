@@ -21,6 +21,30 @@ export class ProductsController {
     return this.productsService.getFilterOptions(categoryId);
   }
 
+  @Get('grouped')
+  findGrouped(@Query() query: QueryProductsDto) {
+    return this.productsService.findGrouped(query);
+  }
+
+  @Get('grouped/:slug')
+  findGroupedBySlug(@Param('slug') slug: string) {
+    return this.productsService.findGroupedBySlug(slug);
+  }
+
+  @Get('grouped/:slug/related')
+  getRelatedGrouped(
+    @Param('slug') slug: string,
+    @Query('productName') productName: string,
+    @Query('categoryId') categoryId: string,
+    @Query('limit') limit?: number,
+  ) {
+    return this.productsService.getRelatedGroupedProducts(
+      productName,
+      categoryId,
+      limit,
+    );
+  }
+
   @Get(':slug')
   findBySlug(@Param('slug') slug: string) {
     return this.productsService.findBySlug(slug);

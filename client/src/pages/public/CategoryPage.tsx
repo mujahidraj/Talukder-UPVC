@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link, useSearchParams } from 'react-router-dom';
-import { ArrowRight, ChevronRight, Droplets, Filter, Grid3X3, List } from 'lucide-react';
+import { ArrowRight, ChevronRight, Droplets, Filter, Grid3X3, List, Layers } from 'lucide-react';
 import api from '../../lib/axios';
 
 export default function CategoryPage() {
@@ -14,7 +14,7 @@ export default function CategoryPage() {
 
   const search = searchParams.get('search') || '';
   const size = searchParams.get('size') || '';
-  const sortBy = searchParams.get('sort') || 'createdAt';
+  const sortBy = searchParams.get('sort') || 'name';
 
   useEffect(() => {
     if (category?.id) {
@@ -30,7 +30,8 @@ export default function CategoryPage() {
     api.get(`/categories/${slug}`)
       .then(r => {
         setCategory(r.data);
-        return api.get('/products', { params: { categoryId: r.data.id, limit: 100, search, size, sortBy } });
+        // Use grouped endpoint for this category
+        return api.get('/products/grouped', { params: { categoryId: r.data.id, limit: 100, search, size, sortBy } });
       })
       .then(r => setProducts(r.data.data))
       .catch(() => { })
@@ -137,9 +138,8 @@ export default function CategoryPage() {
                   <label className="block text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-3">Sort By</label>
                   <div className="flex flex-col gap-2">
                     {[
-                      { val: 'createdAt', label: 'Newest First' },
                       { val: 'name', label: 'Alphabetical (A-Z)' },
-                      { val: 'views', label: 'Most Viewed' }
+                      { val: 'variants', label: 'Most Variants' },
                     ].map(opt => (
                       <button
                         key={opt.val}
@@ -186,8 +186,18 @@ export default function CategoryPage() {
                   <div className="p-4">
                     <h3 className="font-semibold text-gray-900 mt-1 line-clamp-2 text-sm">{p.productName}</h3>
                     <div className="mt-3 flex flex-wrap items-center gap-2">
-                      <span className="text-xs font-bold text-gray-900 bg-gray-100 px-2 py-1 rounded-md border border-gray-200">Size: {p.size}</span>
-                      <span className="text-xs font-bold text-gray-900 bg-brand-50 px-2 py-1 rounded-md border border-brand-100">Code: {p.productCode}</span>
+                      {p.isTubewell ? (
+                        <>
+                          <span className="text-xs font-bold text-gray-900 bg-gray-100 px-2 py-1 rounded-md border border-gray-200">Size: {p.variants?.[0]?.size || '-'}</span>
+                          <span className="text-xs font-bold text-gray-900 bg-brand-50 px-2 py-1 rounded-md border border-brand-100">Code: {p.variants?.[0]?.productCode}</span>
+                        </>
+                      ) : (
+                        <>
+                          <span className="inline-flex items-center gap-1 text-xs font-bold text-brand-700 bg-brand-50 px-2.5 py-1 rounded-md border border-brand-100">
+                            <Layers className="h-3 w-3" /> {p.variantCount} {p.variantCount === 1 ? 'Variant' : 'Variants'}
+                          </span>
+                        </>
+                      )}
                     </div>
                   </div>
                 </Link>
@@ -204,7 +214,13 @@ export default function CategoryPage() {
                     <div>
                       <div className="flex items-center justify-between mb-3">
                         <span className="text-xs font-bold text-brand-700 bg-brand-50 border border-brand-100 px-3 py-1 rounded-full uppercase tracking-wider">{category?.name || p.category?.name}</span>
-                        <span className="text-xs font-mono text-gray-500 bg-gray-50 border border-gray-100 px-2 py-1 rounded-md">CODE: {p.productCode}</span>
+                        {p.isTubewell ? (
+                          <span className="text-xs font-mono text-gray-500 bg-gray-50 border border-gray-100 px-2 py-1 rounded-md">CODE: {p.variants?.[0]?.productCode}</span>
+                        ) : (
+                          <span className="inline-flex items-center gap-1 text-xs font-bold text-brand-700 bg-brand-50 px-2.5 py-1 rounded-md border border-brand-100">
+                            <Layers className="h-3 w-3" /> {p.variantCount} {p.variantCount === 1 ? 'Variant' : 'Variants'}
+                          </span>
+                        )}
                       </div>
                       <h3 className="text-lg sm:text-xl font-bold text-gray-900 group-hover:text-brand-700 transition-colors line-clamp-2">{p.productName}</h3>
                       {p.description && (
@@ -213,16 +229,13 @@ export default function CategoryPage() {
                     </div>
 
                     <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3">
-                      {p.size && (
+                      {!p.isTubewell && p.variantCount > 1 && (
                         <div className="flex items-center gap-1.5 text-sm">
-                          <span className="text-gray-400">Size:</span>
-                          <span className="font-semibold text-gray-900">{p.size}</span>
-                        </div>
-                      )}
-                      {p.material && (
-                        <div className="flex items-center gap-1.5 text-sm">
-                          <span className="text-gray-400">Material:</span>
-                          <span className="font-semibold text-gray-900">{p.material}</span>
+                          <span className="text-gray-400">Sizes:</span>
+                          <span className="font-semibold text-gray-900">
+                            {p.variants?.slice(0, 3).map((v: any) => v.size).filter(Boolean).join(', ')}
+                            {p.variants?.length > 3 ? ` +${p.variants.length - 3} more` : ''}
+                          </span>
                         </div>
                       )}
 
