@@ -260,7 +260,7 @@ export default function HomePage() {
               View All Catalog <ArrowRight className="h-5 w-5" />
             </Link>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 lg:gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 lg:gap-8">
             {featured.map((product: any) => (
               <Link
                 key={product.id}
@@ -304,7 +304,7 @@ export default function HomePage() {
         className="py-16 md:py-32 relative bg-cover bg-center bg-fixed"
         style={{ backgroundImage: 'url("/images/factory 3.jpg")' }}
       >
-        <div className="absolute inset-0 bg-slate-50/80 backdrop-blur-[2px] z-0"></div>
+        <div className="absolute inset-0 bg-slate-50/70 z-0"></div>
         <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent z-10"></div>
         <div className="max-w-7xl mx-auto px-4 relative z-10">
           <div className="text-center mb-16 md:mb-20">
@@ -347,7 +347,7 @@ export default function HomePage() {
               View All Tubewells <ArrowRight className="h-5 w-5" />
             </Link>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 lg:gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 lg:gap-8">
             {tubewells.map((product: any) => (
               <Link
                 key={product.id}
@@ -443,10 +443,17 @@ export default function HomePage() {
               <Users className="h-6 w-6 text-brand-600" /> Trusted by Industry Leaders
             </h2>
           </div>
-          <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
-            {[1, 2, 3, 4, 5].map((i) => (
-              <div key={i} className="flex items-center gap-2 text-xl font-black text-gray-400 cursor-default">
-                <Building2 className="h-8 w-8" /> PARTNER {i}
+          <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16 transition-all duration-500">
+            {[
+              { name: 'BADC', img: '/Partners/BADC.png' },
+              { name: 'Chittagong Wasa', img: '/Partners/Chittagong Wasa.png' },
+              { name: 'DPHE', img: '/Partners/DPHE.png' },
+              { name: 'Dhaka Wasa', img: '/Partners/Dhaka Wasa.png' },
+              { name: 'JICA', img: '/Partners/JICA.webp' },
+              { name: 'Barind', img: '/Partners/barind.webp' }
+            ].map((partner) => (
+              <div key={partner.name} className="flex items-center justify-center h-16 w-32 md:h-20 md:w-40 hover:scale-110 transition-transform duration-300">
+                <img src={partner.img} alt={partner.name} className="max-h-full max-w-full object-contain" />
               </div>
             ))}
           </div>
@@ -454,14 +461,17 @@ export default function HomePage() {
       </section>
 
       {/* CTA */}
-      <section className="py-24 bg-white relative overflow-hidden">
-        <div className="absolute inset-0 bg-brand-50/50"></div>
+      <section 
+        className="py-24 relative overflow-hidden bg-cover bg-[center_75%]"
+        style={{ backgroundImage: 'url("/images/upvc pip.jpg")' }}
+      >
+        <div className="absolute inset-0 bg-white/60 z-0"></div>
         <div className="max-w-5xl mx-auto px-4 text-center relative z-10">
-          <div className="inline-flex items-center gap-2 bg-brand-100 text-brand-700 text-xs font-bold tracking-wide uppercase px-4 py-2 rounded-full mb-6">
-            <CheckCircle2 className="h-4 w-4" /> Available Nationwide
+          <div className="inline-flex items-center gap-2 bg-brand-100/90 text-brand-800 text-xs font-bold tracking-wide uppercase px-4 py-2 rounded-full mb-6 border border-brand-200">
+            <CheckCircle2 className="h-4 w-4 text-brand-600" /> Available Nationwide
           </div>
           <h2 className="text-4xl md:text-5xl font-heading font-black text-brand-950 tracking-tight">Ready to Place an Order?</h2>
-          <p className="mt-6 text-gray-600 text-lg md:text-xl font-medium max-w-2xl mx-auto leading-relaxed">Browse our catalog and add products to your enquiry list for a customized quote.</p>
+          <p className="mt-6 text-gray-800 text-lg md:text-xl font-medium max-w-2xl mx-auto leading-relaxed drop-shadow-sm">Browse our catalog and add products to your enquiry list for a customized quote.</p>
           <div className="mt-10 flex flex-wrap justify-center gap-5">
             <Link to="/products" className="group relative inline-flex items-center gap-2 bg-brand-600 text-white px-8 py-4 rounded-xl font-bold transition-all duration-300 shadow-[0_10px_20px_-10px_rgba(59,130,246,0.6)] hover:shadow-[0_15px_30px_-10px_rgba(59,130,246,0.8)] hover:-translate-y-1 overflow-hidden">
               <span className="absolute inset-0 bg-gradient-to-r from-brand-500 via-brand-600 to-brand-700 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></span>
