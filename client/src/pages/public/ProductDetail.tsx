@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ChevronRight, Heart, ShoppingCart, Droplets, Share2, Package, Layers, ArrowRight } from 'lucide-react';
+import { ChevronRight, Heart, ShoppingCart, Droplets, Share2, Package, Layers, ArrowRight, CheckCircle2, Sparkles, Zap } from 'lucide-react';
 import toast from 'react-hot-toast';
 import api from '../../lib/axios';
 import SEO from '../../components/SEO';
@@ -75,6 +75,17 @@ export default function ProductDetail() {
   const isTubewell = product.isTubewell;
   const variants = product.variants || [];
   const isMultiVariant = variants.length > 1;
+
+  // Split features and applications by ";" so each part is its own item
+  const parsedFeatures = (product.features || [])
+    .flatMap((f: string) => f.split(';'))
+    .map((f: string) => f.trim())
+    .filter((f: string) => f.length > 0);
+
+  const parsedApplications = (product.applications || [])
+    .flatMap((a: string) => a.split(';'))
+    .map((a: string) => a.trim())
+    .filter((a: string) => a.length > 0);
 
   // Determine which spec columns have data (for the table header)
   const hasSize = variants.some((v: any) => v.size && v.size !== '-');
@@ -159,25 +170,41 @@ export default function ProductDetail() {
                 </table>
               </div>
 
-              {product.features?.length > 0 && (
-                <div className="mt-6">
-                  <h3 className="text-sm font-semibold text-gray-900 mb-2">Features</h3>
-                  <ul className="space-y-1">
-                    {product.features.map((f: string, i: number) => (
-                      <li key={i} className="text-sm text-gray-600 flex items-start gap-2">
-                        <span className="text-brand-500 mt-1">•</span> {f}
-                      </li>
-                    ))}
-                  </ul>
+              {parsedFeatures.length > 0 && (
+                <div className="mt-8">
+                  <div className="flex items-center gap-2 mb-4">
+                    <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center shadow-sm">
+                      <Sparkles className="h-4 w-4 text-white" />
+                    </div>
+                    <h3 className="text-base font-heading font-bold text-gray-900">Key Features</h3>
+                  </div>
+                  <div className="bg-gradient-to-br from-brand-50/60 to-white rounded-xl border border-brand-100/60 p-4">
+                    <div className="grid grid-cols-1 gap-2.5">
+                      {parsedFeatures.map((f: string, i: number) => (
+                        <div key={i} className="flex items-start gap-3 bg-white/80 rounded-lg px-3.5 py-2.5 border border-brand-50 hover:border-brand-200 hover:shadow-sm transition-all group">
+                          <CheckCircle2 className="h-4.5 w-4.5 text-emerald-500 mt-0.5 flex-shrink-0" />
+                          <span className="text-sm text-gray-700 font-medium leading-snug">{f}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               )}
 
               {product.applications?.length > 0 && (
-                <div className="mt-4">
-                  <h3 className="text-sm font-semibold text-gray-900 mb-2">Applications</h3>
+                <div className="mt-6">
+                  <div className="flex items-center gap-2 mb-3">
+                    <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center shadow-sm">
+                      <Zap className="h-4 w-4 text-white" />
+                    </div>
+                    <h3 className="text-base font-heading font-bold text-gray-900">Applications</h3>
+                  </div>
                   <div className="flex flex-wrap gap-2">
                     {product.applications.map((a: string, i: number) => (
-                      <span key={i} className="px-3 py-1 bg-brand-50 text-brand-700 rounded-full text-xs font-medium">{a}</span>
+                      <span key={i} className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-gradient-to-r from-brand-50 to-brand-100/50 text-brand-800 rounded-full text-xs font-semibold border border-brand-200/50 hover:shadow-md hover:-translate-y-0.5 transition-all cursor-default">
+                        <span className="w-1.5 h-1.5 rounded-full bg-brand-500"></span>
+                        {a}
+                      </span>
                     ))}
                   </div>
                 </div>
@@ -233,25 +260,41 @@ export default function ProductDetail() {
                 <p className="mt-6 text-gray-600 leading-relaxed">{product.description}</p>
               )}
 
-              {product.features?.length > 0 && (
-                <div className="mt-6">
-                  <h3 className="text-sm font-semibold text-gray-900 mb-2">Features</h3>
-                  <ul className="space-y-1">
-                    {product.features.map((f: string, i: number) => (
-                      <li key={i} className="text-sm text-gray-600 flex items-start gap-2">
-                        <span className="text-brand-500 mt-1">•</span> {f}
-                      </li>
-                    ))}
-                  </ul>
+              {parsedFeatures.length > 0 && (
+                <div className="mt-8">
+                  <div className="flex items-center gap-2 mb-4">
+                    <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center shadow-sm">
+                      <Sparkles className="h-4 w-4 text-white" />
+                    </div>
+                    <h3 className="text-base font-heading font-bold text-gray-900">Key Features</h3>
+                  </div>
+                  <div className="bg-gradient-to-br from-brand-50/60 to-white rounded-xl border border-brand-100/60 p-4">
+                    <div className="grid grid-cols-1 gap-2.5">
+                      {parsedFeatures.map((f: string, i: number) => (
+                        <div key={i} className="flex items-start gap-3 bg-white/80 rounded-lg px-3.5 py-2.5 border border-brand-50 hover:border-brand-200 hover:shadow-sm transition-all group">
+                          <CheckCircle2 className="h-4.5 w-4.5 text-emerald-500 mt-0.5 flex-shrink-0" />
+                          <span className="text-sm text-gray-700 font-medium leading-snug">{f}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               )}
 
-              {product.applications?.length > 0 && (
-                <div className="mt-4">
-                  <h3 className="text-sm font-semibold text-gray-900 mb-2">Applications</h3>
+              {parsedApplications.length > 0 && (
+                <div className="mt-6">
+                  <div className="flex items-center gap-2 mb-3">
+                    <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center shadow-sm">
+                      <Zap className="h-4 w-4 text-white" />
+                    </div>
+                    <h3 className="text-base font-heading font-bold text-gray-900">Applications</h3>
+                  </div>
                   <div className="flex flex-wrap gap-2">
-                    {product.applications.map((a: string, i: number) => (
-                      <span key={i} className="px-3 py-1 bg-brand-50 text-brand-700 rounded-full text-xs font-medium">{a}</span>
+                    {parsedApplications.map((a: string, i: number) => (
+                      <span key={i} className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-gradient-to-r from-brand-50 to-brand-100/50 text-brand-800 rounded-full text-xs font-semibold border border-brand-200/50 hover:shadow-md hover:-translate-y-0.5 transition-all cursor-default">
+                        <span className="w-1.5 h-1.5 rounded-full bg-brand-500"></span>
+                        {a}
+                      </span>
                     ))}
                   </div>
                 </div>
