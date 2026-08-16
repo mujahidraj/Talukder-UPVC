@@ -30,10 +30,17 @@ export default function ProductDetail() {
   }, [slug]);
 
   const addToWishlist = () => {
-    const list = JSON.parse(localStorage.getItem('talukder-wishlist') || '[]');
+    let list = [];
+    try {
+      const parsed = JSON.parse(localStorage.getItem('talukder-wishlist') || '[]');
+      list = Array.isArray(parsed) ? parsed : [];
+    } catch {
+      list = [];
+    }
     if (list.find((w: any) => w.id === product.id)) { toast('Already in wishlist'); return; }
-    list.push({ id: product.id, name: product.productName, slug: product.slug, code: product.productCode, size: product.size });
+    list.push({ id: product.id, name: product.productName, slug: product.slug, code: product.productCode || '', size: product.size || '' });
     localStorage.setItem('talukder-wishlist', JSON.stringify(list));
+    window.dispatchEvent(new Event('wishlist-updated'));
     api.post('/wishlist/track', { productId: product.id }).catch(() => {});
     toast.success('Added to wishlist!');
   };

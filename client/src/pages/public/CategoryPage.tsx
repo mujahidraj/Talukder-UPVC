@@ -52,7 +52,7 @@ export default function CategoryPage() {
   return (
     <div className="bg-slate-50 min-h-screen pt-8 pb-20">
       <div className="max-w-7xl mx-auto px-4">
-        <nav className="flex items-center text-sm text-gray-400 mb-6 gap-2">
+        <nav className="flex flex-wrap items-center text-sm text-gray-400 mb-6 gap-2">
           <Link to="/" className="hover:text-brand-600">Home</Link>
           <ChevronRight className="h-3 w-3" />
           <Link to="/products" className="hover:text-brand-600">Products</Link>
@@ -177,7 +177,7 @@ export default function CategoryPage() {
           ) : products.length === 0 ? (
             <div className="py-20 text-center text-gray-400">No products found matching your criteria.</div>
           ) : viewMode === 'grid' ? (
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
               {products.map((p: any) => (
                 <Link key={p.id} to={`/products/${p.slug}`} className="group bg-white rounded-2xl border border-gray-100 overflow-hidden hover:shadow-lg hover:border-brand-200 transition-all duration-300">
                   <div className="aspect-square bg-gray-50 flex items-center justify-center p-4">

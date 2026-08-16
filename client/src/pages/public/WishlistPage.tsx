@@ -17,6 +17,7 @@ export default function WishlistPage() {
     const next = items.filter(i => i.id !== id);
     setItems(next);
     localStorage.setItem('talukder-wishlist', JSON.stringify(next));
+    window.dispatchEvent(new Event('wishlist-updated'));
     toast.success('Removed from wishlist');
   };
 
@@ -30,6 +31,7 @@ export default function WishlistPage() {
     if (!enq.find((e: any) => e.id === item.id)) {
       enq.push({ id: item.id, name: item.name, code: item.code, size: item.size, quantity: 1 });
       localStorage.setItem('talukder-enquiry', JSON.stringify(enq));
+      window.dispatchEvent(new Event('enquiry-updated'));
     }
     remove(item.id);
     toast.success('Moved to enquiry list');

@@ -48,24 +48,28 @@ export default function PublicHeader({ onEnquiryClick }: HeaderProps = {}) {
     return () => document.removeEventListener('mousedown', handler);
   }, []);
 
-  const wishlistItems = JSON.parse(localStorage.getItem('talukder-wishlist') || '[]');
+  const [wishlistItems, setWishlistItems] = useState<any[]>([]);
   const [enquiryCount, setEnquiryCount] = useState(0);
 
-  // Sync enquiry count from localStorage
+  // Sync enquiry and wishlist from localStorage
   useEffect(() => {
     const sync = () => {
-      const items = JSON.parse(localStorage.getItem('talukder-enquiry') || '[]');
-      setEnquiryCount(items.length);
+      const eItems = JSON.parse(localStorage.getItem('talukder-enquiry') || '[]');
+      setEnquiryCount(eItems.length);
+      const wItems = JSON.parse(localStorage.getItem('talukder-wishlist') || '[]');
+      setWishlistItems(wItems);
     };
     sync();
     // Listen for storage events from other tabs and custom events from same tab
     window.addEventListener('storage', sync);
     window.addEventListener('enquiry-updated', sync);
+    window.addEventListener('wishlist-updated', sync);
     // Poll every 2s as fallback for same-tab localStorage changes
     const interval = setInterval(sync, 2000);
     return () => {
       window.removeEventListener('storage', sync);
       window.removeEventListener('enquiry-updated', sync);
+      window.removeEventListener('wishlist-updated', sync);
       clearInterval(interval);
     };
   }, []);
@@ -258,7 +262,7 @@ export default function PublicHeader({ onEnquiryClick }: HeaderProps = {}) {
               <Link to="/wishlist" className="relative text-gray-600 hover:text-brand-700 transition-colors">
                 <Heart className="h-5 w-5" />
                 {wishlistItems.length > 0 && (
-                  <span className="absolute -top-2 -right-2 h-4 w-4 bg-brand-600 text-white text-[10px] font-bold flex items-center justify-center">
+                  <span className="absolute -top-2 -right-2 h-4 w-4 bg-brand-600 text-white text-[10px] font-bold flex items-center justify-center rounded-full">
                     {wishlistItems.length}
                   </span>
                 )}

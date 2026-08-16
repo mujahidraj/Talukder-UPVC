@@ -167,7 +167,7 @@ export default function HomePage() {
       {/* Product Categories & Trust Bar */}
       <section
         className="pb-16 pt-0 md:pb-32 md:pt-0 relative bg-cover bg-center bg-fixed z-20"
-        style={{ backgroundImage: 'url("/images/pipe2.jpg")' }}
+        style={{ backgroundImage: 'url("/images/tubewell.jpg")' }}
       >
         <div className="absolute inset-0 bg-gradient-to-b from-white/90 via-white/70 to-white/90 z-0"></div>
 
@@ -300,7 +300,7 @@ export default function HomePage() {
       </section>
 
       {/* Applications & Use Cases */}
-      <section 
+      <section
         className="py-16 md:py-32 relative bg-cover bg-center bg-fixed"
         style={{ backgroundImage: 'url("/images/factory 3.jpg")' }}
       >
@@ -461,7 +461,7 @@ export default function HomePage() {
       </section>
 
       {/* CTA */}
-      <section 
+      <section
         className="py-24 relative overflow-hidden bg-cover bg-[center_75%]"
         style={{ backgroundImage: 'url("/images/upvc pip.jpg")' }}
       >
