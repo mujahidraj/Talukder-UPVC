@@ -12,28 +12,34 @@ export default function HomePage() {
   const [currentBanner, setCurrentBanner] = useState(0);
 
   useEffect(() => {
-    api.get('/cms/banners').then(r => setBanners(r.data)).catch(() => {});
+    api.get('/cms/banners').then(r => {
+      const data = r.data || [];
+      if (data.length > 0) {
+        data[0].imageUrl = '/images/factory 2.jpg';
+      }
+      setBanners(data);
+    }).catch(() => { });
     api.get('/categories/tree').then(r => {
       // Prioritize the categories that actually have all the imported products
       const mainCatNames = ['agricultural', 'upvc doors', 'fittings', 'pipes', 'tubewells'];
       const filtered = r.data.filter((c: any) => mainCatNames.includes(c.name.toLowerCase()));
-      
+
       // If the old categories still exist instead, fallback to them
       if (filtered.length < 5) {
         const fallback = ['upvc fittings', 'upvc pipes'];
         const extra = r.data.filter((c: any) => fallback.includes(c.name.toLowerCase()) && !filtered.find((f: any) => f.name.includes('Pipes') && c.name.includes('Pipes')));
         filtered.push(...extra);
       }
-      
+
       setCategories(filtered.slice(0, 5));
-    }).catch(() => {});
+    }).catch(() => { });
     api.get('/products/grouped', { params: { limit: 50, sortBy: 'name' } }).then(r => {
       const all = r.data.data || [];
       const tbw = all.filter((p: any) => p.isTubewell);
       const others = all.filter((p: any) => !p.isTubewell);
       setFeatured(others.slice(0, 8));
       setTubewells(tbw.slice(0, 8));
-    }).catch(() => {});
+    }).catch(() => { });
   }, []);
 
   useEffect(() => {
@@ -58,19 +64,19 @@ export default function HomePage() {
         {hasBanners ? (
           <>
             {banners.map((banner, idx) => (
-              <div 
+              <div
                 key={banner.id}
                 className={`absolute inset-0 w-full h-full transition-opacity duration-1000 ${idx === currentBanner ? 'opacity-100' : 'opacity-0'}`}
               >
-                <img 
-                  src={banner.imageUrl} 
+                <img
+                  src={banner.imageUrl}
                   className="w-full h-full object-cover object-center scale-105 transform origin-center animate-[subtle-zoom_20s_infinite_alternate]"
                   alt={banner.title || 'Talukder uPVC Banner'}
                 />
               </div>
             ))}
             <div className="absolute inset-0 bg-gradient-to-r from-brand-950/90 via-brand-950/60 to-transparent" />
-            
+
             <div className="max-w-7xl mx-auto px-4 py-24 md:py-32 relative w-full z-10">
               <div className="max-w-3xl" key={currentBanner} style={{ animation: 'fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards' }}>
                 {activeBanner.subtitle && (
@@ -103,13 +109,13 @@ export default function HomePage() {
                 </div>
               </div>
             </div>
-            
+
             {/* Slider Dots */}
             {banners.length > 1 && (
               <div className="absolute bottom-24 md:bottom-12 left-0 right-0 flex justify-center gap-3 z-20">
                 {banners.map((_, idx) => (
-                  <button 
-                    key={idx} 
+                  <button
+                    key={idx}
                     onClick={() => setCurrentBanner(idx)}
                     className={`h-2.5 rounded-full transition-all duration-500 ${idx === currentBanner ? 'w-10 bg-accent-400 shadow-[0_0_10px_rgba(56,189,248,0.8)]' : 'w-2.5 bg-white/40 hover:bg-white/80'}`}
                     aria-label={`Go to slide ${idx + 1}`}
@@ -122,14 +128,14 @@ export default function HomePage() {
           /* Fallback static hero */
           <>
             <div className="absolute inset-0 w-full h-full">
-              <img 
-                src="/images/tube.png" 
+              <img
+                src="/images/factory 2.jpg"
                 className="w-full h-full object-cover object-center opacity-90 scale-105 transform animate-[subtle-zoom_20s_infinite_alternate]"
                 alt="Talukder uPVC"
               />
             </div>
             <div className="absolute inset-0 bg-gradient-to-r from-brand-950/90 via-brand-950/70 to-brand-950/20" />
-            
+
             <div className="max-w-7xl mx-auto px-4 py-24 md:py-32 relative w-full z-10">
               <div className="max-w-3xl" style={{ animation: 'fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards' }}>
                 <div className="inline-flex items-center gap-2 bg-brand-800/40 backdrop-blur-md text-brand-100 text-xs font-bold tracking-wide uppercase px-5 py-2.5 rounded-full mb-8 border border-brand-500/30 shadow-[0_0_20px_rgba(59,130,246,0.3)]">
@@ -159,12 +165,12 @@ export default function HomePage() {
       </section>
 
       {/* Product Categories & Trust Bar */}
-      <section 
+      <section
         className="pb-16 pt-0 md:pb-32 md:pt-0 relative bg-cover bg-center bg-fixed z-20"
-        style={{ backgroundImage: 'url("/images/HERO-IMAGE-1.png")' }}
+        style={{ backgroundImage: 'url("/images/pipe2.jpg")' }}
       >
-        <div className="absolute inset-0 bg-gradient-to-b from-white/95 via-white/80 to-white/95 z-0 backdrop-blur-[2px]"></div>
-        
+        <div className="absolute inset-0 bg-gradient-to-b from-white/90 via-white/70 to-white/90 z-0"></div>
+
         {/* Trust Bar (Full Width Glassmorphism) */}
         <div className="relative z-30 w-full -mt-12 sm:-mt-16 mb-16 md:mb-24">
           <div className="bg-brand-950/80 backdrop-blur-xl border-y border-brand-800/50 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.5)] overflow-hidden">
@@ -201,13 +207,13 @@ export default function HomePage() {
             {categories.map((cat: any) => {
               const getBgImage = (name: string) => {
                 const n = name.toLowerCase();
-                if (n.includes('door')) return '/images/cat-doors.png';
-                if (n.includes('agri')) return '/images/cat-agri.jpg';
-                if (n.includes('tube')) return '/images/cat-tubewells.jpg';
-                if (n.includes('fitting')) return '/images/cat-fittings.png';
-                return '/images/cat-pipes.jpg';
+                if (n.includes('door')) return '/images/factory.jpg';
+                if (n.includes('agri')) return '/images/factory 2.jpg';
+                if (n.includes('tube')) return '/images/tube.png';
+                if (n.includes('fitting')) return '/images/fitting.jpg';
+                return '/images/upvc pip.jpg';
               };
-              
+
               return (
                 <Link
                   key={cat.id}
@@ -215,21 +221,18 @@ export default function HomePage() {
                   className="flex-1 min-w-[260px] max-w-md group relative rounded-[2rem] p-8 bg-white shadow-[0_10px_40px_-10px_rgba(0,0,0,0.08)] magic-border magic-border-white hover:shadow-[0_20px_50px_-15px_rgba(59,130,246,0.2)] hover:-translate-y-3 transition-all duration-500 overflow-hidden block"
                 >
                   {/* Product Image Background */}
-                  <div 
-                    className="absolute inset-0 bg-cover bg-center z-0 group-hover:scale-110 transition-transform duration-1000 opacity-20 group-hover:opacity-30" 
+                  <div
+                    className="absolute inset-0 bg-cover bg-center z-0 group-hover:scale-105 transition-transform duration-1000 opacity-100"
                     style={{ backgroundImage: `url('${getBgImage(cat.name)}')` }}
                   ></div>
-                  <div className="absolute inset-0 bg-gradient-to-t from-white via-white/90 to-white/60 z-0 transition-opacity duration-500"></div>
-                  
-                  {/* Decorative element */}
-                  <div className="absolute -top-10 -right-10 w-40 h-40 bg-gradient-to-br from-brand-100 to-accent-100 rounded-full opacity-40 blur-2xl group-hover:opacity-80 group-hover:scale-150 transition-all duration-700 z-0"></div>
-                  
+                  <div className="absolute inset-0 bg-gradient-to-t from-white via-white/50 to-transparent z-0 transition-opacity duration-500"></div>
+
                   <div className="flex items-start justify-end relative z-10">
                     <div className="h-12 w-12 rounded-full bg-white flex items-center justify-center shadow-md group-hover:bg-brand-500 group-hover:shadow-[0_0_20px_rgba(59,130,246,0.4)] transition-all duration-500 border border-gray-100 group-hover:border-transparent">
                       <ArrowRight className="h-6 w-6 text-brand-600 group-hover:text-white transition-colors transform group-hover:translate-x-1" />
                     </div>
                   </div>
-                  
+
                   <div className="mt-16 relative z-10">
                     <h3 className="text-2xl font-heading font-black text-gray-900 group-hover:text-brand-700 transition-colors drop-shadow-sm">{cat.name}</h3>
                     <div className="mt-4 inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-xl border border-gray-200/50 shadow-sm group-hover:border-brand-200 transition-colors">
@@ -297,9 +300,13 @@ export default function HomePage() {
       </section>
 
       {/* Applications & Use Cases */}
-      <section className="py-16 md:py-32 bg-slate-50/50 relative">
-        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent"></div>
-        <div className="max-w-7xl mx-auto px-4">
+      <section 
+        className="py-16 md:py-32 relative bg-cover bg-center bg-fixed"
+        style={{ backgroundImage: 'url("/images/factory 3.jpg")' }}
+      >
+        <div className="absolute inset-0 bg-slate-50/80 backdrop-blur-[2px] z-0"></div>
+        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent z-10"></div>
+        <div className="max-w-7xl mx-auto px-4 relative z-10">
           <div className="text-center mb-16 md:mb-20">
             <h2 className="text-3xl md:text-5xl font-heading font-black text-brand-950 tracking-tight">Applications & Use Cases</h2>
             <p className="mt-6 text-gray-600 max-w-2xl mx-auto text-lg font-medium">Tailored uPVC solutions engineered for diverse industries and demanding everyday needs.</p>
@@ -311,15 +318,15 @@ export default function HomePage() {
               { title: 'Industrial', desc: 'Heavy-duty pipes for chemical transport.', icon: Factory, color: 'from-orange-400 to-rose-500' },
               { title: 'Infrastructure', desc: 'Underground sewerage and supply lines.', icon: HardHat, color: 'from-purple-400 to-indigo-500' },
             ].map((app) => (
-              <div key={app.title} className="bg-white rounded-[2rem] p-8 shadow-[0_10px_30px_-15px_rgba(0,0,0,0.05)] border border-gray-100 hover:shadow-[0_20px_40px_-15px_rgba(59,130,246,0.15)] hover:-translate-y-2 transition-all duration-500 text-center group relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent to-gray-50/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div key={app.title} className="bg-blue-50 rounded-[2rem] p-8 shadow-sm border border-blue-100 hover:border-blue-300 hover:bg-blue-100 hover:shadow-[0_20px_40px_-15px_rgba(59,130,246,0.15)] hover:-translate-y-2 transition-all duration-500 text-center group relative overflow-hidden">
+                <div className="absolute inset-0 bg-blue-200/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 <div className="relative z-10 flex flex-col items-center">
-                  <div className="h-20 w-20 rounded-2xl bg-gray-50 border border-gray-100 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500 group-hover:border-transparent group-hover:shadow-[0_10px_20px_-10px_rgba(0,0,0,0.2)]">
-                    <div className={`absolute inset-0 bg-gradient-to-br ${app.color} opacity-0 group-hover:opacity-10 rounded-2xl transition-opacity duration-500`}></div>
-                    <app.icon className="h-10 w-10 text-gray-400 group-hover:text-brand-600 transition-colors duration-500" />
+                  <div className="h-20 w-20 rounded-2xl bg-white border border-blue-200 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500 group-hover:border-transparent group-hover:shadow-[0_10px_20px_-10px_rgba(59,130,246,0.2)]">
+                    <div className={`absolute inset-0 bg-gradient-to-br from-blue-100 to-blue-200 opacity-0 group-hover:opacity-30 rounded-2xl transition-opacity duration-500`}></div>
+                    <app.icon className="h-10 w-10 text-blue-500 group-hover:text-blue-600 transition-colors duration-500" />
                   </div>
-                  <h3 className="font-heading font-bold text-xl text-gray-900 mb-3">{app.title}</h3>
-                  <p className="text-base text-gray-500 font-medium leading-relaxed">{app.desc}</p>
+                  <h3 className="font-heading font-bold text-xl text-brand-900 mb-3">{app.title}</h3>
+                  <p className="text-base text-gray-600 font-medium leading-relaxed">{app.desc}</p>
                 </div>
               </div>
             ))}
@@ -382,14 +389,14 @@ export default function HomePage() {
 
 
       {/* Why Talukder */}
-      <section 
+      <section
         className="py-20 md:py-32 relative text-white overflow-hidden bg-brand-950 bg-cover bg-center bg-fixed"
         style={{ backgroundImage: 'url("/images/why chose.png")' }}
       >
         {/* Dark overlay to ensure text readability against the image */}
         <div className="absolute inset-0 bg-brand-950/70 backdrop-blur-[2px]"></div>
         <div className="absolute inset-0 bg-gradient-to-b from-brand-950 via-transparent to-brand-950"></div>
-        
+
         <div className="max-w-7xl mx-auto px-4 relative z-10">
           <div className="text-center mb-16 md:mb-24">
             <div className="inline-flex items-center gap-2 bg-white/5 backdrop-blur-md text-brand-100 text-xs font-bold tracking-wide uppercase px-5 py-2.5 rounded-full mb-6 border border-white/10 shadow-[0_0_20px_rgba(255,255,255,0.05)]">
@@ -398,7 +405,7 @@ export default function HomePage() {
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-heading font-black text-white tracking-tight">Why Choose <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent-400 to-brand-200">Talukder uPVC?</span></h2>
             <p className="mt-6 text-brand-100/80 max-w-2xl mx-auto text-lg font-medium leading-relaxed">Industry-leading quality backed by decades of manufacturing excellence and a relentless pursuit of perfection.</p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-10">
             {[
               { title: 'International Standards', desc: 'All products manufactured with rigorous quality control at every stage of production.', icon: Award },
@@ -408,12 +415,12 @@ export default function HomePage() {
               <div key={item.title} className="group relative bg-brand-900/40 backdrop-blur-xl border border-white/10 rounded-[2rem] p-10 hover:bg-brand-800/50 hover:border-accent-500/40 transition-all duration-500 hover:-translate-y-3 hover:shadow-[0_20px_40px_-10px_rgba(56,189,248,0.2)] overflow-hidden">
                 {/* Accent top border glow */}
                 <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-accent-400 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 shadow-[0_0_20px_rgba(56,189,248,1)]"></div>
-                
+
                 {/* Large faded background icon */}
                 <div className="absolute -right-10 -bottom-10 opacity-[0.02] group-hover:opacity-[0.05] group-hover:scale-125 transition-all duration-700 pointer-events-none transform -rotate-12">
                   <item.icon className="w-56 h-56 text-white" />
                 </div>
-                
+
                 <div className="relative z-10">
                   <div className="h-16 w-16 rounded-2xl bg-gradient-to-br from-brand-800 to-brand-950 border border-brand-700 shadow-[inset_0_2px_10px_rgba(255,255,255,0.1)] flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-500 group-hover:border-accent-500/50">
                     <item.icon className="h-8 w-8 text-accent-400 group-hover:text-white transition-colors" />
