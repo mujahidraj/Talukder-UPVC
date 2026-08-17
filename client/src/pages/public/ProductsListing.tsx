@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { Grid3X3, List, Filter, Droplets, ChevronRight, ArrowRight, Layers } from 'lucide-react';
 import api from '../../lib/axios';
+import SEO from '../../components/SEO';
 
 export default function ProductsListing() {
   const [products, setProducts] = useState<any[]>([]);
@@ -57,6 +58,11 @@ export default function ProductsListing() {
 
   return (
     <div className="bg-slate-50 min-h-screen pt-8 pb-20">
+      <SEO 
+        title="All Products" 
+        description="Browse our complete range of uPVC pipes, fittings, and accessories. BS-3505 certified, manufactured in Bangladesh by Talukder uPVC Fittings Ltd." 
+        canonical="/products" 
+      />
       <div className="max-w-7xl mx-auto px-4">
         {/* Breadcrumb */}
         <nav className="flex items-center text-sm text-gray-400 mb-6 gap-2">

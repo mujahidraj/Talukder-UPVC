@@ -140,7 +140,7 @@ export default function ContactPage() {
                   <label className="block text-sm font-semibold text-gray-700">Full Name *</label>
                   <input 
                     required 
-                    placeholder="John Doe"
+                    placeholder="Abdul Karim"
                     className="w-full bg-slate-50 border border-slate-200 text-gray-900 px-4 py-3 rounded-xl focus:ring-2 focus:ring-accent-500/20 focus:border-accent-500 transition-all outline-none" 
                     value={form.name} 
                     onChange={e => setForm({...form, name: e.target.value})} 
@@ -164,7 +164,7 @@ export default function ContactPage() {
                   <input 
                     required 
                     type="email" 
-                    placeholder="john@example.com"
+                    placeholder="abdul.karim@example.com"
                     className="w-full bg-slate-50 border border-slate-200 text-gray-900 px-4 py-3 rounded-xl focus:ring-2 focus:ring-accent-500/20 focus:border-accent-500 transition-all outline-none" 
                     value={form.email} 
                     onChange={e => setForm({...form, email: e.target.value})} 

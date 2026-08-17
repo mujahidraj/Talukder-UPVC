@@ -1,9 +1,15 @@
 import React from 'react';
 import { Award, ShieldCheck, FileCheck } from 'lucide-react';
+import SEO from '../../components/SEO';
 
 export default function CertificationsPage() {
   return (
     <div>
+      <SEO 
+        title="Certifications & Standards" 
+        description="Talukder uPVC products are BS-3505 certified, ISO 9001:2015 compliant, and BSTI approved. Quality you can trust for water supply and drainage." 
+        canonical="/certifications" 
+      />
       <section className="bg-gradient-to-br from-brand-900 to-brand-950 text-white py-20">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h1 className="text-4xl font-heading font-bold">Certifications & Standards</h1>

@@ -107,8 +107,8 @@ export default function ProductDetail() {
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
       <SEO 
-        title={product.productName} 
-        description={product.description || `Buy ${product.productName} from Talukder uPVC.`} 
+        title={product.metaTitle || product.productName} 
+        description={product.metaDescription || product.description || `Buy ${product.productName} – premium uPVC pipes & fittings from Talukder uPVC Fittings Ltd.`} 
         canonical={`/products/${product.slug}`} 
         type="product" 
         image={product.images?.[0]?.fullPath ? `http://localhost:3000${product.images[0].fullPath}` : undefined} 

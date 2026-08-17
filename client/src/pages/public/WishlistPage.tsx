@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Heart, Trash2, ShoppingCart } from 'lucide-react';
 import toast from 'react-hot-toast';
+import SEO from '../../components/SEO';
 
 export default function WishlistPage() {
   const [items, setItems] = useState<any[]>(() => {
@@ -39,6 +40,12 @@ export default function WishlistPage() {
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-12">
+      <SEO 
+        title="My Wishlist" 
+        description="Your saved uPVC products wishlist. Review and enquire about your favourite items from Talukder uPVC Fittings Ltd." 
+        canonical="/wishlist" 
+        noIndex 
+      />
       <h1 className="text-3xl font-heading font-bold text-brand-950 flex items-center gap-3">
         <Heart className="h-8 w-8 text-red-500" /> My Wishlist
       </h1>

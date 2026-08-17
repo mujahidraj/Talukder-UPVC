@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link, useSearchParams } from 'react-router-dom';
 import { ArrowRight, ChevronRight, Droplets, Filter, Grid3X3, List, Layers } from 'lucide-react';
 import api from '../../lib/axios';
+import SEO from '../../components/SEO';
 
 export default function CategoryPage() {
   const { slug } = useParams();
@@ -51,6 +52,11 @@ export default function CategoryPage() {
 
   return (
     <div className="bg-slate-50 min-h-screen pt-8 pb-20">
+      <SEO 
+        title={category.metaTitle || category.name} 
+        description={category.metaDescription || category.description || `Browse ${category.name} – premium uPVC pipes & fittings from Talukder uPVC Fittings Ltd.`} 
+        canonical={`/categories/${category.slug}`} 
+      />
       <div className="max-w-7xl mx-auto px-4">
         <nav className="flex flex-wrap items-center text-sm text-gray-400 mb-6 gap-2">
           <Link to="/" className="hover:text-brand-600">Home</Link>

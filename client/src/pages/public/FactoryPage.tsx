@@ -1,9 +1,15 @@
 import React from 'react';
 import { Factory, Cog, Gauge, Zap } from 'lucide-react';
+import SEO from '../../components/SEO';
 
 export default function FactoryPage() {
   return (
     <div>
+      <SEO 
+        title="Our Factory" 
+        description="Visit our state-of-the-art uPVC manufacturing facility in Jashore, Bangladesh. Modern extrusion lines, auto-belling machines, and rigorous quality testing." 
+        canonical="/factory" 
+      />
       <section className="bg-gradient-to-br from-brand-900 to-brand-950 text-white py-20">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h1 className="text-4xl font-heading font-bold">Our Factory</h1>

@@ -1,9 +1,15 @@
 import React from 'react';
 import { Download, FileText } from 'lucide-react';
+import SEO from '../../components/SEO';
 
 export default function DownloadsPage() {
   return (
     <div>
+      <SEO 
+        title="Downloads" 
+        description="Download Talukder uPVC product catalogs, BS-3505 compliance sheets, pressure rating guides, and installation manuals." 
+        canonical="/downloads" 
+      />
       <section className="bg-gradient-to-br from-brand-900 to-brand-950 text-white py-20">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h1 className="text-4xl font-heading font-bold">Downloads</h1>

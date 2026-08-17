@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ShoppingCart, Trash2, Plus, Minus, Send, CheckCircle } from 'lucide-react';
 import toast from 'react-hot-toast';
 import api from '../../lib/axios';
+import SEO from '../../components/SEO';
 
 export default function EnquiryPage() {
   const [items, setItems] = useState<any[]>(() => JSON.parse(localStorage.getItem('talukder-enquiry') || '[]'));
@@ -55,6 +56,12 @@ export default function EnquiryPage() {
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-12">
+      <SEO 
+        title="Enquiry / Quote Request" 
+        description="Submit your uPVC product enquiry and get a quote from Talukder uPVC Fittings Ltd. Fast response within 24 hours." 
+        canonical="/enquiry" 
+        noIndex 
+      />
       <h1 className="text-3xl font-heading font-bold text-brand-950 flex items-center gap-3">
         <ShoppingCart className="h-8 w-8 text-brand-600" /> Enquiry / Quote Request
       </h1>
