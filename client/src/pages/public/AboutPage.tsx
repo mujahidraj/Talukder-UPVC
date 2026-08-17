@@ -32,7 +32,7 @@ export default function AboutPage() {
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-300 to-brand-50">Piping Systems</span>
             </h1>
             <p className="text-lg md:text-xl text-white leading-relaxed max-w-2xl font-medium">
-              Talukder uPVC Fittings Ltd., a proud concern of Talukder Group of Industries, has been delivering uncompromising quality across Bangladesh for years.
+              Talukder <span className="text-red-600">u</span>PVC Fittings Ltd., a proud concern of Talukder Group of Industries, has been delivering uncompromising quality across Bangladesh for years.
             </p>
           </div>
         </div>
@@ -70,7 +70,7 @@ export default function AboutPage() {
               </h2>
               <div className="prose prose-lg text-gray-600 max-w-none">
                 <p>
-                  Talukder uPVC Fittings Ltd. is one of the leading and most trusted manufacturers of uPVC pipes and fittings in Bangladesh. Since our inception, we have been driven by a singular commitment: to produce a comprehensive range of uPVC products that stand the test of time.
+                  Talukder <span className="text-red-600">u</span>PVC Fittings Ltd. is one of the leading and most trusted manufacturers of <span className="text-red-600">u</span>PVC pipes and fittings in Bangladesh. Since our inception, we have been driven by a singular commitment: to produce a comprehensive range of <span className="text-red-600">u</span>PVC products that stand the test of time.
                 </p>
                 <p>
                   Our manufacturing facility is equipped with state-of-the-art machinery, including high-precision auto-belling machines, ensuring consistent quality and structural integrity across all our products. We specialize in solutions for water supply, deep tube-wells, drainage, irrigation, and modern sanitation applications.
@@ -120,7 +120,7 @@ export default function AboutPage() {
               </div>
               <h3 className="text-3xl font-heading font-bold text-gray-900 mb-4">Our Mission</h3>
               <p className="text-lg text-gray-600 leading-relaxed">
-                To manufacture and deliver the highest quality uPVC pipes and fittings that provide safe, sustainable, and affordable water management solutions for every household and industry in Bangladesh, while ensuring continuous innovation and customer satisfaction.
+                To manufacture and deliver the highest quality <span className="text-red-600">u</span>PVC pipes and fittings that provide safe, sustainable, and affordable water management solutions for every household and industry in Bangladesh, while ensuring continuous innovation and customer satisfaction.
               </p>
             </div>
             
@@ -239,7 +239,7 @@ export default function AboutPage() {
           </div>
           <h2 className="text-3xl md:text-4xl font-heading font-bold text-gray-900 mb-6">A Concern of Talukder Group</h2>
           <p className="text-lg text-gray-600 leading-relaxed mb-8">
-            Talukder uPVC Fittings Ltd. draws its strength and corporate governance from its parent organization, the <strong>Talukder Group of Industries</strong>. With diverse business interests and a rich history of contributing to the national economy, the Group provides the financial stability, strategic vision, and vast distribution network that allows us to serve our customers better every single day.
+            Talukder <span className="text-red-600">u</span>PVC Fittings Ltd. draws its strength and corporate governance from its parent organization, the <strong>Talukder Group of Industries</strong>. With diverse business interests and a rich history of contributing to the national economy, the Group provides the financial stability, strategic vision, and vast distribution network that allows us to serve our customers better every single day.
           </p>
         </div>
       </section>

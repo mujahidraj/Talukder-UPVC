@@ -100,7 +100,7 @@ export default function PublicHeader({ onEnquiryClick }: HeaderProps = {}) {
             <Link to="/" className="flex items-center gap-3 flex-shrink-0">
               <img src="/LOGO/Talukder-uPVC-Fittings-LTD-3.png" alt="Talukder uPVC Fittings Ltd." className="h-12 w-auto object-contain" />
               <div className="hidden sm:block">
-                <span className="text-xl font-heading font-bold tracking-tight"><span className="text-accent-600">Talukder uPVC</span></span>
+                <span className="text-xl font-heading font-bold tracking-tight"><span className="text-brand-800">Talukder </span><span className="text-red-600">u</span><span className="text-brand-800">PVC</span></span>
                 <p className="text-[10px] text-brand-800 uppercase tracking-widest font-semibold mt-0.5">Fittings Ltd.</p>
               </div>
             </Link>

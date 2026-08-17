@@ -14,12 +14,12 @@ export default function PublicFooter() {
               <div className="flex items-center gap-3 mb-4">
                 <img src="/LOGO/Talukder-uPVC-Fittings-LTD-4.png" alt="Talukder uPVC Fittings Ltd." className="h-10 w-auto object-contain" />
                 <div>
-                  <h3 className="font-heading font-bold text-lg"><span className="text-accent-400">Talukder uPVC</span></h3>
+                  <h3 className="font-heading font-bold text-lg"><span className="text-accent-400">Talukder </span><span className="text-red-500">u</span><span className="text-accent-400">PVC</span></h3>
                   <p className="text-xs text-brand-300">Fittings Ltd.</p>
                 </div>
               </div>
               <p className="text-sm leading-relaxed text-brand-300">
-                A concern of Talukder Group of Industries. Leading manufacturer of uPVC pipes and fittings in Bangladesh since establishment.
+                A concern of Talukder Group of Industries. Leading manufacturer of <span className="text-red-500">u</span>PVC pipes and fittings in Bangladesh since establishment.
               </p>
               <div className="flex gap-4 mt-6">
                 <a href="#" className="w-10 h-10 rounded-full bg-brand-800 flex items-center justify-center hover:bg-brand-600 transition-colors">
@@ -62,7 +62,7 @@ export default function PublicFooter() {
                 {['uPVC Pressure Pipes', 'uPVC Fittings', 'SWR Pipes & Fittings', 'Casing Pipes', 'Electrical Conduit'].map((cat) => (
                   <li key={cat}>
                     <Link to="/products" className="text-sm text-brand-300 hover:text-white transition-colors hover:pl-1 duration-200">
-                      {cat}
+                      {cat.startsWith('uPVC') ? <><span className="text-red-500">u</span>PVC{cat.substring(4)}</> : cat}
                     </Link>
                   </li>
                 ))}
@@ -94,7 +94,7 @@ export default function PublicFooter() {
         <div className="border-t border-brand-800">
           <div className="max-w-7xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-2">
             <p className="text-xs text-brand-400">
-              © {new Date().getFullYear()} <span className="text-accent-400">Talukder uPVC</span> Fittings Ltd. All rights reserved.
+              © {new Date().getFullYear()} <span className="text-accent-400">Talukder </span><span className="text-red-500">u</span><span className="text-accent-400">PVC</span> Fittings Ltd. All rights reserved.
             </p>
             <div className="flex gap-4 text-xs text-brand-400">
               <Link to="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link>

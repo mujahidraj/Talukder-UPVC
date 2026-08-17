@@ -223,7 +223,7 @@ export default function ProductsManager() {
         <div>
           <h1 className="text-2xl font-heading font-semibold text-gray-900">Products Catalog</h1>
           <p className="mt-2 text-sm text-gray-700">
-            Manage your uPVC products, update specifications, and organize categories.
+            Manage your <span className="text-red-600">u</span>PVC products, update specifications, and organize categories.
           </p>
         </div>
         <div className="mt-4 sm:mt-0 flex gap-3">

@@ -19,10 +19,10 @@ export default function DownloadsPage() {
       <section className="max-w-4xl mx-auto px-4 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {[
-            { title: 'Product Catalog (Full PDF)', desc: 'Complete catalog of all uPVC pipes and fittings', size: '2.4 MB', href: '#' },
+            { title: 'Product Catalog (Full PDF)', desc: <>Complete catalog of all <span className="text-red-600">u</span>PVC pipes and fittings</>, size: '2.4 MB', href: '#' },
             { title: 'BS-3505 Compliance Sheet', desc: 'Technical specification and compliance documentation', size: '680 KB', href: '#' },
             { title: 'Pressure Rating Guide', desc: 'Guide to pipe classes and pressure ratings', size: '420 KB', href: '#' },
-            { title: 'Installation Manual', desc: 'Step-by-step installation guide for uPVC pipes', size: '1.2 MB', href: '#' },
+            { title: 'Installation Manual', desc: <>Step-by-step installation guide for <span className="text-red-600">u</span>PVC pipes</>, size: '1.2 MB', href: '#' },
           ].map(doc => (
             <a key={doc.title} href={doc.href} className="flex items-start gap-4 bg-white rounded-2xl border border-gray-100 p-6 hover:shadow-lg hover:border-brand-200 transition-all group">
               <div className="h-12 w-12 rounded-xl bg-brand-50 flex items-center justify-center flex-shrink-0 group-hover:bg-brand-100 transition-colors">

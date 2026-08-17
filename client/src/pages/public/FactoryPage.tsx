@@ -18,7 +18,7 @@ export default function FactoryPage() {
       </section>
       <section className="max-w-5xl mx-auto px-4 py-16">
         <div className="prose prose-lg max-w-none text-gray-600 mb-12">
-          <p>Our manufacturing facility, located in Baniargati, Bashundia, Jashore, is equipped with modern machinery and technology to produce uPVC pipes and fittings of the highest quality.</p>
+          <p>Our manufacturing facility, located in Baniargati, Bashundia, Jashore, is equipped with modern machinery and technology to produce <span className="text-red-600">u</span>PVC pipes and fittings of the highest quality.</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {[

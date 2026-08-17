@@ -72,7 +72,7 @@ export default function AdminLayout() {
             <div className="flex-1 h-0 pt-5 pb-4 overflow-y-auto">
               <div className="flex-shrink-0 flex items-center px-4 gap-3">
                 <img src="/LOGO/Talukder-uPVC-Fittings-LTD-5.png" alt="Talukder uPVC" className="h-8 w-auto object-contain" />
-                <span className="text-2xl font-heading font-bold"><span className="text-accent-400">Talukder uPVC</span></span>
+                <span className="text-2xl font-heading font-bold"><span className="text-accent-400">Talukder </span><span className="text-red-500">u</span><span className="text-accent-400">PVC</span></span>
               </div>
               <nav className="mt-5 px-2 space-y-1">
                 {navigation.filter(item => !item.roles || item.roles.includes(user?.role || 'SUPER_ADMIN')).map((item) => (
@@ -101,7 +101,7 @@ export default function AdminLayout() {
             <div className="flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
               <div className="flex items-center flex-shrink-0 px-6 gap-3">
                 <img src="/LOGO/Talukder-uPVC-Fittings-LTD-5.png" alt="Talukder uPVC" className="h-8 w-auto object-contain" />
-                <span className="text-xl font-heading font-bold"><span className="text-accent-400">Talukder uPVC</span></span>
+                <span className="text-xl font-heading font-bold"><span className="text-accent-400">Talukder </span><span className="text-red-500">u</span><span className="text-accent-400">PVC</span></span>
               </div>
 
               <nav className="mt-8 flex-1 px-4 space-y-1">

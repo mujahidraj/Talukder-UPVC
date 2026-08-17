@@ -76,7 +76,7 @@ export default function ContactPage() {
             Get in <span className="text-accent-500">Touch</span>
           </h1>
           <p className="mt-4 text-white text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
-            Have questions about our uPVC products? Looking for a custom quote? Our dedicated team is ready to help you find the right solution.
+            Have questions about our <span className="text-red-600">u</span>PVC products? Looking for a custom quote? Our dedicated team is ready to help you find the right solution.
           </p>
         </div>
       </section>

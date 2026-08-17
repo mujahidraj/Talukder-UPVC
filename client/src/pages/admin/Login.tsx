@@ -51,7 +51,7 @@ export default function Login() {
             <img src="/LOGO/Talukder-uPVC-Fittings-LTD-3.png" alt="Talukder uPVC Fittings Ltd." className="h-full w-auto object-contain" />
           </div>
         <h2 className="mt-6 text-center text-3xl font-heading tracking-tight">
-          <span className="text-accent-600">Talukder uPVC</span> <span className="text-brand-800">Admin</span>
+          <span className="text-accent-600">Talukder </span><span className="text-red-600">u</span><span className="text-accent-600">PVC</span> <span className="text-brand-800">Admin</span>
         </h2>
         <p className="mt-2 text-center text-sm text-slate-600">
           Sign in to manage your catalog and enquiries

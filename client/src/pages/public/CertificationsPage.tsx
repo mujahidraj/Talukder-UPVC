@@ -19,7 +19,7 @@ export default function CertificationsPage() {
       <section className="max-w-5xl mx-auto px-4 py-16">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {[
-            { icon: Award, title: 'BS-3505 Standard', desc: 'All uPVC pressure pipes manufactured as per British Standard BS-3505, ensuring accurate wall thickness, dimensional precision, and pressure ratings.' },
+            { icon: Award, title: 'BS-3505 Standard', desc: <>All <span className="text-red-600">u</span>PVC pressure pipes manufactured as per British Standard BS-3505, ensuring accurate wall thickness, dimensional precision, and pressure ratings.</> },
             { icon: ShieldCheck, title: 'ISO 9001:2015', desc: 'Quality management system certified to ISO 9001:2015, reflecting our commitment to continuous improvement and customer satisfaction.' },
             { icon: FileCheck, title: 'BSTI Approved', desc: 'Products tested and approved by Bangladesh Standards and Testing Institution, meeting national quality requirements.' },
           ].map(cert => (
