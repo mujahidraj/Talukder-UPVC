@@ -42,7 +42,7 @@ export default function ProductDetail() {
     list.push({ id: product.id, name: product.productName, slug: product.slug, code: product.productCode || '', size: product.size || '' });
     localStorage.setItem('talukder-wishlist', JSON.stringify(list));
     window.dispatchEvent(new Event('wishlist-updated'));
-    api.post('/wishlist/track', { productId: product.id }).catch(() => {});
+    api.post('/wishlist/track', { productId: product.id }).catch(() => { });
     toast.success('Added to wishlist!');
   };
 
@@ -107,13 +107,13 @@ export default function ProductDetail() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
-      <SEO 
-        title={product.metaTitle || product.productName} 
-        description={product.metaDescription || product.description || `Buy ${product.productName} – premium uPVC pipes & fittings from Talukder uPVC Fittings Ltd.`} 
-        canonical={`/products/${product.slug}`} 
-        type="product" 
-        image={product.images?.[0]?.fullPath ? `http://localhost:3000${product.images[0].fullPath}` : undefined} 
-        jsonLd={productJsonLd(product)} 
+      <SEO
+        title={product.metaTitle || product.productName}
+        description={product.metaDescription || product.description || `Buy ${product.productName} – premium uPVC pipes & fittings from Talukder uPVC Fittings Ltd.`}
+        canonical={`/products/${product.slug}`}
+        type="product"
+        image={product.images?.[0]?.fullPath ? `http://localhost:3000${product.images[0].fullPath}` : undefined}
+        jsonLd={productJsonLd(product)}
       />
 
       {/* Breadcrumb */}
@@ -134,12 +134,25 @@ export default function ProductDetail() {
         <>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
             {/* Image */}
-            <div className="bg-white rounded-2xl border border-gray-100 p-4 lg:p-8 flex items-center justify-center min-h-[400px] md:min-h-[500px] lg:min-h-[600px]">
-              {product.images?.length > 0 ? (
-                <img src={`http://localhost:3000${product.images[0].fullPath || product.images[0].filePath}`} alt={product.productName} className="max-h-[400px] md:max-h-[500px] lg:max-h-[600px] max-w-full object-contain hover:scale-105 transition-transform duration-300" />
-              ) : (
-                <Droplets className="h-32 w-32 text-gray-200" />
-              )}
+            <div className="relative bg-white border-[3px] border-[#3769A8] flex flex-col justify-between min-h-[400px] md:min-h-[500px] lg:min-h-[600px] shadow-[8px_8px_15px_rgba(0,0,0,0.35)] overflow-hidden">
+              <div className="flex-1 flex items-center justify-center p-8 z-10 relative">
+                {product.images?.length > 0 ? (
+                  <img src={`http://localhost:3000${product.images[0].fullPath || product.images[0].filePath}`} alt={product.productName} className="max-h-[250px] md:max-h-[350px] lg:max-h-[400px] max-w-full object-contain hover:scale-105 transition-transform duration-300 drop-shadow-xl" />
+                ) : (
+                  <Droplets className="h-32 w-32 text-gray-200" />
+                )}
+              </div>
+              <div className="relative h-40 md:h-48 w-full mt-auto flex items-end">
+                <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="absolute bottom-0 left-0 w-full h-full text-[#3769A8] z-0">
+                  <path d="M0,50 C 40,50 70,40 100,0 L100,100 L0,100 Z" fill="currentColor" />
+                </svg>
+                <div className="relative z-10 w-full px-6 py-4 md:py-5 flex items-center justify-between">
+                  <h2 className="text-white text-xl md:text-2xl font-bold tracking-wide leading-tight">{product.productName}</h2>
+                  <div className="h-20 md:h-24 flex items-center justify-center flex-shrink-0 ml-4">
+                    <img src="/LOGO/Talukder-uPVC-Fittings-LTD-2.png" alt="Talukder uPVC Fittings LTD" className="h-full w-auto object-contain" />
+                  </div>
+                </div>
+              </div>
             </div>
 
             {/* Details */}
@@ -166,14 +179,18 @@ export default function ProductDetail() {
                       ['Color', product.color],
                       ['Class', product.classType],
                       ['Material', product.material],
-                      ['Brand', product.brandManufacturer],
                       ['Status', product.status],
-                    ].filter(([, val]) => val).map(([label, value]) => (
-                      <tr key={label as string}>
-                        <td className="px-4 py-3 font-medium text-gray-500 bg-gray-50 w-1/3">{label}</td>
-                        <td className="px-4 py-3 text-gray-900">{value}</td>
-                      </tr>
-                    ))}
+                    ].filter(([, val]) => val).map(([label, value], idx) => {
+                      const isEven = idx % 2 === 0;
+                      const col1Bg = isEven ? 'bg-[#E8E8E8]' : 'bg-[#D6D6D6]';
+                      const col2Bg = isEven ? 'bg-[#E4E6F2]' : 'bg-[#D7DAED]';
+                      return (
+                        <tr key={label as string}>
+                          <td className={`px-4 py-2 font-bold text-gray-900 w-1/3 ${col1Bg}`}>{label}</td>
+                          <td className={`px-4 py-2 text-gray-900 font-medium ${col2Bg}`}>{value}</td>
+                        </tr>
+                      )
+                    })}
                   </tbody>
                 </table>
               </div>
@@ -238,19 +255,32 @@ export default function ProductDetail() {
         <>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
             {/* Image */}
-            <div className="bg-white rounded-2xl border border-gray-100 p-4 lg:p-8 flex items-center justify-center min-h-[400px] md:min-h-[500px] lg:min-h-[600px]">
-              {product.images?.length > 0 ? (
-                <img src={`http://localhost:3000${product.images[0].fullPath || product.images[0].filePath}`} alt={product.productName} className="max-h-[400px] md:max-h-[500px] lg:max-h-[600px] max-w-full object-contain hover:scale-105 transition-transform duration-300" />
-              ) : (
-                <Droplets className="h-32 w-32 text-gray-200" />
-              )}
+            <div className="relative bg-white border-[3px] border-[#3769A8] flex flex-col justify-between min-h-[400px] md:min-h-[500px] lg:min-h-[600px] shadow-[8px_8px_15px_rgba(0,0,0,0.35)] overflow-hidden">
+              <div className="flex-1 flex items-center justify-center p-8 z-10 relative">
+                {product.images?.length > 0 ? (
+                  <img src={`http://localhost:3000${product.images[0].fullPath || product.images[0].filePath}`} alt={product.productName} className="max-h-[250px] md:max-h-[350px] lg:max-h-[400px] max-w-full object-contain hover:scale-105 transition-transform duration-300 drop-shadow-xl" />
+                ) : (
+                  <Droplets className="h-32 w-32 text-gray-200" />
+                )}
+              </div>
+              <div className="relative h-40 md:h-48 w-full mt-auto flex items-end">
+                <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="absolute bottom-0 left-0 w-full h-full text-[#3769A8] z-0">
+                  <path d="M0,50 C 40,50 70,40 100,0 L100,100 L0,100 Z" fill="currentColor" />
+                </svg>
+                <div className="relative z-10 w-full px-6 py-4 md:py-5 flex items-center justify-between">
+                  <h2 className="text-white text-xl md:text-2xl font-bold tracking-wide leading-tight">{product.productName}</h2>
+                  <div className="h-20 md:h-24 flex items-center justify-center flex-shrink-0 ml-4">
+                    <img src="/LOGO/Talukder-uPVC-Fittings-LTD-2.png" alt="Talukder uPVC Fittings LTD" className="h-full w-auto object-contain" />
+                  </div>
+                </div>
+              </div>
             </div>
 
             {/* Product Info */}
             <div>
               <span className="text-sm text-brand-600 font-medium">{product.category?.name}</span>
               <h1 className="text-2xl md:text-3xl font-heading font-bold text-brand-950 mt-2">{product.productName}</h1>
-              
+
               {/* Variant count badge */}
               <div className="mt-3 flex flex-wrap items-center gap-3">
                 <span className="inline-flex items-center gap-2 text-sm font-semibold text-brand-700 bg-brand-50 px-4 py-2 rounded-xl border border-brand-100">
@@ -339,54 +369,58 @@ export default function ProductDetail() {
               )}
             </div>
 
-            <div className="border border-gray-200 rounded-2xl overflow-hidden bg-white shadow-sm">
+            <div className="overflow-hidden shadow-sm">
               <div className="overflow-x-auto">
-                <table className="w-full text-sm">
+                <table className="w-full text-sm border-collapse">
                   <thead>
-                    <tr className="bg-gradient-to-r from-brand-50 to-brand-100/50 border-b border-brand-100">
-                      <th className="px-4 py-3.5 text-left text-xs font-bold text-brand-800 uppercase tracking-wider">Code</th>
-                      {hasSize && <th className="px-4 py-3.5 text-left text-xs font-bold text-brand-800 uppercase tracking-wider">Size</th>}
-                      {hasThickness && <th className="px-4 py-3.5 text-left text-xs font-bold text-brand-800 uppercase tracking-wider">Thickness (mm)</th>}
-                      {hasLength && <th className="px-4 py-3.5 text-left text-xs font-bold text-brand-800 uppercase tracking-wider">Length</th>}
-                      {hasFitting && <th className="px-4 py-3.5 text-left text-xs font-bold text-brand-800 uppercase tracking-wider">Fitting</th>}
-                      {hasColor && <th className="px-4 py-3.5 text-left text-xs font-bold text-brand-800 uppercase tracking-wider">Color</th>}
-                      {hasClass && <th className="px-4 py-3.5 text-left text-xs font-bold text-brand-800 uppercase tracking-wider">Class</th>}
-                      {hasMaterial && <th className="px-4 py-3.5 text-left text-xs font-bold text-brand-800 uppercase tracking-wider">Material</th>}
-                      {hasBrand && <th className="px-4 py-3.5 text-left text-xs font-bold text-brand-800 uppercase tracking-wider">Brand</th>}
-                      <th className="px-4 py-3.5 text-right text-xs font-bold text-brand-800 uppercase tracking-wider">Action</th>
+                    <tr>
+                      <th className="px-4 py-2 text-center text-sm font-bold text-white bg-[#6B6B6B] whitespace-nowrap">Code</th>
+                      {hasSize && <th className="px-4 py-2 text-left text-sm font-bold text-white bg-[#50539F] whitespace-nowrap">Size</th>}
+                      {hasThickness && <th className="px-4 py-2 text-center text-sm font-bold text-white bg-[#8393CD] whitespace-nowrap">Thickness (mm)</th>}
+                      {hasLength && <th className="px-4 py-2 text-center text-sm font-bold text-white bg-[#8393CD] whitespace-nowrap">Length</th>}
+                      {hasFitting && <th className="px-4 py-2 text-center text-sm font-bold text-white bg-[#8393CD] whitespace-nowrap">Fitting</th>}
+                      {hasColor && <th className="px-4 py-2 text-center text-sm font-bold text-white bg-[#8393CD] whitespace-nowrap">Color</th>}
+                      {hasClass && <th className="px-4 py-2 text-center text-sm font-bold text-white bg-[#8393CD] whitespace-nowrap">Class</th>}
+                      {hasMaterial && <th className="px-4 py-2 text-center text-sm font-bold text-white bg-[#8393CD] whitespace-nowrap">Material</th>}
+                      <th className="px-4 py-2 text-right text-sm font-bold text-white bg-[#8393CD] whitespace-nowrap">Action</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-gray-100">
-                    {variants.map((v: any, idx: number) => (
-                      <tr 
-                        key={v.id} 
-                        className={`hover:bg-brand-50/40 transition-colors cursor-pointer ${idx % 2 === 0 ? 'bg-white' : 'bg-gray-50/50'}`}
-                        onClick={() => navigate(`/products/${v.slug}`)}
-                      >
-                        <td className="px-4 py-3.5">
-                          <span className="font-mono font-bold text-gray-900 bg-gray-100 px-2.5 py-1 rounded-md border border-gray-200 text-xs">{v.productCode}</span>
-                        </td>
-                        {hasSize && <td className="px-4 py-3.5 font-semibold text-gray-900">{v.size || '-'}</td>}
-                        {hasThickness && <td className="px-4 py-3.5 text-gray-700">{v.thicknessMm || '-'}</td>}
-                        {hasLength && <td className="px-4 py-3.5 text-gray-700">{v.length || '-'}</td>}
-                        {hasFitting && <td className="px-4 py-3.5 text-gray-700">{v.fittingConnectionType || '-'}</td>}
-                        {hasColor && <td className="px-4 py-3.5 text-gray-700">{v.color || '-'}</td>}
-                        {hasClass && <td className="px-4 py-3.5 text-gray-700">{v.classType || '-'}</td>}
-                        {hasMaterial && <td className="px-4 py-3.5 text-gray-700">{v.material || '-'}</td>}
-                        {hasBrand && <td className="px-4 py-3.5 text-gray-700">{v.brandManufacturer || '-'}</td>}
-                        <td className="px-4 py-3.5 text-right">
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              addVariantToEnquiry(v);
-                            }}
-                            className="inline-flex items-center gap-1.5 bg-brand-600 text-white px-3 py-1.5 rounded-lg text-xs font-semibold hover:bg-brand-700 transition-colors shadow-sm"
-                          >
-                            <ShoppingCart className="h-3.5 w-3.5" /> Enquire
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
+                  <tbody>
+                    {variants.map((v: any, idx: number) => {
+                      const isEven = idx % 2 === 0;
+                      const codeBg = isEven ? 'bg-[#E8E8E8]' : 'bg-[#D6D6D6]';
+                      const sizeBg = isEven ? 'bg-[#FFFFFF]' : 'bg-[#8292CA]';
+                      const restBg = isEven ? 'bg-[#E4E6F2]' : 'bg-[#D7DAED]';
+                      return (
+                        <tr
+                          key={v.id}
+                          className={`hover:opacity-90 transition-opacity cursor-pointer text-gray-900 font-bold whitespace-nowrap`}
+                          onClick={() => navigate(`/products/${v.slug}`)}
+                        >
+                          <td className={`px-4 py-2 ${codeBg} text-center`}>
+                            {v.productCode}
+                          </td>
+                          {hasSize && <td className={`px-4 py-2 ${sizeBg} text-left`}>{v.size || '-'}</td>}
+                          {hasThickness && <td className={`px-4 py-2 ${restBg} text-center`}>{v.thicknessMm || '-'}</td>}
+                          {hasLength && <td className={`px-4 py-2 ${restBg} text-center`}>{v.length || '-'}</td>}
+                          {hasFitting && <td className={`px-4 py-2 ${restBg} text-center`}>{v.fittingConnectionType || '-'}</td>}
+                          {hasColor && <td className={`px-4 py-2 ${restBg} text-center`}>{v.color || '-'}</td>}
+                          {hasClass && <td className={`px-4 py-2 ${restBg} text-center`}>{v.classType || '-'}</td>}
+                          {hasMaterial && <td className={`px-4 py-2 ${restBg} text-center`}>{v.material || '-'}</td>}
+                          <td className={`px-4 py-2 text-right ${restBg}`}>
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                addVariantToEnquiry(v);
+                              }}
+                              className="inline-flex items-center gap-1.5 bg-brand-600 text-white px-3 py-1.5 rounded-lg text-xs font-semibold hover:bg-brand-700 transition-colors shadow-sm"
+                            >
+                              <ShoppingCart className="h-3.5 w-3.5" /> Enquire
+                            </button>
+                          </td>
+                        </tr>
+                      )
+                    })}
                   </tbody>
                 </table>
               </div>

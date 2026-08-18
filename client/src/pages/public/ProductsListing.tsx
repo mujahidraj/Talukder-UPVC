@@ -76,7 +76,7 @@ export default function ProductsListing() {
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Sidebar Filters */}
           <aside className="lg:w-72 flex-shrink-0 z-10">
-            <div className="bg-white rounded-3xl magic-border magic-border-white shadow-sm p-6 lg:sticky lg:top-40 lg:max-h-[calc(100vh-12rem)] lg:overflow-y-auto">
+            <div className="bg-white rounded-3xl magic-border magic-border-white shadow-sm p-6 lg:sticky lg:top-40">
               <div 
                 className="flex items-center justify-between cursor-pointer lg:cursor-default lg:mb-6"
                 onClick={() => setShowFiltersMobile(!showFiltersMobile)}
