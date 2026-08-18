@@ -4,7 +4,7 @@ import { FileText } from 'lucide-react';
 
 export default function TermsAndConditionsPage() {
   return (
-    <div className="bg-gray-50 min-h-screen py-12 md:py-24">
+    <div className="bg-transparent min-h-screen py-12 md:py-24">
       <SEO 
         title="Terms & Conditions" 
         description="Terms and Conditions for Talukder uPVC Fittings Ltd." 

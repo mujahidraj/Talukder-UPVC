@@ -55,7 +55,7 @@ export default function AdminLayout() {
   };
 
   return (
-    <div className="h-screen flex overflow-hidden bg-slate-50">
+    <div className="h-screen flex overflow-hidden bg-transparent">
       {/* Mobile sidebar overlay */}
       {sidebarOpen && (
         <div className="fixed inset-0 z-40 lg:hidden">
@@ -159,7 +159,7 @@ export default function AdminLayout() {
           </button>
         </div>
         
-        <main className="flex-1 relative z-0 overflow-y-auto focus:outline-none bg-slate-50">
+        <main className="flex-1 relative z-0 overflow-y-auto focus:outline-none bg-transparent">
           <div className="py-6 px-4 sm:px-6 md:px-8">
             <Outlet />
           </div>

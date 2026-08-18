@@ -4,7 +4,7 @@ import { Shield } from 'lucide-react';
 
 export default function PrivacyPolicyPage() {
   return (
-    <div className="bg-gray-50 min-h-screen py-12 md:py-24">
+    <div className="bg-transparent min-h-screen py-12 md:py-24">
       <SEO 
         title="Privacy Policy" 
         description="Privacy Policy for Talukder uPVC Fittings Ltd." 

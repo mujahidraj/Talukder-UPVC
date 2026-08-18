@@ -56,7 +56,7 @@ export default function ContactPage() {
   ];
 
   return (
-    <div className="bg-slate-50 min-h-screen">
+    <div className="bg-transparent min-h-screen">
       <SEO 
         title="Contact Us" 
         description="Get in touch with Talukder uPVC Fittings Ltd. Contact our sales team for orders, quotes, and inquiries." 

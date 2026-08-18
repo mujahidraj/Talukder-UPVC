@@ -304,7 +304,7 @@ export default function HomePage() {
         className="py-16 md:py-32 relative bg-cover bg-center bg-fixed"
         style={{ backgroundImage: 'url("/images/factory 3.jpg")' }}
       >
-        <div className="absolute inset-0 bg-slate-50/70 z-0"></div>
+        <div className="absolute inset-0 bg-transparent z-0"></div>
         <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent z-10"></div>
         <div className="max-w-7xl mx-auto px-4 relative z-10">
           <div className="text-center mb-16 md:mb-20">
@@ -335,7 +335,7 @@ export default function HomePage() {
       </section>
 
       {/* Tubewell Products */}
-      <section className="py-16 md:py-32 bg-slate-50 relative">
+      <section className="py-16 md:py-32 bg-transparent relative">
         <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent"></div>
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">

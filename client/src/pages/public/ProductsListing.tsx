@@ -57,7 +57,7 @@ export default function ProductsListing() {
   };
 
   return (
-    <div className="bg-slate-50 min-h-screen pt-8 pb-20">
+    <div className="bg-transparent min-h-screen pt-8 pb-20">
       <SEO 
         title="All Products" 
         description="Browse our complete range of uPVC pipes, fittings, and accessories. BS-3505 certified, manufactured in Bangladesh by Talukder uPVC Fittings Ltd." 

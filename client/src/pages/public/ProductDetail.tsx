@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { ChevronRight, Heart, ShoppingCart, Droplets, Share2, Package, Layers, ArrowRight, CheckCircle2, Sparkles, Zap } from 'lucide-react';
 import toast from 'react-hot-toast';
 import api from '../../lib/axios';
@@ -8,6 +8,7 @@ import { productJsonLd } from '../../lib/jsonLd';
 
 export default function ProductDetail() {
   const { slug } = useParams();
+  const navigate = useNavigate();
   const [product, setProduct] = useState<any>(null);
   const [related, setRelated] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -359,7 +360,8 @@ export default function ProductDetail() {
                     {variants.map((v: any, idx: number) => (
                       <tr 
                         key={v.id} 
-                        className={`hover:bg-brand-50/40 transition-colors ${idx % 2 === 0 ? 'bg-white' : 'bg-gray-50/50'}`}
+                        className={`hover:bg-brand-50/40 transition-colors cursor-pointer ${idx % 2 === 0 ? 'bg-white' : 'bg-gray-50/50'}`}
+                        onClick={() => navigate(`/products/${v.slug}`)}
                       >
                         <td className="px-4 py-3.5">
                           <span className="font-mono font-bold text-gray-900 bg-gray-100 px-2.5 py-1 rounded-md border border-gray-200 text-xs">{v.productCode}</span>
@@ -374,7 +376,10 @@ export default function ProductDetail() {
                         {hasBrand && <td className="px-4 py-3.5 text-gray-700">{v.brandManufacturer || '-'}</td>}
                         <td className="px-4 py-3.5 text-right">
                           <button
-                            onClick={() => addVariantToEnquiry(v)}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              addVariantToEnquiry(v);
+                            }}
                             className="inline-flex items-center gap-1.5 bg-brand-600 text-white px-3 py-1.5 rounded-lg text-xs font-semibold hover:bg-brand-700 transition-colors shadow-sm"
                           >
                             <ShoppingCart className="h-3.5 w-3.5" /> Enquire

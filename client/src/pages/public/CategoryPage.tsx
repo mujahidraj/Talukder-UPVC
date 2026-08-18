@@ -51,7 +51,7 @@ export default function CategoryPage() {
   if (!category) return <div className="min-h-screen pt-32 pb-20 flex items-center justify-center">Category not found</div>;
 
   return (
-    <div className="bg-slate-50 min-h-screen pt-8 pb-20">
+    <div className="bg-transparent min-h-screen pt-8 pb-20">
       <SEO 
         title={category.metaTitle || category.name} 
         description={category.metaDescription || category.description || `Browse ${category.name} – premium uPVC pipes & fittings from Talukder uPVC Fittings Ltd.`} 
