@@ -304,7 +304,7 @@ export default function HomePage() {
         className="py-16 md:py-32 relative bg-cover bg-center bg-fixed"
         style={{ backgroundImage: 'url("/images/factory 3.jpg")' }}
       >
-        <div className="absolute inset-0 bg-transparent z-0"></div>
+        <div className="absolute inset-0 bg-white/40 backdrop-blur-sm z-0"></div>
         <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent z-10"></div>
         <div className="max-w-7xl mx-auto px-4 relative z-10">
           <div className="text-center mb-16 md:mb-20">
