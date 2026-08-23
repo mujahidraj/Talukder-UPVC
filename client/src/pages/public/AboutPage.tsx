@@ -235,7 +235,7 @@ export default function AboutPage() {
       <section className="py-20 md:py-28 bg-brand-50">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <div className="inline-flex items-center justify-center p-3 bg-white rounded-2xl shadow-sm mb-6">
-            <span className="text-2xl font-heading font-black text-brand-900">T</span>
+            <img src="/LOGO/Talukder-uPVC-Fittings-LTD-3.png" alt="Talukder Group" className="h-12 w-auto object-contain" />
           </div>
           <h2 className="text-3xl md:text-4xl font-heading font-bold text-gray-900 mb-6">A Concern of Talukder Group</h2>
           <p className="text-lg text-gray-600 leading-relaxed mb-8">
