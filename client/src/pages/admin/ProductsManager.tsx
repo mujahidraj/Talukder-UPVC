@@ -28,6 +28,7 @@ interface Product {
   size: string;
   status: string;
   viewCount: number;
+  isNewArrival: boolean;
   images: { thumbPath: string }[];
 }
 
@@ -128,6 +129,17 @@ export default function ProductsManager() {
       fetchData();
     } catch {
       toast.error('Failed to clone product');
+    }
+  };
+
+  const handleToggleNewArrival = async (id: string, currentValue: boolean) => {
+    try {
+      await api.put(`/admin/products/${id}/toggle-new-arrival`);
+      toast.success(currentValue ? 'Removed from New Arrivals' : 'Added to New Arrivals');
+      fetchData();
+    } catch (error) {
+      console.error(error);
+      toast.error('Failed to toggle new arrival status');
     }
   };
 
@@ -397,6 +409,9 @@ export default function ProductsManager() {
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Size</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                <th className="px-6 py-3 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                  New Arrival
+                </th>
                 <th 
                   className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-200 transition-colors select-none"
                   onClick={() => handleSort('views')}
@@ -412,7 +427,7 @@ export default function ProductsManager() {
             <tbody className="bg-white divide-y divide-gray-200">
               {isLoading ? (
                 <tr>
-                  <td colSpan={9} className="px-6 py-12 text-center text-gray-500">
+                  <td colSpan={10} className="px-6 py-12 text-center text-gray-500">
                     <div className="flex items-center justify-center gap-3">
                       <div className="w-5 h-5 border-2 border-brand-200 border-t-brand-600 rounded-full animate-spin" />
                       Loading products...
@@ -421,7 +436,7 @@ export default function ProductsManager() {
                 </tr>
               ) : data.length === 0 ? (
                 <tr>
-                  <td colSpan={9} className="px-6 py-12 text-center text-gray-500">
+                  <td colSpan={10} className="px-6 py-12 text-center text-gray-500">
                     <div className="flex flex-col items-center gap-2">
                       <AlertTriangle className="h-8 w-8 text-gray-300" />
                       No products found.
@@ -487,6 +502,21 @@ export default function ProductsManager() {
                       <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold ring-1 ring-inset ${statusColors[product.status] || statusColors.ACTIVE}`}>
                         {product.status}
                       </span>
+                    </td>
+                    {/* New Arrival Toggle */}
+                    <td className="px-6 py-4 whitespace-nowrap text-center">
+                      <button
+                        onClick={() => handleToggleNewArrival(product.id, product.isNewArrival)}
+                        className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 ${
+                          product.isNewArrival ? 'bg-brand-600' : 'bg-gray-200'
+                        }`}
+                      >
+                        <span
+                          className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                            product.isNewArrival ? 'translate-x-6' : 'translate-x-1'
+                          }`}
+                        />
+                      </button>
                     </td>
                     {/* Views */}
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">

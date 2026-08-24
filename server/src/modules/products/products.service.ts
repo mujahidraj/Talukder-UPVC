@@ -25,6 +25,7 @@ export class ProductsService {
       sortBy = 'createdAt',
       sortOrder = 'desc',
       isFeatured,
+      isNewArrival,
     } = query;
 
     const where: Prisma.ProductWhereInput = {
@@ -73,6 +74,7 @@ export class ProductsService {
         mode: 'insensitive',
       };
     if (isFeatured !== undefined) where.isFeatured = isFeatured;
+    if (isNewArrival !== undefined) where.isNewArrival = isNewArrival;
 
     const orderBy: Prisma.ProductOrderByWithRelationInput = {};
     if (sortBy === 'name') orderBy.productName = sortOrder as Prisma.SortOrder;
@@ -496,6 +498,16 @@ export class ProductsService {
         images: { orderBy: { sortOrder: 'asc' }, take: 1 },
       },
       orderBy: { createdAt: 'desc' },
+    });
+  }
+
+  async toggleNewArrival(id: string) {
+    const product = await this.prisma.product.findUnique({ where: { id } });
+    if (!product) throw new NotFoundException('Product not found');
+    
+    return this.prisma.product.update({
+      where: { id },
+      data: { isNewArrival: !product.isNewArrival }
     });
   }
 

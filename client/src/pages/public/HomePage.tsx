@@ -7,6 +7,7 @@ import SEO from '../../components/SEO';
 export default function HomePage() {
   const [categories, setCategories] = useState<any[]>([]);
   const [featured, setFeatured] = useState<any[]>([]);
+  const [newArrivals, setNewArrivals] = useState<any[]>([]);
   const [tubewells, setTubewells] = useState<any[]>([]);
   const [banners, setBanners] = useState<any[]>([]);
   const [currentBanner, setCurrentBanner] = useState(0);
@@ -39,6 +40,10 @@ export default function HomePage() {
       const others = all.filter((p: any) => !p.isTubewell);
       setFeatured(others.slice(0, 8));
       setTubewells(tbw.slice(0, 8));
+    }).catch(() => { });
+
+    api.get('/products', { params: { isNewArrival: true, limit: 8, sortBy: 'createdAt', sortOrder: 'desc' } }).then(r => {
+      setNewArrivals(r.data.data || []);
     }).catch(() => { });
   }, []);
 
@@ -298,6 +303,57 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* New Arrivals Section */}
+      {newArrivals.length > 0 && (
+        <section className="py-16 md:py-32 bg-gray-50 relative">
+          <div className="max-w-7xl mx-auto px-4">
+            <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+              <div>
+                <h2 className="text-3xl md:text-5xl font-heading font-black text-brand-950 tracking-tight">New Arrivals</h2>
+                <p className="mt-4 text-gray-600 text-lg font-medium">Check out the latest additions to our premium <span className="text-red-600">u</span>PVC product line.</p>
+              </div>
+              <Link to="/products?isNewArrival=true" className="hidden sm:inline-flex items-center gap-2 text-brand-600 font-bold hover:text-brand-700 transition-colors bg-white border border-brand-100 px-6 py-3 rounded-xl hover:bg-brand-50 shadow-sm">
+                View All New Items <ArrowRight className="h-5 w-5" />
+              </Link>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 lg:gap-8">
+              {newArrivals.map((product: any) => (
+                <Link
+                  key={product.id}
+                  to={`/products/${product.slug}`}
+                  className="group bg-white rounded-3xl overflow-hidden shadow-[0_5px_15px_-5px_rgba(0,0,0,0.05)] border border-gray-100 hover:shadow-[0_20px_40px_-10px_rgba(59,130,246,0.15)] hover:-translate-y-2 transition-all duration-500 flex flex-col"
+                >
+                  <div className="aspect-square bg-gradient-to-b from-gray-50 to-white flex items-center justify-center p-6 overflow-hidden relative">
+                    <div className="absolute top-4 right-4 z-10 bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-sm">
+                      NEW
+                    </div>
+                    <div className="absolute inset-0 bg-brand-500/0 group-hover:bg-brand-500/5 transition-colors duration-500"></div>
+                    {product.images?.[0]?.thumbPath ? (
+                      <img src={`http://localhost:3000${product.images[0].thumbPath}`} alt={product.productName} className="h-full w-full object-contain group-hover:scale-110 transition-transform duration-700 drop-shadow-sm" />
+                    ) : (
+                      <Droplets className="h-16 w-16 text-gray-200" />
+                    )}
+                  </div>
+                  <div className="p-6 flex-1 flex flex-col border-t border-gray-50 relative">
+                    <div className="absolute top-0 left-6 right-6 h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    <p className="text-xs text-brand-500 font-bold tracking-wider uppercase mb-2">{product.category?.name}</p>
+                    <h3 className="font-heading font-bold text-gray-900 text-lg group-hover:text-brand-600 transition-colors flex-1">{product.productName}</h3>
+                    <div className="mt-4 pt-4 border-t border-gray-100 flex flex-wrap items-center justify-between gap-2">
+                      <span className="inline-flex items-center gap-1.5 text-xs font-bold text-gray-600 bg-gray-100/80 px-3 py-1.5 rounded-lg group-hover:bg-brand-50 group-hover:text-brand-700 transition-colors">
+                        <Layers className="h-3.5 w-3.5" /> View Details
+                      </span>
+                      <div className="h-8 w-8 rounded-full bg-gray-50 flex items-center justify-center group-hover:bg-brand-600 transition-colors">
+                        <ArrowRight className="h-4 w-4 text-gray-400 group-hover:text-white transition-colors transform group-hover:translate-x-0.5" />
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Applications & Use Cases */}
       <section

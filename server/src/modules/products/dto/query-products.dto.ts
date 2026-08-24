@@ -66,4 +66,9 @@ export class QueryProductsDto {
   @Type(() => Boolean)
   @IsBoolean()
   isFeatured?: boolean;
+
+  @IsOptional()
+  @Type(() => Boolean)
+  @IsBoolean()
+  isNewArrival?: boolean;
 }

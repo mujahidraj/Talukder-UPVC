@@ -61,6 +61,7 @@ model Product {
   wishlistCount         Int           @default(0) @map("wishlist_count")
   enquiryCount          Int           @default(0) @map("enquiry_count")
   isFeatured            Boolean       @default(false) @map("is_featured")
+  isNewArrival          Boolean       @default(false) @map("is_new_arrival")
   isDeleted             Boolean       @default(false) @map("is_deleted")
   createdById           String?       @map("created_by_id")
   createdBy             AdminUser?    @relation("ProductCreatedBy", fields: [createdById], references: [id])

@@ -173,6 +173,11 @@ export class ProductsAdminController {
     return this.productsService.clone(id, userId);
   }
 
+  @Put(':id/toggle-new-arrival')
+  toggleNewArrival(@Param('id') id: string) {
+    return this.productsService.toggleNewArrival(id);
+  }
+
   @Put('bulk/status')
   bulkStatusChange(@Body() body: { ids: string[]; status: ProductStatus }) {
     return this.productsService.bulkStatusChange(body.ids, body.status);
