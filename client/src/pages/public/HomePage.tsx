@@ -174,7 +174,7 @@ export default function HomePage() {
         className="pb-16 pt-0 md:pb-32 md:pt-0 relative bg-cover bg-center bg-fixed z-20"
         style={{ backgroundImage: 'url("/images/tubewell.jpg")' }}
       >
-        <div className="absolute inset-0 bg-gradient-to-b from-white/90 via-white/70 to-white/90 z-0"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-white/90 via-white/40 to-white/90 z-0"></div>
 
         {/* Trust Bar (Full Width Glassmorphism) */}
         <div className="relative z-30 w-full -mt-12 sm:-mt-16 mb-16 md:mb-24">
@@ -230,7 +230,7 @@ export default function HomePage() {
                     className="absolute inset-0 bg-cover bg-center z-0 group-hover:scale-105 transition-transform duration-1000 opacity-100"
                     style={{ backgroundImage: `url('${getBgImage(cat.name)}')` }}
                   ></div>
-                  <div className="absolute inset-0 bg-gradient-to-t from-white via-white/50 to-transparent z-0 transition-opacity duration-500"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-white via-white/20 to-transparent z-0 transition-opacity duration-500"></div>
 
                   <div className="flex items-start justify-end relative z-10">
                     <div className="h-12 w-12 rounded-full bg-white flex items-center justify-center shadow-md group-hover:bg-brand-500 group-hover:shadow-[0_0_20px_rgba(59,130,246,0.4)] transition-all duration-500 border border-gray-100 group-hover:border-transparent">

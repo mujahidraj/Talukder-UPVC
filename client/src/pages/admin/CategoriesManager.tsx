@@ -40,7 +40,8 @@ function flattenForSelect(cats: Category[], prefix = '', excludeId?: string): { 
   }, []);
 }
 
-const EditCategoryModal: React.FC<EditModalProps> = ({ category, allCategories, onClose, onSaved }) => {
+const CategoryModal: React.FC<EditModalProps> = ({ category, allCategories, onClose, onSaved }) => {
+  const isEditing = !!category;
   const [saving, setSaving] = useState(false);
   const [form, setForm] = useState({
     name: '',
@@ -64,6 +65,17 @@ const EditCategoryModal: React.FC<EditModalProps> = ({ category, allCategories, 
         isVisible: (category as any).isVisible ?? true,
         metaTitle: (category as any).metaTitle || '',
         metaDescription: (category as any).metaDescription || '',
+      });
+    } else {
+      setForm({
+        name: '',
+        slug: '',
+        description: '',
+        parentId: '',
+        sortOrder: 0,
+        isVisible: true,
+        metaTitle: '',
+        metaDescription: '',
       });
     }
   }, [category]);
@@ -96,22 +108,22 @@ const EditCategoryModal: React.FC<EditModalProps> = ({ category, allCategories, 
       };
 
       // Only send slug if it was changed
-      if (form.slug && form.slug !== category?.slug) {
+      if (form.slug && (!isEditing || form.slug !== category?.slug)) {
         payload.slug = form.slug;
       }
 
       // Handle parent change
-      if (form.parentId !== (category?.parentId || '')) {
+      if (!isEditing || form.parentId !== (category?.parentId || '')) {
         payload.parentId = form.parentId || null;
-        // Recalculate level
-        if (form.parentId) {
-          // We'll let the backend handle level calculation if it supports it
-          // For now, just pass parentId
-        }
       }
 
-      await api.put(`/admin/categories/${category?.id}`, payload);
-      toast.success('Category updated successfully');
+      if (isEditing) {
+        await api.put(`/admin/categories/${category?.id}`, payload);
+        toast.success('Category updated successfully');
+      } else {
+        await api.post(`/admin/categories`, payload);
+        toast.success('Category created successfully');
+      }
       onSaved();
     } catch (err: any) {
       toast.error(err?.response?.data?.message || 'Failed to update category');
@@ -120,9 +132,7 @@ const EditCategoryModal: React.FC<EditModalProps> = ({ category, allCategories, 
     }
   };
 
-  if (!category) return null;
-
-  const parentOptions = flattenForSelect(allCategories, '', category.id);
+  const parentOptions = flattenForSelect(allCategories, '', category?.id);
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
@@ -137,8 +147,8 @@ const EditCategoryModal: React.FC<EditModalProps> = ({ category, allCategories, 
         {/* Header */}
         <div className="sticky top-0 bg-white border-b border-gray-100 px-6 py-4 rounded-t-2xl flex items-center justify-between z-10">
           <div>
-            <h2 className="text-lg font-heading font-bold text-gray-900">Edit Category</h2>
-            <p className="text-xs text-gray-400 mt-0.5">ID: {category.id}</p>
+            <h2 className="text-lg font-heading font-bold text-gray-900">{isEditing ? 'Edit Category' : 'Create Category'}</h2>
+            {isEditing && <p className="text-xs text-gray-400 mt-0.5">ID: {category?.id}</p>}
           </div>
           <button onClick={onClose} className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">
             <X className="h-5 w-5" />
@@ -398,6 +408,7 @@ export default function CategoriesManager() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [editingCategory, setEditingCategory] = useState<Category | null>(null);
+  const [isCreating, setIsCreating] = useState(false);
 
   const fetchCategories = async () => {
     setIsLoading(true);
@@ -425,6 +436,7 @@ export default function CategoriesManager() {
 
   const handleEditSaved = () => {
     setEditingCategory(null);
+    setIsCreating(false);
     fetchCategories();
   };
 
@@ -441,7 +453,7 @@ export default function CategoriesManager() {
           </p>
         </div>
         <div className="mt-4 sm:mt-0 flex gap-3">
-          <button type="button" className="admin-btn-primary flex items-center">
+          <button type="button" onClick={() => setIsCreating(true)} className="admin-btn-primary flex items-center">
             <Plus className="h-4 w-4 mr-2" />
             Add Root Category
           </button>
@@ -478,12 +490,15 @@ export default function CategoriesManager() {
         )}
       </div>
 
-      {/* Edit Modal */}
-      {editingCategory && (
-        <EditCategoryModal
+      {/* Edit/Create Modal */}
+      {(editingCategory || isCreating) && (
+        <CategoryModal
           category={editingCategory}
           allCategories={categories}
-          onClose={handleEditClose}
+          onClose={() => {
+            setEditingCategory(null);
+            setIsCreating(false);
+          }}
           onSaved={handleEditSaved}
         />
       )}
