@@ -208,6 +208,8 @@ export default function HomePage() {
                 if (n.includes('agri')) return '/images/factory 2.jpg';
                 if (n.includes('tube')) return '/images/tube.png';
                 if (n.includes('fitting')) return '/images/fitting.jpg';
+                if (n.includes('cpvc')) return '/images/pipe2.jpg';
+                if (n.includes('hdpe')) return '/images/cat-pipes.jpg';
                 return '/images/upvc pip.jpg';
               };
 
