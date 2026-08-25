@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Talukder uPVC Fittings Ltd. | Coming Soon</title>
+    <meta name="description" content="Talukder uPVC Fittings Ltd. — Bangladesh's leading manufacturer of premium uPVC pipes, fittings, doors & tubewells. Our new website is launching soon.">
+    <meta name="keywords" content="Talukder uPVC, uPVC pipes, uPVC fittings, Bangladesh manufacturer, coming soon">
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/mujahidraj/Talukder-UPVC/main/client/public/LOGO/Talukder-uPVC-Fittings-LTD-4.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Brand Navy palette */
+            --navy-50: #eef0f8;
+            --navy-100: #d5daea;
+            --navy-200: #aab5d6;
+            --navy-300: #7e8fc1;
+            --navy-400: #5369ac;
+            --navy-500: #3a4e8f;
+            --navy-600: #2a3a72;
+            --navy-700: #1f2d5e;
+            --navy-800: #1b2a6b;
+            --navy-900: #141f50;
+            --navy-950: #0d1433;
+
+            /* Brand Red palette */
+            --red-400: #ef5555;
+            --red-500: #e63232;
+            --red-600: #d42027;
+            --red-700: #b91c1c;
+
+            --white: #ffffff;
+            --text-muted: #94a3b8;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background: var(--navy-950);
+            color: var(--white);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* ─── Animated Background ─── */
+        .bg-layer {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .bg-layer .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.25;
+            animation: drift 22s ease-in-out infinite;
+        }
+
+        .bg-layer .orb-1 {
+            width: 500px;
+            height: 500px;
+            background: var(--navy-600);
+            top: -10%;
+            left: -8%;
+            animation-duration: 20s;
+        }
+
+        .bg-layer .orb-2 {
+            width: 400px;
+            height: 400px;
+            background: var(--red-600);
+            bottom: -15%;
+            right: -8%;
+            animation-duration: 26s;
+            animation-delay: -6s;
+            opacity: 0.12;
+        }
+
+        .bg-layer .orb-3 {
+            width: 350px;
+            height: 350px;
+            background: var(--navy-500);
+            top: 60%;
+            left: 40%;
+            animation-duration: 30s;
+            animation-delay: -12s;
+            opacity: 0.15;
+        }
+
+        @keyframes drift {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -25px) scale(1.04); }
+            66% { transform: translate(-20px, 20px) scale(0.96); }
+        }
+
+        /* Subtle grid overlay */
+        .bg-grid {
+            position: fixed;
+            inset: 0;
+            z-index: 1;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+            background-size: 50px 50px;
+            mask-image: radial-gradient(ellipse at center, black 20%, transparent 75%);
+            -webkit-mask-image: radial-gradient(ellipse at center, black 20%, transparent 75%);
+        }
+
+        /* ─── Main Container ─── */
+        .container {
+            position: relative;
+            z-index: 10;
+            max-width: 640px;
+            width: 100%;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        /* ─── Logo ─── */
+        .logo-wrap {
+            margin-bottom: 2.5rem;
+            animation: fadeUp 0.8s ease-out;
+        }
+
+        .logo-wrap img {
+            width: 120px;
+            height: auto;
+            display: block;
+            margin: 0 auto 1rem;
+            filter: drop-shadow(0 4px 20px rgba(27, 42, 107, 0.4));
+        }
+
+        .brand-text {
+            font-family: 'Outfit', 'Inter', sans-serif;
+            font-weight: 800;
+            font-size: 0.85rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--navy-200);
+        }
+
+        .brand-text .u {
+            color: var(--red-600);
+        }
+
+        /* ─── Heading ─── */
+        .heading {
+            animation: fadeUp 0.8s ease-out 0.15s both;
+        }
+
+        .heading h1 {
+            font-family: 'Outfit', 'Inter', sans-serif;
+            font-size: clamp(2.2rem, 5.5vw, 3.4rem);
+            font-weight: 900;
+            line-height: 1.15;
+            color: var(--white);
+            margin-bottom: 1rem;
+        }
+
+        .heading h1 .highlight {
+            color: var(--red-500);
+        }
+
+        .subtitle {
+            font-size: 1.05rem;
+            color: var(--navy-200);
+            line-height: 1.7;
+            max-width: 480px;
+            margin: 0 auto 2.5rem;
+            animation: fadeUp 0.8s ease-out 0.25s both;
+        }
+
+        .subtitle .u {
+            color: var(--red-500);
+        }
+
+        /* ─── Countdown ─── */
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 0.75rem;
+            margin-bottom: 2.5rem;
+            animation: fadeUp 0.8s ease-out 0.35s both;
+        }
+
+        .cd-item {
+            background: rgba(27, 42, 107, 0.25);
+            border: 1px solid rgba(170, 181, 214, 0.1);
+            border-radius: 16px;
+            padding: 1.1rem 0.8rem;
+            min-width: 80px;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .cd-item:hover {
+            transform: translateY(-3px);
+            border-color: rgba(212, 32, 39, 0.3);
+        }
+
+        .cd-val {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--white);
+            line-height: 1;
+            margin-bottom: 0.3rem;
+        }
+
+        .cd-label {
+            font-size: 0.65rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--navy-300);
+            font-weight: 500;
+        }
+
+        /* ─── Contact Info Cards ─── */
+        .contact-strip {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+            animation: fadeUp 0.8s ease-out 0.45s both;
+        }
+
+        .contact-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1rem;
+            border-radius: 10px;
+            background: rgba(27, 42, 107, 0.3);
+            border: 1px solid rgba(170, 181, 214, 0.08);
+            color: var(--navy-100);
+            font-size: 0.85rem;
+            text-decoration: none;
+            transition: all 0.3s;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        .contact-chip:hover {
+            background: rgba(27, 42, 107, 0.5);
+            border-color: rgba(212, 32, 39, 0.25);
+            color: var(--white);
+            transform: translateY(-2px);
+        }
+
+        .contact-chip svg {
+            width: 16px;
+            height: 16px;
+            color: var(--red-500);
+            flex-shrink: 0;
+        }
+
+        /* ─── Social Links ─── */
+        .socials {
+            display: flex;
+            justify-content: center;
+            gap: 0.6rem;
+            margin-bottom: 1.5rem;
+            animation: fadeUp 0.8s ease-out 0.55s both;
+        }
+
+        .social-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 42px;
+            height: 42px;
+            border: 1px solid rgba(170, 181, 214, 0.1);
+            border-radius: 12px;
+            background: rgba(27, 42, 107, 0.2);
+            color: var(--navy-200);
+            text-decoration: none;
+            transition: all 0.3s;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        .social-link:hover {
+            border-color: var(--red-600);
+            color: var(--red-400);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(212, 32, 39, 0.15);
+        }
+
+        .social-link svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
+
+        /* ─── WhatsApp CTA ─── */
+        .wa-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.85rem 2rem;
+            border-radius: 14px;
+            background: #25d366;
+            color: white;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 20px rgba(37, 211, 102, 0.25);
+            animation: fadeUp 0.8s ease-out 0.5s both;
+        }
+
+        .wa-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(37, 211, 102, 0.35);
+            background: #20bd5a;
+        }
+
+        .wa-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+
+        /* ─── Divider ─── */
+        .divider {
+            width: 60px;
+            height: 3px;
+            border-radius: 2px;
+            background: linear-gradient(90deg, var(--navy-600), var(--red-600));
+            margin: 2rem auto;
+            animation: fadeUp 0.8s ease-out 0.6s both;
+        }
+
+        /* ─── Footer ─── */
+        .footer {
+            position: relative;
+            z-index: 10;
+            padding: 1rem 2rem;
+            text-align: center;
+            font-size: 0.75rem;
+            color: var(--navy-400);
+            animation: fadeUp 0.8s ease-out 0.7s both;
+        }
+
+        .footer .u {
+            color: var(--red-600);
+        }
+
+        /* ─── Keyframes ─── */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ─── Responsive ─── */
+        @media (max-width: 540px) {
+            .container {
+                padding: 1.5rem 1.25rem;
+            }
+
+            .countdown {
+                gap: 0.5rem;
+            }
+
+            .cd-item {
+                min-width: 65px;
+                padding: 0.85rem 0.5rem;
+            }
+
+            .cd-val {
+                font-size: 1.6rem;
+            }
+
+            .logo-wrap img {
+                width: 96px;
+            }
+
+            .contact-strip {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background -->
+    <div class="bg-layer">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+    <div class="bg-grid"></div>
+
+    <!-- Content -->
+    <main class="container">
+
+        <!-- Logo -->
+        <div class="logo-wrap">
+            <img src="https://raw.githubusercontent.com/mujahidraj/Talukder-UPVC/main/client/public/LOGO/Talukder-uPVC-Fittings-LTD-1.png" alt="Talukder uPVC Fittings Ltd. Logo">
+            <div class="brand-text">Talukder <span class="u">u</span>PVC Fittings Ltd.</div>
+        </div>
+
+        <!-- Heading -->
+        <div class="heading">
+            <h1>We're Launching <span class="highlight">Soon</span></h1>
+        </div>
+
+        <p class="subtitle">
+            Bangladesh's trusted manufacturer of premium <span class="u">u</span>PVC pipes, fittings, doors & tubewells. 
+            Our brand-new website is under construction.
+        </p>
+
+        <!-- Countdown -->
+        <div class="countdown" id="countdown">
+            <div class="cd-item">
+                <div class="cd-val" id="days">00</div>
+                <div class="cd-label">Days</div>
+            </div>
+            <div class="cd-item">
+                <div class="cd-val" id="hours">00</div>
+                <div class="cd-label">Hours</div>
+            </div>
+            <div class="cd-item">
+                <div class="cd-val" id="minutes">00</div>
+                <div class="cd-label">Min</div>
+            </div>
+            <div class="cd-item">
+                <div class="cd-val" id="seconds">00</div>
+                <div class="cd-label">Sec</div>
+            </div>
+        </div>
+
+        <!-- WhatsApp CTA -->
+        <a href="https://wa.me/8801966333355" target="_blank" rel="noopener noreferrer" class="wa-btn">
+            <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Chat with us on WhatsApp
+        </a>
+
+        <div class="divider"></div>
+
+        <!-- Contact Info -->
+        <div class="contact-strip">
+            <a href="tel:+8801966333355" class="contact-chip">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z"/></svg>
+                +880 1966-333355
+            </a>
+            <a href="mailto:info@talukder-group.com.bd" class="contact-chip">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/></svg>
+                info@talukder-group.com.bd
+            </a>
+            <span class="contact-chip">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"/></svg>
+                Jashore, Bangladesh
+            </span>
+        </div>
+
+        <!-- Social Links -->
+        <div class="socials">
+            <a href="#" class="social-link" aria-label="Facebook">
+                <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+            </a>
+            <a href="#" class="social-link" aria-label="YouTube">
+                <svg viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 00-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 00-1.94 2A29 29 0 001 11.75a29 29 0 00.46 5.33A2.78 2.78 0 003.4 19.1c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 001.94-2 29 29 0 00.46-5.25 29 29 0 00-.46-5.43z"/><polygon points="9.75,15.02 15.5,11.75 9.75,8.48" fill="white"/></svg>
+            </a>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        &copy; 2025 Talukder <span class="u">u</span>PVC Fittings Ltd. — A concern of Talukder Group of Industries.
+    </footer>
+
+    <script>
+        // Countdown — set your launch date here
+        const launchDate = new Date();
+        launchDate.setDate(launchDate.getDate() + 10);
+
+        function pad(n) { return String(n).padStart(2, '0'); }
+
+        function tick() {
+            const now = Date.now();
+            const diff = launchDate.getTime() - now;
+
+            if (diff <= 0) {
+                document.getElementById('days').textContent = '00';
+                document.getElementById('hours').textContent = '00';
+                document.getElementById('minutes').textContent = '00';
+                document.getElementById('seconds').textContent = '00';
+                return;
+            }
+
+            document.getElementById('days').textContent    = pad(Math.floor(diff / 864e5));
+            document.getElementById('hours').textContent   = pad(Math.floor((diff % 864e5) / 36e5));
+            document.getElementById('minutes').textContent = pad(Math.floor((diff % 36e5) / 6e4));
+            document.getElementById('seconds').textContent = pad(Math.floor((diff % 6e4) / 1e3));
+        }
+
+        tick();
+        setInterval(tick, 1000);
+    </script>
+
+</body>
+</html>

@@ -43,6 +43,7 @@ export class JobRunnerService {
             job.id,
             payload.filePath,
             job.uploadedById,
+            job.importMode || 'replace'
           );
         } else {
           throw new Error('No filePath found in job payload');

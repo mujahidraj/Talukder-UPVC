@@ -16,7 +16,7 @@ export class ImportProcessor {
     private mediaService: MediaService,
   ) {}
 
-  async processExcelImport(jobId: string, filePath: string, userId: string) {
+  async processExcelImport(jobId: string, filePath: string, userId: string, importMode: string = 'replace') {
     this.logger.log(
       `Processing Excel import job ${jobId} with file ${filePath}`,
     );
@@ -130,7 +130,7 @@ export class ImportProcessor {
         const mainCat = row.getCell(1).text;
         const subCat = row.getCell(2).text;
         const subSubCat = row.getCell(3).text;
-        const productCode = row.getCell(4).text;
+        let productCode = row.getCell(4).text;
         const productName = row.getCell(5).text;
         const fittingType = row.getCell(6).text;
         const size = row.getCell(7).text;
@@ -144,6 +144,7 @@ export class ImportProcessor {
         const featuresStr = row.getCell(15).text;
         const applicationsStr = row.getCell(16).text;
         let statusStr = row.getCell(17).text;
+        
 
         if (!productCode || !productName) {
           continue; // skip empty rows
@@ -185,6 +186,22 @@ export class ImportProcessor {
         let product = await this.prisma.product.findUnique({
           where: { productCode },
         });
+
+        if (importMode === 'append' && product) {
+          // If we want to append (create new) but product code exists, 
+          // we must auto-suffix the product code because the database requires uniqueness.
+          let suffixCounter = 1;
+          let uniqueProductCode = productCode;
+          while (product) {
+            uniqueProductCode = `${productCode}-${suffixCounter}`;
+            product = await this.prisma.product.findUnique({
+              where: { productCode: uniqueProductCode },
+            });
+            suffixCounter++;
+          }
+          productCode = uniqueProductCode; // Now it's guaranteed unique
+          product = null; // Forces creation of a new record
+        }
 
         const data = {
           productName,

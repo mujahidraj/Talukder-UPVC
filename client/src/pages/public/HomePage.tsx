@@ -21,18 +21,10 @@ export default function HomePage() {
       setBanners(data);
     }).catch(() => { });
     api.get('/categories/tree').then(r => {
-      // Prioritize the categories that actually have all the imported products
-      const mainCatNames = ['agricultural', 'upvc doors', 'fittings', 'pipes', 'tubewells'];
-      const filtered = r.data.filter((c: any) => mainCatNames.includes(c.name.toLowerCase()));
-
-      // If the old categories still exist instead, fallback to them
-      if (filtered.length < 5) {
-        const fallback = ['upvc fittings', 'upvc pipes'];
-        const extra = r.data.filter((c: any) => fallback.includes(c.name.toLowerCase()) && !filtered.find((f: any) => f.name.includes('Pipes') && c.name.includes('Pipes')));
-        filtered.push(...extra);
-      }
-
-      setCategories(filtered.slice(0, 5));
+      // Show all root categories, sorted to ensure consistent display
+      const allCategories = r.data || [];
+      // If we need to limit the number, we could slice here. Let's show up to 8.
+      setCategories(allCategories.slice(0, 8));
     }).catch(() => { });
     api.get('/products/grouped', { params: { limit: 50, sortBy: 'name' } }).then(r => {
       const all = r.data.data || [];

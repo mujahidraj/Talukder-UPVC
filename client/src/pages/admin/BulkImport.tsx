@@ -80,19 +80,8 @@ export default function BulkImport() {
 
           <div className="space-y-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Import Mode</label>
-              <div className="flex gap-4">
-                <label className="flex items-center cursor-pointer">
-                  <input
-                    type="radio"
-                    name="mode"
-                    value="append"
-                    checked={mode === 'append'}
-                    onChange={() => setMode('append')}
-                    className="mr-2 text-brand-600 focus:ring-brand-500"
-                  />
-                  <span className="text-sm text-gray-900">Append (add new products)</span>
-                </label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Duplicate Detection</label>
+              <div className="flex flex-col gap-3">
                 <label className="flex items-center cursor-pointer">
                   <input
                     type="radio"
@@ -100,9 +89,26 @@ export default function BulkImport() {
                     value="replace"
                     checked={mode === 'replace'}
                     onChange={() => setMode('replace')}
-                    className="mr-2 text-brand-600 focus:ring-brand-500"
+                    className="mr-3 text-brand-600 focus:ring-brand-500 h-4 w-4"
                   />
-                  <span className="text-sm text-gray-900">Replace (update existing by code)</span>
+                  <div>
+                    <span className="text-sm font-semibold text-gray-900 block">Detect Duplicates (Overwrite Existing)</span>
+                    <span className="text-xs text-gray-500">If a product code already exists, the existing product will be updated.</span>
+                  </div>
+                </label>
+                <label className="flex items-center cursor-pointer">
+                  <input
+                    type="radio"
+                    name="mode"
+                    value="append"
+                    checked={mode === 'append'}
+                    onChange={() => setMode('append')}
+                    className="mr-3 text-brand-600 focus:ring-brand-500 h-4 w-4"
+                  />
+                  <div>
+                    <span className="text-sm font-semibold text-gray-900 block">Do Not Detect (Create New)</span>
+                    <span className="text-xs text-gray-500">Always creates new products. Duplicate codes will get an auto-suffix (e.g., 0000-1).</span>
+                  </div>
                 </label>
               </div>
             </div>
