@@ -16,6 +16,7 @@ import {
   AlertTriangle,
   ArrowUp,
   ArrowDown,
+  Loader2
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import api from '../../lib/axios';
@@ -107,8 +108,8 @@ export default function ProductsManager() {
   };
 
   const renderSortIcon = (field: string) => {
-    if (sortBy !== field) return <span className="w-4 h-4 ml-1 inline-block" />;
-    return sortOrder === 'asc' ? <ArrowUp className="h-4 w-4 ml-1 inline-block" /> : <ArrowDown className="h-4 w-4 ml-1 inline-block" />;
+    if (sortBy !== field) return <span className="w-4 h-4 ml-1 inline-block opacity-30 group-hover:opacity-100 transition-opacity" />;
+    return sortOrder === 'asc' ? <ArrowUp className="h-4 w-4 ml-1 inline-block text-brand-600" /> : <ArrowDown className="h-4 w-4 ml-1 inline-block text-brand-600" />;
   };
 
   const handleDelete = async (id: string) => {
@@ -192,7 +193,6 @@ export default function ProductsManager() {
       setIsSelectingAll(true);
       try {
         const queryParams = { ...filters, search };
-        // Clean empty string params
         const cleanParams = Object.fromEntries(
           Object.entries(queryParams).filter(([_, v]) => v !== '')
         );
@@ -222,41 +222,48 @@ export default function ProductsManager() {
   const someSelected = selectedIds.size > 0 && selectedIds.size < data.length;
 
   const statusColors: Record<string, string> = {
-    ACTIVE: 'bg-emerald-50 text-emerald-700 ring-emerald-600/20',
-    UPCOMING: 'bg-blue-50 text-blue-700 ring-blue-600/20',
-    INACTIVE: 'bg-gray-50 text-gray-600 ring-gray-500/20',
-    DISCONTINUED: 'bg-red-50 text-red-700 ring-red-600/20',
+    ACTIVE: 'bg-emerald-50 text-emerald-700 border-emerald-200 shadow-sm',
+    UPCOMING: 'bg-blue-50 text-blue-700 border-blue-200 shadow-sm',
+    INACTIVE: 'bg-gray-50 text-gray-600 border-gray-200 shadow-sm',
+    DISCONTINUED: 'bg-red-50 text-red-700 border-red-200 shadow-sm',
   };
 
   return (
-    <div>
-      {/* Header */}
-      <div className="sm:flex sm:items-center sm:justify-between mb-8">
-        <div>
-          <h1 className="text-2xl font-heading font-semibold text-gray-900">Products Catalog</h1>
-          <p className="mt-2 text-sm text-gray-700">
-            Manage your <span className="text-red-600">u</span>PVC products, update specifications, and organize categories.
+    <div className="animate-fade-in pb-12">
+      {/* Premium Header */}
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
+        <div className="max-w-xl">
+          <h1 className="text-3xl font-bold tracking-tight text-gray-900 mb-2">Products Catalog</h1>
+          <p className="text-sm font-medium text-gray-500 leading-relaxed">
+            Manage your <span className="text-brand-600 font-bold">u</span>PVC products, update specifications, and keep your inventory perfectly organized.
           </p>
         </div>
-        <div className="mt-4 sm:mt-0 flex gap-3">
+        <div className="flex flex-wrap items-center gap-3">
           <button
             type="button"
             onClick={handleExport}
             disabled={isExporting}
-            className="admin-btn-secondary flex items-center"
+            className="flex items-center px-4 py-2.5 bg-white border border-gray-200 text-gray-700 text-sm font-semibold rounded-xl hover:bg-gray-50 hover:border-gray-300 shadow-sm transition-all disabled:opacity-50"
           >
-            <Download className={`h-4 w-4 mr-2 ${isExporting ? 'animate-bounce' : ''}`} />
+            <Download className={`h-4 w-4 mr-2 ${isExporting ? 'animate-bounce' : 'text-gray-500'}`} />
             {isExporting ? 'Exporting...' : 'Export CSV'}
           </button>
           <button
             type="button"
             onClick={() => setShowFilters(!showFilters)}
-            className={`admin-btn-secondary flex items-center transition-colors ${showFilters ? 'bg-brand-50 border-brand-200 text-brand-700' : ''}`}
+            className={`flex items-center px-4 py-2.5 border text-sm font-semibold rounded-xl shadow-sm transition-all ${
+              showFilters 
+                ? 'bg-brand-50 border-brand-200 text-brand-700' 
+                : 'bg-white border-gray-200 text-gray-700 hover:bg-gray-50 hover:border-gray-300'
+            }`}
           >
-            <Filter className="h-4 w-4 mr-2" />
+            <Filter className={`h-4 w-4 mr-2 ${showFilters ? 'text-brand-600' : 'text-gray-500'}`} />
             Filters
           </button>
-          <button type="button" className="admin-btn-primary flex items-center">
+          <button 
+            type="button" 
+            className="flex items-center px-5 py-2.5 bg-gradient-to-r from-brand-600 to-brand-500 text-white text-sm font-bold rounded-xl shadow-lg shadow-brand-500/30 hover:shadow-brand-500/50 hover:-translate-y-0.5 transition-all active:scale-95"
+          >
             <Plus className="h-4 w-4 mr-2" />
             Add Product
           </button>
@@ -266,29 +273,30 @@ export default function ProductsManager() {
       {/* Bulk Action Bar */}
       {selectedIds.size > 0 && (
         <div
-          className="mb-4 bg-brand-50 border border-brand-200 rounded-xl px-5 py-3 flex items-center justify-between"
+          className="mb-6 bg-brand-50 border border-brand-200 rounded-2xl px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-sm relative overflow-hidden"
           style={{ animation: 'slideDown 0.2s ease-out' }}
         >
-          <div className="flex items-center gap-3">
-            <div className="flex items-center justify-center h-8 w-8 rounded-lg bg-brand-600 text-white text-sm font-bold shadow-sm">
+          <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-brand-500"></div>
+          <div className="flex items-center gap-4">
+            <div className="flex items-center justify-center h-10 w-10 rounded-xl bg-brand-600 text-white text-base font-bold shadow-md shadow-brand-500/20">
               {selectedIds.size}
             </div>
-            <span className="text-sm font-medium text-brand-900">
+            <span className="text-base font-bold text-brand-900">
               product{selectedIds.size > 1 ? 's' : ''} selected
             </span>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             <button
               onClick={handleBulkDelete}
               disabled={isBulkDeleting}
-              className="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold text-white bg-red-600 rounded-lg hover:bg-red-700 transition-colors shadow-sm disabled:opacity-50"
+              className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-bold text-white bg-red-600 rounded-xl hover:bg-red-700 transition-colors shadow-sm disabled:opacity-50"
             >
-              <Trash2 className="h-4 w-4" />
+              {isBulkDeleting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Trash2 className="h-4 w-4" />}
               {isBulkDeleting ? 'Deleting...' : 'Delete Selected'}
             </button>
             <button
               onClick={() => setSelectedIds(new Set())}
-              className="inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
+              className="inline-flex items-center gap-1.5 px-4 py-2.5 text-sm font-semibold text-gray-600 hover:text-gray-900 hover:bg-gray-100/80 rounded-xl transition-colors"
             >
               <X className="h-4 w-4" />
               Clear
@@ -297,16 +305,18 @@ export default function ProductsManager() {
         </div>
       )}
 
-      <div className="glass-panel overflow-hidden">
-        <div className="p-4 border-b border-gray-200 bg-white/50 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div className="flex items-center gap-4 w-full sm:max-w-xl">
-            <div className="relative w-full sm:max-w-sm">
-              <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                <Search className="h-4 w-4 text-gray-400" />
+      {/* Main Container */}
+      <div className="bg-white rounded-3xl shadow-[0_2px_15px_-3px_rgba(6,81,237,0.05)] border border-gray-100 overflow-hidden relative">
+        {/* Search & Filter Bar */}
+        <div className="p-5 border-b border-gray-100 bg-white flex flex-col lg:flex-row lg:items-center justify-between gap-5 relative z-10">
+          <div className="flex flex-col sm:flex-row items-center gap-4 w-full lg:max-w-2xl">
+            <div className="relative w-full">
+              <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
+                <Search className="h-5 w-5 text-gray-400" />
               </div>
               <input
                 type="text"
-                className="admin-input pl-9 bg-white w-full"
+                className="w-full bg-gray-50 border border-gray-200 text-gray-900 rounded-xl pl-11 pr-4 py-3 text-sm focus:bg-white focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 transition-all outline-none"
                 placeholder="Search by name, code, or description..."
                 value={search}
                 onChange={(e) => { setSearch(e.target.value); setPage(1); }}
@@ -316,25 +326,25 @@ export default function ProductsManager() {
               <button
                 onClick={toggleSelectAll}
                 disabled={isSelectingAll}
-                className="flex items-center gap-2 px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors whitespace-nowrap disabled:opacity-50"
+                className="flex items-center justify-center gap-2 px-5 py-3 bg-white border border-gray-200 rounded-xl text-sm font-bold text-gray-700 hover:bg-gray-50 hover:border-gray-300 transition-all whitespace-nowrap disabled:opacity-50 shadow-sm"
               >
-                {selectedIds.size === totalCount ? <MinusSquare className="h-4 w-4 text-brand-600" /> : <CheckSquare className="h-4 w-4 text-gray-400" />}
-                {isSelectingAll ? 'Selecting...' : selectedIds.size === totalCount ? 'Deselect All' : 'Select All (All Pages)'}
+                {selectedIds.size === totalCount ? <MinusSquare className="h-5 w-5 text-brand-600" /> : <CheckSquare className="h-5 w-5 text-gray-400" />}
+                {isSelectingAll ? 'Selecting...' : selectedIds.size === totalCount ? 'Deselect All' : 'Select All Files'}
               </button>
             )}
           </div>
-          <div className="text-sm text-gray-500 whitespace-nowrap">
-            {totalCount} product{totalCount !== 1 ? 's' : ''} total
+          <div className="text-sm font-bold text-gray-500 bg-gray-50 px-4 py-2.5 rounded-xl border border-gray-100 whitespace-nowrap inline-flex items-center shadow-sm">
+            Total: <span className="text-brand-600 ml-1.5">{totalCount} product{totalCount !== 1 ? 's' : ''}</span>
           </div>
         </div>
 
-        {/* Filters */}
+        {/* Filters Panel */}
         {showFilters && (
-          <div className="p-4 bg-gray-50/50 border-b border-gray-200 flex flex-wrap gap-4 items-end" style={{ animation: 'slideDown 0.2s ease-out' }}>
-            <div className="flex-1 min-w-[200px] max-w-xs">
-              <label className="block text-xs font-medium text-gray-700 mb-1">Category</label>
+          <div className="p-6 bg-gray-50/80 border-b border-gray-100 flex flex-wrap gap-6 items-end" style={{ animation: 'slideDown 0.2s ease-out' }}>
+            <div className="flex-1 min-w-[200px] max-w-sm">
+              <label className="block text-xs font-bold text-gray-700 mb-2 uppercase tracking-wider">Category</label>
               <select
-                className="admin-input py-1.5 text-sm"
+                className="w-full bg-white border border-gray-200 text-gray-900 rounded-xl px-4 py-3 text-sm focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 outline-none shadow-sm transition-all cursor-pointer"
                 value={filters.categoryId}
                 onChange={e => { setFilters(prev => ({ ...prev, categoryId: e.target.value })); setPage(1); }}
               >
@@ -344,10 +354,10 @@ export default function ProductsManager() {
                 ))}
               </select>
             </div>
-            <div className="flex-1 min-w-[150px] max-w-xs">
-              <label className="block text-xs font-medium text-gray-700 mb-1">Status</label>
+            <div className="flex-1 min-w-[150px] max-w-[250px]">
+              <label className="block text-xs font-bold text-gray-700 mb-2 uppercase tracking-wider">Status</label>
               <select
-                className="admin-input py-1.5 text-sm"
+                className="w-full bg-white border border-gray-200 text-gray-900 rounded-xl px-4 py-3 text-sm focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 outline-none shadow-sm transition-all cursor-pointer"
                 value={filters.status}
                 onChange={e => { setFilters(prev => ({ ...prev, status: e.target.value })); setPage(1); }}
               >
@@ -361,37 +371,38 @@ export default function ProductsManager() {
             {(filters.categoryId || filters.status) && (
               <button
                 onClick={() => { setFilters({ categoryId: '', status: '' }); setPage(1); }}
-                className="text-sm text-gray-500 hover:text-red-600 transition-colors mb-1.5 px-2"
+                className="text-sm font-bold text-gray-500 hover:text-red-600 transition-colors mb-3 px-2 flex items-center gap-1.5"
               >
+                <X className="h-4 w-4" />
                 Clear Filters
               </button>
             )}
           </div>
         )}
 
-        {/* Table */}
-        <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50/80">
+        {/* Table Data */}
+        <div className="overflow-x-auto relative z-0">
+          <table className="min-w-full divide-y divide-gray-100">
+            <thead className="bg-gray-50/50">
               <tr>
-                <th className="px-4 py-3 w-12">
+                <th className="px-6 py-4 w-16">
                   <button
                     onClick={toggleSelectAll}
-                    className="text-gray-400 hover:text-brand-600 transition-colors"
+                    className="text-gray-400 hover:text-brand-600 transition-colors bg-white border border-gray-200 rounded p-1 shadow-sm"
                     title={allSelected ? 'Deselect all' : 'Select all'}
                   >
                     {allSelected ? (
                       <CheckSquare className="h-5 w-5 text-brand-600" />
                     ) : someSelected ? (
-                      <MinusSquare className="h-5 w-5 text-brand-400" />
+                      <MinusSquare className="h-5 w-5 text-brand-500" />
                     ) : (
                       <Square className="h-5 w-5" />
                     )}
                   </button>
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Image</th>
+                <th className="px-6 py-4 text-left text-[11px] font-bold text-gray-500 uppercase tracking-widest">Image</th>
                 <th 
-                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-200 transition-colors select-none"
+                  className="px-6 py-4 text-left text-[11px] font-bold text-gray-500 uppercase tracking-widest cursor-pointer hover:bg-gray-200 transition-colors select-none group"
                   onClick={() => handleSort('code')}
                 >
                   <div className="flex items-center">
@@ -399,21 +410,21 @@ export default function ProductsManager() {
                   </div>
                 </th>
                 <th 
-                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-200 transition-colors select-none"
+                  className="px-6 py-4 text-left text-[11px] font-bold text-gray-500 uppercase tracking-widest cursor-pointer hover:bg-gray-200 transition-colors select-none group"
                   onClick={() => handleSort('name')}
                 >
                   <div className="flex items-center">
                     Name {renderSortIcon('name')}
                   </div>
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Size</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                <th className="px-6 py-3 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-4 text-left text-[11px] font-bold text-gray-500 uppercase tracking-widest">Size</th>
+                <th className="px-6 py-4 text-left text-[11px] font-bold text-gray-500 uppercase tracking-widest">Category</th>
+                <th className="px-6 py-4 text-left text-[11px] font-bold text-gray-500 uppercase tracking-widest">Status</th>
+                <th className="px-6 py-4 text-center text-[11px] font-bold text-gray-500 uppercase tracking-widest">
                   New Arrival
                 </th>
                 <th 
-                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-200 transition-colors select-none"
+                  className="px-6 py-4 text-left text-[11px] font-bold text-gray-500 uppercase tracking-widest cursor-pointer hover:bg-gray-200 transition-colors select-none group"
                   onClick={() => handleSort('views')}
                 >
                   <div className="flex items-center">
@@ -421,25 +432,28 @@ export default function ProductsManager() {
                     Views {renderSortIcon('views')}
                   </div>
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                <th className="px-6 py-4 text-left text-[11px] font-bold text-gray-500 uppercase tracking-widest">Actions</th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody className="bg-white divide-y divide-gray-50">
               {isLoading ? (
                 <tr>
-                  <td colSpan={10} className="px-6 py-12 text-center text-gray-500">
-                    <div className="flex items-center justify-center gap-3">
-                      <div className="w-5 h-5 border-2 border-brand-200 border-t-brand-600 rounded-full animate-spin" />
-                      Loading products...
+                  <td colSpan={10} className="px-6 py-20 text-center text-gray-500">
+                    <div className="flex flex-col items-center justify-center gap-4 text-brand-600">
+                      <Loader2 className="h-8 w-8 animate-spin" />
+                      <span className="font-bold text-gray-500">Loading your products...</span>
                     </div>
                   </td>
                 </tr>
               ) : data.length === 0 ? (
                 <tr>
-                  <td colSpan={10} className="px-6 py-12 text-center text-gray-500">
-                    <div className="flex flex-col items-center gap-2">
-                      <AlertTriangle className="h-8 w-8 text-gray-300" />
-                      No products found.
+                  <td colSpan={10} className="px-6 py-20 text-center text-gray-500">
+                    <div className="flex flex-col items-center gap-3">
+                      <div className="p-4 bg-gray-50 rounded-2xl border border-gray-100">
+                        <AlertTriangle className="h-10 w-10 text-gray-400" />
+                      </div>
+                      <p className="text-lg font-bold text-gray-900 mt-2">No products found</p>
+                      <p className="text-sm">Try adjusting your filters or search terms.</p>
                     </div>
                   </td>
                 </tr>
@@ -447,13 +461,13 @@ export default function ProductsManager() {
                 data.map(product => (
                   <tr
                     key={product.id}
-                    className={`transition-colors ${selectedIds.has(product.id) ? 'bg-brand-50/60' : 'hover:bg-gray-50/50'}`}
+                    className={`transition-all duration-200 group ${selectedIds.has(product.id) ? 'bg-brand-50/50' : 'hover:bg-gray-50/80'}`}
                   >
                     {/* Checkbox */}
-                    <td className="px-4 py-4">
+                    <td className="px-6 py-5 whitespace-nowrap">
                       <button
                         onClick={() => toggleSelect(product.id)}
-                        className="text-gray-400 hover:text-brand-600 transition-colors"
+                        className="text-gray-400 hover:text-brand-600 transition-colors bg-white border border-gray-200 rounded p-1 shadow-sm"
                       >
                         {selectedIds.has(product.id) ? (
                           <CheckSquare className="h-5 w-5 text-brand-600" />
@@ -463,88 +477,95 @@ export default function ProductsManager() {
                       </button>
                     </td>
                     {/* Image */}
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    <td className="px-6 py-5 whitespace-nowrap">
                       {product.images?.[0]?.thumbPath ? (
-                        <img
-                          src={`http://localhost:3000${product.images[0].thumbPath}`}
-                          alt="thumb"
-                          className="w-10 h-10 object-cover rounded-md border border-gray-200"
-                        />
+                        <div className="relative group-hover:scale-105 transition-transform duration-300">
+                          <img
+                            src={`http://localhost:3000${product.images[0].thumbPath}`}
+                            alt="thumb"
+                            className="w-12 h-12 object-cover rounded-xl border border-gray-200 shadow-sm"
+                          />
+                        </div>
                       ) : (
-                        <div className="w-10 h-10 bg-gray-100 rounded-md border border-gray-200 flex items-center justify-center">
-                          <span className="text-xs text-gray-400">No Img</span>
+                        <div className="w-12 h-12 bg-gray-100 rounded-xl border border-gray-200 flex flex-col items-center justify-center">
+                          <span className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">No Img</span>
                         </div>
                       )}
                     </td>
                     {/* Code */}
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 font-mono">
-                      {product.productCode}
+                    <td className="px-6 py-5 whitespace-nowrap text-sm font-mono text-gray-600">
+                      <span className="bg-gray-100 px-2.5 py-1.5 rounded-lg border border-gray-200/60 shadow-sm">
+                        {product.productCode}
+                      </span>
                     </td>
                     {/* Name — Clickable */}
-                    <td className="px-6 py-4 whitespace-nowrap text-sm">
+                    <td className="px-6 py-5 text-sm">
                       <Link
                         to={`/admin/products/${product.id}`}
-                        className="font-medium text-brand-700 hover:text-brand-900 hover:underline transition-colors"
+                        className="font-bold text-gray-900 hover:text-brand-600 transition-colors line-clamp-2"
+                        title={product.productName}
                       >
                         {product.productName}
                       </Link>
                     </td>
                     {/* Size */}
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
-                      {product.size}
+                    <td className="px-6 py-5 whitespace-nowrap text-sm font-medium text-gray-600">
+                      {product.size || '—'}
                     </td>
                     {/* Category */}
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
-                      {product.category?.name || '—'}
+                    <td className="px-6 py-5 whitespace-nowrap text-sm text-gray-600">
+                      <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-gray-100 text-gray-700 border border-gray-200 shadow-sm">
+                        {product.category?.name || 'Uncategorized'}
+                      </span>
                     </td>
                     {/* Status */}
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold ring-1 ring-inset ${statusColors[product.status] || statusColors.ACTIVE}`}>
+                    <td className="px-6 py-5 whitespace-nowrap">
+                      <span className={`inline-flex items-center px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider border ${statusColors[product.status] || statusColors.ACTIVE}`}>
                         {product.status}
                       </span>
                     </td>
                     {/* New Arrival Toggle */}
-                    <td className="px-6 py-4 whitespace-nowrap text-center">
+                    <td className="px-6 py-5 whitespace-nowrap text-center">
                       <button
                         onClick={() => handleToggleNewArrival(product.id, product.isNewArrival)}
-                        className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 ${
-                          product.isNewArrival ? 'bg-brand-600' : 'bg-gray-200'
+                        className={`relative inline-flex h-6 w-12 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 ${
+                          product.isNewArrival ? 'bg-brand-500 shadow-inner' : 'bg-gray-200 shadow-inner'
                         }`}
                       >
                         <span
-                          className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                            product.isNewArrival ? 'translate-x-6' : 'translate-x-1'
+                          className={`inline-block h-4 w-4 transform rounded-full bg-white shadow-sm transition-transform duration-300 ${
+                            product.isNewArrival ? 'translate-x-7' : 'translate-x-1'
                           }`}
                         />
                       </button>
                     </td>
                     {/* Views */}
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      <div className="flex items-center gap-1.5">
-                        <Eye className="h-3.5 w-3.5 text-gray-400" />
-                        <span className="font-medium tabular-nums">{product.viewCount ?? 0}</span>
+                    <td className="px-6 py-5 whitespace-nowrap text-sm text-gray-500">
+                      <div className="flex items-center gap-2 bg-gray-50 px-2 py-1 rounded-lg w-fit border border-gray-100">
+                        <Eye className="h-4 w-4 text-brand-500" />
+                        <span className="font-bold tabular-nums text-gray-700">{product.viewCount ?? 0}</span>
                       </div>
                     </td>
                     {/* Actions */}
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex gap-1">
+                    <td className="px-6 py-5 whitespace-nowrap">
+                      <div className="flex gap-2">
                         <button
                           onClick={() => navigate(`/admin/products/${product.id}/edit`)}
-                          className="p-1.5 text-gray-400 hover:text-brand-600 hover:bg-brand-50 rounded-md transition-all"
+                          className="p-2 text-brand-600 bg-brand-50 hover:bg-brand-100 hover:text-brand-700 rounded-xl transition-all shadow-sm"
                           title="Edit"
                         >
                           <Edit2 className="h-4 w-4" />
                         </button>
                         <button
                           onClick={() => handleClone(product.id)}
-                          className="p-1.5 text-gray-400 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-all"
+                          className="p-2 text-gray-600 bg-gray-100 hover:bg-gray-200 hover:text-gray-900 rounded-xl transition-all shadow-sm"
                           title="Clone"
                         >
                           <Copy className="h-4 w-4" />
                         </button>
                         <button
                           onClick={() => handleDelete(product.id)}
-                          className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-md transition-all"
+                          className="p-2 text-red-600 bg-red-50 hover:bg-red-100 hover:text-red-700 rounded-xl transition-all shadow-sm"
                           title="Delete"
                         >
                           <Trash2 className="h-4 w-4" />
@@ -559,36 +580,31 @@ export default function ProductsManager() {
         </div>
 
         {/* Pagination */}
-        <div className="bg-white px-4 py-3 border-t border-gray-200 sm:px-6 flex items-center justify-between">
-          <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
-            <div>
-              <p className="text-sm text-gray-700">
-                Showing page <span className="font-medium">{page}</span> of <span className="font-medium">{totalPages}</span>
-              </p>
-            </div>
-            <div>
-              <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
-                <button
-                  onClick={() => setPage(p => Math.max(1, p - 1))}
-                  disabled={page === 1}
-                  className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50"
-                >
-                  Previous
-                </button>
-                <button
-                  onClick={() => setPage(p => Math.min(totalPages, p + 1))}
-                  disabled={page === totalPages || totalPages === 0}
-                  className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50"
-                >
-                  Next
-                </button>
-              </nav>
-            </div>
+        <div className="bg-gray-50/50 px-6 py-4 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div>
+            <p className="text-sm font-medium text-gray-500">
+              Showing page <span className="font-bold text-gray-900">{page}</span> of <span className="font-bold text-gray-900">{totalPages}</span>
+            </p>
+          </div>
+          <div className="flex gap-2">
+            <button
+              onClick={() => setPage(p => Math.max(1, p - 1))}
+              disabled={page === 1}
+              className="inline-flex items-center justify-center px-4 py-2 bg-white border border-gray-200 text-sm font-bold text-gray-700 rounded-xl shadow-sm hover:bg-gray-50 hover:border-gray-300 transition-all disabled:opacity-50 disabled:pointer-events-none"
+            >
+              Previous
+            </button>
+            <button
+              onClick={() => setPage(p => Math.min(totalPages, p + 1))}
+              disabled={page === totalPages || totalPages === 0}
+              className="inline-flex items-center justify-center px-4 py-2 bg-white border border-gray-200 text-sm font-bold text-gray-700 rounded-xl shadow-sm hover:bg-gray-50 hover:border-gray-300 transition-all disabled:opacity-50 disabled:pointer-events-none"
+            >
+              Next
+            </button>
           </div>
         </div>
       </div>
 
-      {/* Inline keyframes for the bulk action bar animation */}
       <style>{`
         @keyframes slideDown {
           from { opacity: 0; transform: translateY(-8px); }
