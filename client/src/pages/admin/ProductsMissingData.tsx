@@ -5,7 +5,9 @@ import {
   Edit2,
   AlertCircle,
   Eye,
-  ArrowRight
+  ArrowRight,
+  CheckCircle2,
+  Loader2
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import api from '../../lib/axios';
@@ -65,69 +67,73 @@ export default function ProductsMissingData() {
   };
 
   return (
-    <div>
+    <div className="animate-fade-in pb-12">
       {/* Header */}
-      <div className="sm:flex sm:items-center sm:justify-between mb-8">
-        <div>
-          <h1 className="text-2xl font-heading font-semibold text-gray-900 flex items-center gap-2">
-            <AlertCircle className="h-6 w-6 text-amber-500" />
-            Missing Data
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
+        <div className="max-w-2xl">
+          <h1 className="text-3xl font-bold tracking-tight text-gray-900 mb-2 flex items-center gap-3">
+            <div className="p-2.5 bg-amber-50 rounded-xl">
+              <AlertCircle className="h-7 w-7 text-amber-500" />
+            </div>
+            Action Required
           </h1>
-          <p className="mt-2 text-sm text-gray-700">
-            Products that are missing fields like Thickness, Length, Color, or Material.
+          <p className="text-sm font-medium text-gray-500 leading-relaxed">
+            These products are missing critical specifications like <span className="font-bold text-gray-700">Thickness, Length, Color,</span> or <span className="font-bold text-gray-700">Material</span>. Update them to improve customer experience.
           </p>
         </div>
       </div>
 
-      <div className="glass-panel overflow-hidden">
+      <div className="bg-white rounded-3xl shadow-[0_2px_15px_-3px_rgba(6,81,237,0.05)] border border-gray-100 overflow-hidden relative">
         {/* Search */}
-        <div className="p-4 border-b border-gray-200 bg-white/50 sm:flex sm:items-center sm:justify-between">
-          <div className="relative max-w-sm w-full">
-            <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-              <Search className="h-4 w-4 text-gray-400" />
+        <div className="p-6 border-b border-gray-100 bg-white flex flex-col sm:flex-row sm:items-center justify-between gap-5 relative z-10">
+          <div className="relative max-w-md w-full">
+            <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
+              <Search className="h-5 w-5 text-gray-400" />
             </div>
             <input
               type="text"
-              className="admin-input pl-9 bg-white"
-              placeholder="Search by code or name..."
+              className="w-full bg-gray-50 border border-gray-200 text-gray-900 rounded-xl pl-11 pr-4 py-3 text-sm focus:bg-white focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 transition-all outline-none"
+              placeholder="Search by product code or name..."
               value={search}
               onChange={(e) => { setSearch(e.target.value); setPage(1); }}
             />
           </div>
-          <div className="mt-2 sm:mt-0 text-sm text-gray-500 font-medium">
-            {totalCount} product{totalCount !== 1 ? 's' : ''} need attention
+          <div className="text-sm font-bold text-amber-700 bg-amber-50 px-5 py-3 rounded-xl border border-amber-200/60 whitespace-nowrap inline-flex items-center shadow-sm">
+            <span className="text-xl mr-2">{totalCount}</span> product{totalCount !== 1 ? 's' : ''} need attention
           </div>
         </div>
 
         {/* Table */}
-        <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-amber-50/50">
+        <div className="overflow-x-auto relative z-0">
+          <table className="min-w-full divide-y divide-gray-100">
+            <thead className="bg-gray-50/50">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Missing Fields</th>
-                <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
+                <th className="px-8 py-5 text-left text-[11px] font-bold text-gray-500 uppercase tracking-widest">Product Details</th>
+                <th className="px-8 py-5 text-left text-[11px] font-bold text-gray-500 uppercase tracking-widest">Missing Specifications</th>
+                <th className="px-8 py-5 text-right text-[11px] font-bold text-gray-500 uppercase tracking-widest">Action</th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody className="bg-white divide-y divide-gray-50">
               {isLoading ? (
                 <tr>
-                  <td colSpan={3} className="px-6 py-12 text-center text-gray-500">
-                    <div className="flex items-center justify-center gap-3">
-                      <div className="w-5 h-5 border-2 border-brand-200 border-t-brand-600 rounded-full animate-spin" />
-                      Loading products...
+                  <td colSpan={3} className="px-8 py-20 text-center text-gray-500">
+                    <div className="flex flex-col items-center justify-center gap-4 text-brand-600">
+                      <Loader2 className="h-8 w-8 animate-spin" />
+                      <span className="font-bold text-gray-500">Checking products...</span>
                     </div>
                   </td>
                 </tr>
               ) : data.length === 0 ? (
                 <tr>
-                  <td colSpan={3} className="px-6 py-16 text-center text-gray-500">
-                    <div className="flex flex-col items-center gap-3">
-                      <div className="h-12 w-12 rounded-full bg-green-50 flex items-center justify-center mb-2">
-                        <AlertCircle className="h-6 w-6 text-green-500" />
+                  <td colSpan={3} className="px-8 py-24 text-center">
+                    <div className="flex flex-col items-center gap-4">
+                      <div className="h-16 w-16 rounded-3xl bg-emerald-50 flex items-center justify-center mb-2 shadow-sm border border-emerald-100">
+                        <CheckCircle2 className="h-8 w-8 text-emerald-500" />
                       </div>
-                      <p className="text-gray-900 font-medium text-lg">All caught up!</p>
-                      <p className="text-sm text-gray-500">No products are missing data.</p>
+                      <div>
+                        <p className="text-gray-900 font-bold text-xl mb-1">All caught up!</p>
+                        <p className="text-sm font-medium text-gray-500">Your entire catalog has complete data. Great job!</p>
+                      </div>
                     </div>
                   </td>
                 </tr>
@@ -135,43 +141,44 @@ export default function ProductsMissingData() {
                 data.map(product => {
                   const missingFields = getMissingFields(product);
                   return (
-                    <tr key={product.id} className="hover:bg-gray-50/50 transition-colors">
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="flex items-center">
-                          <div className="flex-shrink-0 h-10 w-10">
+                    <tr key={product.id} className="hover:bg-amber-50/30 transition-colors duration-200 group">
+                      <td className="px-8 py-5 whitespace-nowrap">
+                        <div className="flex items-center gap-5">
+                          <div className="flex-shrink-0 relative group-hover:scale-105 transition-transform duration-300">
                             {product.images?.[0]?.thumbPath ? (
                               <img
                                 src={`http://localhost:3000${product.images[0].thumbPath}`}
                                 alt="thumb"
-                                className="h-10 w-10 rounded-md object-cover border border-gray-200"
+                                className="h-12 w-12 rounded-xl object-cover border border-gray-200 shadow-sm"
                               />
                             ) : (
-                              <div className="h-10 w-10 rounded-md bg-gray-100 flex items-center justify-center border border-gray-200">
-                                <span className="text-xs text-gray-400">No Img</span>
+                              <div className="h-12 w-12 rounded-xl bg-gray-100 flex items-center justify-center border border-gray-200">
+                                <span className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">No Img</span>
                               </div>
                             )}
                           </div>
-                          <div className="ml-4">
-                            <div className="text-sm font-medium text-gray-900">{product.productName}</div>
-                            <div className="text-sm text-gray-500 font-mono">{product.productCode}</div>
+                          <div>
+                            <div className="text-sm font-bold text-gray-900 mb-1 group-hover:text-brand-600 transition-colors">{product.productName}</div>
+                            <div className="text-xs font-mono font-medium text-gray-500 bg-gray-100 px-2 py-0.5 rounded inline-block border border-gray-200/60">{product.productCode}</div>
                           </div>
                         </div>
                       </td>
-                      <td className="px-6 py-4">
-                        <div className="flex flex-wrap gap-1.5">
+                      <td className="px-8 py-5">
+                        <div className="flex flex-wrap gap-2 max-w-sm">
                           {missingFields.map(field => (
-                            <span key={field} className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-amber-100 text-amber-800">
+                            <span key={field} className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-amber-50 text-amber-700 border border-amber-200/50 shadow-sm">
+                              <AlertCircle className="h-3 w-3 mr-1.5 opacity-70" />
                               {field}
                             </span>
                           ))}
                         </div>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                      <td className="px-8 py-5 whitespace-nowrap text-right">
                         <Link
                           to={`/admin/products/${product.id}/edit`}
-                          className="inline-flex items-center justify-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-white bg-brand-600 hover:bg-brand-700 transition-colors gap-1.5"
+                          className="inline-flex items-center justify-center px-5 py-2.5 bg-white border border-gray-200 text-sm font-bold rounded-xl text-gray-700 hover:bg-brand-50 hover:text-brand-700 hover:border-brand-200 transition-all shadow-sm group-hover:shadow-md gap-2"
                         >
-                          <Edit2 className="h-3.5 w-3.5" />
+                          <Edit2 className="h-4 w-4" />
                           Resolve
                         </Link>
                       </td>
@@ -184,31 +191,27 @@ export default function ProductsMissingData() {
         </div>
 
         {/* Pagination */}
-        <div className="bg-white px-4 py-3 border-t border-gray-200 sm:px-6 flex items-center justify-between">
-          <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
-            <div>
-              <p className="text-sm text-gray-700">
-                Showing page <span className="font-medium">{page}</span> of <span className="font-medium">{totalPages}</span>
-              </p>
-            </div>
-            <div>
-              <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
-                <button
-                  onClick={() => setPage(p => Math.max(1, p - 1))}
-                  disabled={page === 1}
-                  className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50"
-                >
-                  Previous
-                </button>
-                <button
-                  onClick={() => setPage(p => Math.min(totalPages, p + 1))}
-                  disabled={page === totalPages || totalPages === 0}
-                  className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50"
-                >
-                  Next
-                </button>
-              </nav>
-            </div>
+        <div className="bg-gray-50/50 px-8 py-4 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div>
+            <p className="text-sm font-medium text-gray-500">
+              Showing page <span className="font-bold text-gray-900">{page}</span> of <span className="font-bold text-gray-900">{totalPages}</span>
+            </p>
+          </div>
+          <div className="flex gap-2">
+            <button
+              onClick={() => setPage(p => Math.max(1, p - 1))}
+              disabled={page === 1}
+              className="inline-flex items-center justify-center px-4 py-2 bg-white border border-gray-200 text-sm font-bold text-gray-700 rounded-xl shadow-sm hover:bg-gray-50 hover:border-gray-300 transition-all disabled:opacity-50 disabled:pointer-events-none"
+            >
+              Previous
+            </button>
+            <button
+              onClick={() => setPage(p => Math.min(totalPages, p + 1))}
+              disabled={page === totalPages || totalPages === 0}
+              className="inline-flex items-center justify-center px-4 py-2 bg-white border border-gray-200 text-sm font-bold text-gray-700 rounded-xl shadow-sm hover:bg-gray-50 hover:border-gray-300 transition-all disabled:opacity-50 disabled:pointer-events-none"
+            >
+              Next
+            </button>
           </div>
         </div>
       </div>
