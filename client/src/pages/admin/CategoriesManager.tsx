@@ -341,44 +341,76 @@ const CategoryNode: React.FC<{
     }
   };
 
-  const levelColors = [
-    'text-brand-700 bg-brand-50',
-    'text-violet-700 bg-violet-50',
-    'text-amber-700 bg-amber-50',
+  const depthColors = [
+    'bg-red-500',
+    'bg-blue-500',
+    'bg-green-500',
+    'bg-red-500',
+    'bg-blue-500'
   ];
+  const depthBg = [
+    'bg-red-50 text-red-700 border-red-100',
+    'bg-blue-50 text-blue-700 border-blue-100',
+    'bg-green-50 text-green-700 border-green-100',
+    'bg-red-50 text-red-700 border-red-100',
+    'bg-blue-50 text-blue-700 border-blue-100'
+  ];
+  const colorIdx = Math.min(depth, depthColors.length - 1);
 
   return (
     <div className="w-full">
       <div
-        className="flex items-center justify-between py-3 px-4 border-b border-gray-100 hover:bg-gray-50 transition-colors group"
-        style={{ paddingLeft: `${(depth * 2) + 1}rem` }}
+        className={`flex items-center justify-between p-3.5 mb-3 bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300 group relative overflow-hidden`}
+        style={{ marginLeft: `${depth * 3}rem`, width: `calc(100% - ${depth * 3}rem)` }}
       >
-        <div className="flex items-center gap-3 min-w-0">
-          <button
-            onClick={() => setExpanded(!expanded)}
-            className={`p-1 rounded hover:bg-gray-200 transition-colors ${node.children.length === 0 ? 'invisible' : ''}`}
-          >
-            {expanded ? <ChevronDown className="h-4 w-4 text-gray-500" /> : <ChevronRight className="h-4 w-4 text-gray-500" />}
-          </button>
-          <span className="font-medium text-gray-900 truncate">{node.name}</span>
-          <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${levelColors[depth] || levelColors[0]}`}>
-            {node._count.products} products
-          </span>
-          <span className="text-xs text-gray-300 font-mono opacity-0 group-hover:opacity-100 transition-opacity">
-            #{node.sortOrder}
-          </span>
+        {/* Colorful left border indicator */}
+        <div className={`absolute left-0 top-0 bottom-0 w-1.5 ${depthColors[colorIdx]}`} />
+        
+        <div className="flex items-center gap-4 min-w-0 pl-3">
+          {node.children.length > 0 ? (
+            <button
+              onClick={() => setExpanded(!expanded)}
+              className={`p-1.5 rounded-xl transition-all duration-300 ${expanded ? 'bg-gray-100 text-gray-800' : 'bg-gray-50 text-gray-400 -rotate-90 hover:bg-gray-200'}`}
+            >
+              <ChevronDown className="h-5 w-5" />
+            </button>
+          ) : (
+            <div className="w-8 h-8 flex items-center justify-center">
+              <div className="w-1.5 h-1.5 rounded-full bg-gray-300" />
+            </div>
+          )}
+          
+          <div className="flex flex-col">
+            <div className="flex items-center gap-3">
+              <span className="font-bold text-gray-900 truncate text-base">{node.name}</span>
+              <span className={`text-[10px] px-2.5 py-1 rounded-full font-bold uppercase tracking-wider border ${depthBg[colorIdx]}`}>
+                {node._count.products} products
+              </span>
+              {!node.isVisible && (
+                <span className="text-[10px] px-2.5 py-1 rounded-full font-bold uppercase tracking-wider bg-gray-100 text-gray-500 border border-gray-200">
+                  Hidden
+                </span>
+              )}
+            </div>
+            <span className="text-xs text-gray-400 font-mono flex items-center gap-2 mt-0.5">
+              <span>Slug: {node.slug}</span>
+              <span className="text-gray-300">•</span>
+              <span>Order: #{node.sortOrder}</span>
+            </span>
+          </div>
         </div>
-        <div className="flex items-center gap-1">
+
+        <div className="flex items-center gap-2 pr-2 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-4 group-hover:translate-x-0">
           <button
             onClick={() => onEdit(node)}
-            className="p-1.5 text-gray-400 hover:text-brand-600 hover:bg-brand-50 rounded-md transition-all"
+            className="p-2 text-brand-600 bg-brand-50 hover:bg-brand-100 hover:text-brand-700 rounded-xl transition-all shadow-sm flex items-center gap-2"
             title="Edit"
           >
             <Edit2 className="h-4 w-4" />
           </button>
           <button
             onClick={handleDelete}
-            className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-md transition-all"
+            className="p-2 text-red-600 bg-red-50 hover:bg-red-100 hover:text-red-700 rounded-xl transition-all shadow-sm flex items-center gap-2"
             title="Delete"
           >
             <Trash2 className="h-4 w-4" />
@@ -387,7 +419,7 @@ const CategoryNode: React.FC<{
       </div>
 
       {expanded && node.children.length > 0 && (
-        <div className="flex flex-col">
+        <div className="flex flex-col relative mt-1">
           {node.children.map(child => (
             <CategoryNode
               key={child.id}
@@ -460,24 +492,24 @@ export default function CategoriesManager() {
         </div>
       </div>
 
-      <div className="glass-panel overflow-hidden bg-white">
-        {/* Column header */}
-        <div className="flex items-center justify-between py-2.5 px-4 border-b border-gray-200 bg-gray-50/80">
-          <span className="text-xs font-medium text-gray-500 uppercase tracking-wider pl-10">Category Name</span>
-          <span className="text-xs font-medium text-gray-500 uppercase tracking-wider pr-2">Actions</span>
-        </div>
-
+      <div className="mt-8">
         {isLoading ? (
-          <div className="p-8 text-center text-gray-500">
+          <div className="p-12 text-center text-gray-500 bg-white rounded-3xl border border-gray-100 shadow-sm">
             <div className="flex items-center justify-center gap-3">
-              <div className="w-5 h-5 border-2 border-brand-200 border-t-brand-600 rounded-full animate-spin" />
-              Loading hierarchy...
+              <div className="w-6 h-6 border-2 border-brand-200 border-t-brand-600 rounded-full animate-spin" />
+              <span className="font-medium text-lg">Loading hierarchy...</span>
             </div>
           </div>
         ) : categories.length === 0 ? (
-          <div className="p-8 text-center text-gray-500">No categories found.</div>
+          <div className="p-16 text-center bg-white rounded-3xl border border-dashed border-gray-300 flex flex-col items-center justify-center">
+            <div className="p-4 bg-gray-50 rounded-2xl mb-4">
+              <FolderTree className="h-8 w-8 text-gray-400" />
+            </div>
+            <h3 className="text-lg font-semibold text-gray-900 mb-1">No categories yet</h3>
+            <p className="text-sm text-gray-500">Get started by creating your first root category.</p>
+          </div>
         ) : (
-          <div className="flex flex-col">
+          <div className="flex flex-col pb-12">
             {categories.map(cat => (
               <CategoryNode
                 key={cat.id}
