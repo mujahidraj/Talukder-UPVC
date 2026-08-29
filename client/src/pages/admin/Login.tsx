@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import { Lock, Mail, Loader2 } from 'lucide-react';
+import { Lock, Mail, Loader2, Eye, EyeOff } from 'lucide-react';
 import useAuthStore from '../../store/useAuthStore';
 import api from '../../lib/axios';
 
@@ -17,6 +17,7 @@ type FormData = z.infer<typeof schema>;
 
 export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const setAuth = useAuthStore((state) => state.setAuth);
 
@@ -91,10 +92,17 @@ export default function Login() {
                 </div>
                 <input
                   {...register('password')}
-                  type="password"
-                  className="admin-input pl-10"
+                  type={showPassword ? 'text' : 'password'}
+                  className="admin-input pl-10 pr-10"
                   placeholder="••••••••"
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400 hover:text-slate-600 transition-colors"
+                >
+                  {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                </button>
                 {errors.password && (
                   <p className="mt-2 text-sm text-red-600">{errors.password.message}</p>
                 )}

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Users, Plus, Edit2, Trash2, RotateCcw, Shield, ShieldCheck, ShieldAlert, X } from 'lucide-react';
+import { Users, Plus, Edit2, Trash2, RotateCcw, Shield, ShieldCheck, ShieldAlert, X, Eye, EyeOff } from 'lucide-react';
 import toast from 'react-hot-toast';
 import api from '../../lib/axios';
 import useAuthStore from '../../store/useAuthStore';
@@ -41,12 +41,14 @@ export default function UserManagement() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingUser, setEditingUser] = useState<AdminUser | null>(null);
   const [formData, setFormData] = useState({ name: '', email: '', role: 'SALES_STAFF', password: '', isActive: true });
+  const [showModalPassword, setShowModalPassword] = useState(false);
 
   // Security confirmation modal states
   const [isPasswordConfirmOpen, setIsPasswordConfirmOpen] = useState(false);
   const [confirmPassword, setConfirmPassword] = useState('');
   const [pendingAction, setPendingAction] = useState<((pwd: string) => Promise<void>) | null>(null);
   const [isConfirming, setIsConfirming] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const fetchUsers = async () => {
     setLoading(true);
@@ -269,7 +271,12 @@ export default function UserManagement() {
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   {editingUser ? 'New Password (leave blank to keep current)' : 'Password'}
                 </label>
-                <input type="password" required={!editingUser} className="admin-input" value={formData.password} onChange={e => setFormData({ ...formData, password: e.target.value })} placeholder={editingUser ? '••••••••' : 'Password'} minLength={8} />
+                <div className="relative">
+                  <input type={showModalPassword ? 'text' : 'password'} required={!editingUser} className="admin-input pr-10" value={formData.password} onChange={e => setFormData({ ...formData, password: e.target.value })} placeholder={editingUser ? '••••••••' : 'Password'} minLength={8} />
+                  <button type="button" onClick={() => setShowModalPassword(!showModalPassword)} className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-600 transition-colors">
+                    {showModalPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  </button>
+                </div>
                 <p className="mt-1 text-xs text-gray-500">Min 8 chars, 1 uppercase, 1 lowercase, 1 number or special char.</p>
               </div>
               {editingUser && editingUser.id !== currentUser?.id && (
@@ -306,15 +313,20 @@ export default function UserManagement() {
                 To perform this restricted action, please verify your identity by entering your <span className="font-bold text-red-700">Super Admin password</span>.
               </p>
               <div>
-                <input 
-                  type="password" 
-                  required 
-                  autoFocus
-                  className="w-full bg-white border border-red-200 text-gray-900 rounded-xl px-4 py-3 text-sm focus:border-red-500 focus:ring-4 focus:ring-red-500/10 transition-all outline-none"
-                  value={confirmPassword} 
-                  onChange={e => setConfirmPassword(e.target.value)} 
-                  placeholder="Enter your password..." 
-                />
+                <div className="relative">
+                  <input 
+                    type={showConfirmPassword ? 'text' : 'password'} 
+                    required 
+                    autoFocus
+                    className="w-full bg-white border border-red-200 text-gray-900 rounded-xl pl-4 pr-11 py-3 text-sm focus:border-red-500 focus:ring-4 focus:ring-red-500/10 transition-all outline-none"
+                    value={confirmPassword} 
+                    onChange={e => setConfirmPassword(e.target.value)} 
+                    placeholder="Enter your password..." 
+                  />
+                  <button type="button" onClick={() => setShowConfirmPassword(!showConfirmPassword)} className="absolute inset-y-0 right-0 flex items-center pr-3.5 text-red-400 hover:text-red-600 transition-colors">
+                    {showConfirmPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                  </button>
+                </div>
               </div>
               <div className="pt-2 flex justify-end gap-3">
                 <button type="button" onClick={() => setIsPasswordConfirmOpen(false)} className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-xl hover:bg-gray-200 transition-colors">Cancel</button>
