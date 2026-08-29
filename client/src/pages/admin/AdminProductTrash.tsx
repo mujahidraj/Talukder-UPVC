@@ -10,6 +10,7 @@ import {
   CheckSquare,
   Square,
   MinusSquare,
+  Loader2
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import api from '../../lib/axios';
@@ -153,21 +154,26 @@ export default function AdminProductTrash() {
   const someSelected = selectedIds.size > 0 && selectedIds.size < data.length;
 
   return (
-    <div>
-      {/* Header */}
-      <div className="sm:flex sm:items-center sm:justify-between mb-8">
-        <div>
-          <div className="flex items-center gap-2 mb-2">
-            <Link to="/admin/products" className="text-gray-400 hover:text-brand-600 transition-colors">
-              <ArrowLeft className="h-5 w-5" />
+    <div className="animate-fade-in pb-12">
+      {/* Premium Header */}
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
+        <div className="max-w-2xl">
+          <div className="flex items-center gap-4 mb-3">
+            <Link 
+              to="/admin/products" 
+              className="p-2 bg-white border border-gray-200 rounded-xl text-gray-500 hover:text-brand-600 hover:border-brand-200 hover:bg-brand-50 transition-all shadow-sm group"
+            >
+              <ArrowLeft className="h-5 w-5 group-hover:-translate-x-0.5 transition-transform" />
             </Link>
-            <h1 className="text-2xl font-heading font-semibold text-gray-900 flex items-center gap-2">
-              <Trash2 className="h-6 w-6 text-red-500" />
+            <h1 className="text-3xl font-bold tracking-tight text-gray-900 flex items-center gap-3">
+              <div className="p-2.5 bg-red-50 rounded-xl text-red-500">
+                <Trash2 className="h-7 w-7" />
+              </div>
               Recycle Bin
             </h1>
           </div>
-          <p className="text-sm text-gray-700 ml-7">
-            View soft-deleted products. You can restore them or permanently erase them.
+          <p className="text-sm font-medium text-gray-500 leading-relaxed ml-[3.25rem]">
+            View soft-deleted products. You can gracefully <span className="font-bold text-green-600">restore</span> them or <span className="font-bold text-red-600">permanently erase</span> them to free up space.
           </p>
         </div>
       </div>
@@ -175,55 +181,58 @@ export default function AdminProductTrash() {
       {/* Bulk Action Bar */}
       {selectedIds.size > 0 && (
         <div
-          className="mb-4 bg-brand-50 border border-brand-200 rounded-xl px-5 py-3 flex items-center justify-between"
+          className="mb-6 bg-red-50/80 border border-red-200 rounded-2xl px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-sm relative overflow-hidden"
           style={{ animation: 'slideDown 0.2s ease-out' }}
         >
-          <div className="flex items-center gap-3">
-            <div className="flex items-center justify-center h-8 w-8 rounded-lg bg-brand-600 text-white text-sm font-bold shadow-sm">
+          <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-red-500"></div>
+          <div className="flex items-center gap-4">
+            <div className="flex items-center justify-center h-10 w-10 rounded-xl bg-red-600 text-white text-base font-bold shadow-md shadow-red-500/20">
               {selectedIds.size}
             </div>
-            <span className="text-sm font-medium text-brand-900">
+            <span className="text-base font-bold text-red-900">
               product{selectedIds.size > 1 ? 's' : ''} selected
             </span>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             <button
               onClick={handleBulkRestore}
               disabled={isProcessing}
-              className="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold text-white bg-green-600 rounded-lg hover:bg-green-700 transition-colors shadow-sm disabled:opacity-50"
+              className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-bold text-white bg-green-600 rounded-xl hover:bg-green-700 transition-colors shadow-sm disabled:opacity-50"
             >
-              <RefreshCw className="h-4 w-4" />
+              {isProcessing ? <Loader2 className="h-4 w-4 animate-spin" /> : <RefreshCw className="h-4 w-4" />}
               {isProcessing ? 'Processing...' : 'Restore Selected'}
             </button>
             <button
               onClick={handleBulkPermanentDelete}
               disabled={isProcessing}
-              className="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold text-white bg-red-600 rounded-lg hover:bg-red-700 transition-colors shadow-sm disabled:opacity-50"
+              className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-bold text-white bg-red-600 rounded-xl hover:bg-red-700 transition-colors shadow-sm disabled:opacity-50"
             >
-              <Trash2 className="h-4 w-4" />
-              {isProcessing ? 'Processing...' : 'Permanently Delete'}
+              {isProcessing ? <Loader2 className="h-4 w-4 animate-spin" /> : <Trash2 className="h-4 w-4" />}
+              {isProcessing ? 'Processing...' : 'Delete Forever'}
             </button>
             <button
               onClick={() => setSelectedIds(new Set())}
-              className="inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
+              className="inline-flex items-center gap-1.5 px-4 py-2.5 text-sm font-semibold text-gray-600 hover:text-gray-900 hover:bg-white/80 rounded-xl transition-colors"
             >
               <X className="h-4 w-4" />
-              Clear
+              Cancel
             </button>
           </div>
         </div>
       )}
 
-      <div className="glass-panel overflow-hidden">
-        <div className="p-4 border-b border-gray-200 bg-white/50 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div className="flex items-center gap-4 w-full sm:max-w-xl">
-            <div className="relative w-full sm:max-w-sm">
-              <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                <Search className="h-4 w-4 text-gray-400" />
+      {/* Main Container */}
+      <div className="bg-white rounded-3xl shadow-[0_2px_15px_-3px_rgba(6,81,237,0.05)] border border-gray-100 overflow-hidden relative">
+        {/* Search Bar */}
+        <div className="p-5 border-b border-gray-100 bg-white flex flex-col lg:flex-row lg:items-center justify-between gap-5 relative z-10">
+          <div className="flex flex-col sm:flex-row items-center gap-4 w-full lg:max-w-2xl">
+            <div className="relative w-full">
+              <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
+                <Search className="h-5 w-5 text-gray-400" />
               </div>
               <input
                 type="text"
-                className="admin-input pl-9 bg-white w-full"
+                className="w-full bg-gray-50 border border-gray-200 text-gray-900 rounded-xl pl-11 pr-4 py-3 text-sm focus:bg-white focus:border-red-500 focus:ring-4 focus:ring-red-500/10 transition-all outline-none"
                 placeholder="Search deleted products..."
                 value={search}
                 onChange={(e) => { setSearch(e.target.value); setPage(1); }}
@@ -233,28 +242,28 @@ export default function AdminProductTrash() {
               <button
                 onClick={toggleSelectAll}
                 disabled={isSelectingAll}
-                className="flex items-center gap-2 px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors whitespace-nowrap disabled:opacity-50"
+                className="flex items-center justify-center gap-2 px-5 py-3 bg-white border border-gray-200 rounded-xl text-sm font-bold text-gray-700 hover:bg-gray-50 hover:border-gray-300 transition-all whitespace-nowrap disabled:opacity-50 shadow-sm"
               >
-                {selectedIds.size === totalCount ? <MinusSquare className="h-4 w-4 text-red-500" /> : <CheckSquare className="h-4 w-4 text-gray-400" />}
-                {isSelectingAll ? 'Selecting...' : selectedIds.size === totalCount ? 'Deselect All' : 'Select All (All Pages)'}
+                {selectedIds.size === totalCount ? <MinusSquare className="h-5 w-5 text-red-500" /> : <CheckSquare className="h-5 w-5 text-gray-400" />}
+                {isSelectingAll ? 'Selecting...' : selectedIds.size === totalCount ? 'Deselect All' : 'Select All Files'}
               </button>
             )}
           </div>
-          <div className="text-sm text-gray-500 flex items-center gap-2 whitespace-nowrap">
-            <AlertTriangle className="h-4 w-4 text-amber-500" />
-            {totalCount} item{totalCount !== 1 ? 's' : ''} in trash
+          <div className="text-sm font-bold text-red-600 bg-red-50 px-4 py-2.5 rounded-xl border border-red-100 whitespace-nowrap inline-flex items-center shadow-sm">
+            <AlertTriangle className="h-4 w-4 mr-2" />
+            <span className="text-red-700">{totalCount} item{totalCount !== 1 ? 's' : ''} in trash</span>
           </div>
         </div>
 
-        {/* Table */}
-        <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-red-50/50">
+        {/* Table Data */}
+        <div className="overflow-x-auto relative z-0">
+          <table className="min-w-full divide-y divide-gray-100">
+            <thead className="bg-red-50/30">
               <tr>
-                <th className="px-4 py-3 w-12">
+                <th className="px-6 py-4 w-16">
                   <button
                     onClick={toggleSelectAll}
-                    className="text-gray-400 hover:text-red-600 transition-colors"
+                    className="text-gray-400 hover:text-red-600 transition-colors bg-white border border-gray-200 rounded p-1 shadow-sm"
                     title={allSelected ? 'Deselect all' : 'Select all'}
                   >
                     {allSelected ? (
@@ -266,32 +275,34 @@ export default function AdminProductTrash() {
                     )}
                   </button>
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Image</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Item Code</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Deleted On</th>
-                <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                <th className="px-6 py-4 text-left text-[11px] font-bold text-gray-500 uppercase tracking-widest">Image</th>
+                <th className="px-6 py-4 text-left text-[11px] font-bold text-gray-500 uppercase tracking-widest">Item Code</th>
+                <th className="px-6 py-4 text-left text-[11px] font-bold text-gray-500 uppercase tracking-widest">Name</th>
+                <th className="px-6 py-4 text-left text-[11px] font-bold text-gray-500 uppercase tracking-widest">Deleted On</th>
+                <th className="px-6 py-4 text-right text-[11px] font-bold text-gray-500 uppercase tracking-widest">Actions</th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody className="bg-white divide-y divide-gray-50">
               {isLoading ? (
                 <tr>
-                  <td colSpan={6} className="px-6 py-12 text-center text-gray-500">
-                    <div className="flex items-center justify-center gap-3">
-                      <div className="w-5 h-5 border-2 border-brand-200 border-t-brand-600 rounded-full animate-spin" />
-                      Loading trash...
+                  <td colSpan={6} className="px-6 py-20 text-center text-gray-500">
+                    <div className="flex flex-col items-center justify-center gap-4 text-red-500">
+                      <Loader2 className="h-8 w-8 animate-spin" />
+                      <span className="font-bold text-gray-500">Loading trash...</span>
                     </div>
                   </td>
                 </tr>
               ) : data.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="px-6 py-16 text-center text-gray-500">
-                    <div className="flex flex-col items-center gap-3">
-                      <div className="h-12 w-12 rounded-full bg-gray-50 flex items-center justify-center mb-2">
-                        <Trash2 className="h-6 w-6 text-gray-300" />
+                  <td colSpan={6} className="px-6 py-24 text-center">
+                    <div className="flex flex-col items-center gap-4">
+                      <div className="h-16 w-16 rounded-3xl bg-gray-50 flex items-center justify-center mb-2 shadow-sm border border-gray-100">
+                        <Trash2 className="h-8 w-8 text-gray-300" />
                       </div>
-                      <p className="text-gray-500 font-medium">Recycle Bin is empty</p>
-                      <p className="text-sm text-gray-400">No deleted products found.</p>
+                      <div>
+                        <p className="text-gray-900 font-bold text-xl mb-1">Recycle Bin is empty</p>
+                        <p className="text-sm font-medium text-gray-500">No deleted products found.</p>
+                      </div>
                     </div>
                   </td>
                 </tr>
@@ -299,12 +310,13 @@ export default function AdminProductTrash() {
                 data.map(product => (
                   <tr
                     key={product.id}
-                    className={`transition-colors ${selectedIds.has(product.id) ? 'bg-red-50/40' : 'hover:bg-gray-50/50'}`}
+                    className={`transition-all duration-200 group ${selectedIds.has(product.id) ? 'bg-red-50/50' : 'hover:bg-red-50/30'}`}
                   >
-                    <td className="px-4 py-4">
+                    {/* Checkbox */}
+                    <td className="px-6 py-5 whitespace-nowrap">
                       <button
                         onClick={() => toggleSelect(product.id)}
-                        className="text-gray-400 hover:text-red-600 transition-colors"
+                        className="text-gray-400 hover:text-red-600 transition-colors bg-white border border-gray-200 rounded p-1 shadow-sm"
                       >
                         {selectedIds.has(product.id) ? (
                           <CheckSquare className="h-5 w-5 text-red-600" />
@@ -313,45 +325,55 @@ export default function AdminProductTrash() {
                         )}
                       </button>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      {product.images?.[0]?.thumbPath ? (
-                        <img
-                          src={`http://localhost:3000${product.images[0].thumbPath}`}
-                          alt="thumb"
-                          className="w-10 h-10 object-cover rounded-md border border-gray-200 grayscale opacity-60"
-                        />
-                      ) : (
-                        <div className="w-10 h-10 bg-gray-100 rounded-md border border-gray-200 flex items-center justify-center opacity-60">
-                          <span className="text-xs text-gray-400">No Img</span>
-                        </div>
-                      )}
+                    {/* Image */}
+                    <td className="px-6 py-5 whitespace-nowrap">
+                      <div className="relative overflow-hidden rounded-xl border border-gray-200 shadow-sm opacity-70 group-hover:opacity-100 transition-opacity">
+                        {product.images?.[0]?.thumbPath ? (
+                          <img
+                            src={`http://localhost:3000${product.images[0].thumbPath}`}
+                            alt="thumb"
+                            className="w-12 h-12 object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
+                          />
+                        ) : (
+                          <div className="w-12 h-12 bg-gray-100 flex flex-col items-center justify-center">
+                            <span className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">No Img</span>
+                          </div>
+                        )}
+                      </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 line-through font-mono">
+                    {/* Code */}
+                    <td className="px-6 py-5 whitespace-nowrap text-sm font-mono text-gray-400 line-through decoration-gray-300 group-hover:text-gray-600 transition-colors">
                       {product.productCode}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
-                      {product.productName}
+                    {/* Name */}
+                    <td className="px-6 py-5 text-sm">
+                      <span className="font-bold text-gray-600 line-clamp-2 group-hover:text-gray-900 transition-colors">
+                        {product.productName}
+                      </span>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {new Date(product.updatedAt).toLocaleDateString()}
+                    {/* Date */}
+                    <td className="px-6 py-5 whitespace-nowrap text-sm font-medium text-gray-500">
+                      <div className="bg-gray-100 px-3 py-1 rounded-full w-fit">
+                        {new Date(product.updatedAt).toLocaleDateString()}
+                      </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                      <div className="flex items-center justify-end gap-3">
+                    {/* Actions */}
+                    <td className="px-6 py-5 whitespace-nowrap text-right">
+                      <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                         <button
                           onClick={() => handleRestore(product.id)}
-                          className="text-green-600 hover:text-green-900 transition-colors flex items-center gap-1"
-                          title="Restore"
+                          className="inline-flex items-center justify-center px-4 py-2 bg-green-50 text-green-700 hover:bg-green-600 hover:text-white rounded-xl text-xs font-bold transition-all shadow-sm gap-1.5"
+                          title="Restore Product"
                         >
-                          <RefreshCw className="h-4 w-4" />
+                          <RefreshCw className="h-3.5 w-3.5" />
                           Restore
                         </button>
-                        <span className="text-gray-300">|</span>
                         <button
                           onClick={() => handlePermanentDelete(product.id)}
-                          className="text-red-600 hover:text-red-900 transition-colors flex items-center gap-1"
+                          className="inline-flex items-center justify-center px-4 py-2 bg-red-50 text-red-700 hover:bg-red-600 hover:text-white rounded-xl text-xs font-bold transition-all shadow-sm gap-1.5"
                           title="Permanently Delete"
                         >
-                          <Trash2 className="h-4 w-4" />
+                          <Trash2 className="h-3.5 w-3.5" />
                           Delete Forever
                         </button>
                       </div>
@@ -364,34 +386,37 @@ export default function AdminProductTrash() {
         </div>
 
         {/* Pagination */}
-        <div className="bg-white px-4 py-3 border-t border-gray-200 sm:px-6 flex items-center justify-between">
-          <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
-            <div>
-              <p className="text-sm text-gray-700">
-                Showing page <span className="font-medium">{page}</span> of <span className="font-medium">{totalPages}</span>
-              </p>
-            </div>
-            <div>
-              <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
-                <button
-                  onClick={() => setPage(p => Math.max(1, p - 1))}
-                  disabled={page === 1}
-                  className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50"
-                >
-                  Previous
-                </button>
-                <button
-                  onClick={() => setPage(p => Math.min(totalPages, p + 1))}
-                  disabled={page === totalPages || totalPages === 0}
-                  className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50"
-                >
-                  Next
-                </button>
-              </nav>
-            </div>
+        <div className="bg-gray-50/50 px-8 py-4 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div>
+            <p className="text-sm font-medium text-gray-500">
+              Showing page <span className="font-bold text-gray-900">{page}</span> of <span className="font-bold text-gray-900">{totalPages}</span>
+            </p>
+          </div>
+          <div className="flex gap-2">
+            <button
+              onClick={() => setPage(p => Math.max(1, p - 1))}
+              disabled={page === 1}
+              className="inline-flex items-center justify-center px-4 py-2 bg-white border border-gray-200 text-sm font-bold text-gray-700 rounded-xl shadow-sm hover:bg-gray-50 hover:border-gray-300 transition-all disabled:opacity-50 disabled:pointer-events-none"
+            >
+              Previous
+            </button>
+            <button
+              onClick={() => setPage(p => Math.min(totalPages, p + 1))}
+              disabled={page === totalPages || totalPages === 0}
+              className="inline-flex items-center justify-center px-4 py-2 bg-white border border-gray-200 text-sm font-bold text-gray-700 rounded-xl shadow-sm hover:bg-gray-50 hover:border-gray-300 transition-all disabled:opacity-50 disabled:pointer-events-none"
+            >
+              Next
+            </button>
           </div>
         </div>
       </div>
+      
+      <style>{`
+        @keyframes slideDown {
+          from { opacity: 0; transform: translateY(-8px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+      `}</style>
     </div>
   );
 }
