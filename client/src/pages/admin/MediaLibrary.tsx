@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Image, Upload, Trash2, Star, Loader2 } from 'lucide-react';
+import { Image, Upload, Trash2, Star, Loader2, Search } from 'lucide-react';
 import toast from 'react-hot-toast';
 import api from '../../lib/axios';
 
@@ -19,6 +19,16 @@ export default function MediaLibrary() {
   const [uploading, setUploading] = useState(false);
   const [productId, setProductId] = useState('');
   const [file, setFile] = useState<File | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const filteredImages = images.filter(img => {
+    const q = searchQuery.toLowerCase();
+    return (
+      img.fileName.toLowerCase().includes(q) ||
+      (img.product?.productName && img.product.productName.toLowerCase().includes(q)) ||
+      (img.product?.productCode && img.product.productCode.toLowerCase().includes(q))
+    );
+  });
 
   const fetchImages = async () => {
     setIsLoading(true);
@@ -83,6 +93,18 @@ export default function MediaLibrary() {
             Upload, manage, and organize product images. Images are auto-resized to thumbnail, medium, and full sizes.
           </p>
         </div>
+        <div className="mt-4 sm:mt-0 relative">
+          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <Search className="h-5 w-5 text-gray-400" />
+          </div>
+          <input
+            type="text"
+            className="admin-input pl-10 w-full sm:w-72"
+            placeholder="Search by file or product..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+        </div>
       </div>
 
       {/* Upload Form */}
@@ -128,9 +150,15 @@ export default function MediaLibrary() {
           <h3 className="mt-2 text-sm font-semibold text-gray-900">No images yet</h3>
           <p className="mt-1 text-sm text-gray-500">Upload product images using the form above.</p>
         </div>
+      ) : filteredImages.length === 0 ? (
+        <div className="glass-panel p-12 text-center">
+          <Search className="mx-auto h-12 w-12 text-gray-300" />
+          <h3 className="mt-2 text-sm font-semibold text-gray-900">No images found</h3>
+          <p className="mt-1 text-sm text-gray-500">Try adjusting your search query.</p>
+        </div>
       ) : (
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-          {images.map((img) => (
+          {filteredImages.map((img) => (
             <div key={img.id} className="group relative bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-md transition-shadow">
               <div className="aspect-square bg-gray-100">
                 <img
