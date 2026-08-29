@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Users, Plus, Edit2, Trash2, RotateCcw, Shield, ShieldCheck, ShieldAlert } from 'lucide-react';
+import { Users, Plus, Edit2, Trash2, RotateCcw, Shield, ShieldCheck, ShieldAlert, X } from 'lucide-react';
 import toast from 'react-hot-toast';
 import api from '../../lib/axios';
 import useAuthStore from '../../store/useAuthStore';
@@ -37,10 +37,16 @@ export default function UserManagement() {
   const [loading, setLoading] = useState(true);
   const currentUser = useAuthStore((s) => s.user);
 
+  // User form modal states
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingUser, setEditingUser] = useState<AdminUser | null>(null);
   const [formData, setFormData] = useState({ name: '', email: '', role: 'SALES_STAFF', password: '', isActive: true });
-  const [isSaving, setIsSaving] = useState(false);
+
+  // Security confirmation modal states
+  const [isPasswordConfirmOpen, setIsPasswordConfirmOpen] = useState(false);
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [pendingAction, setPendingAction] = useState<((pwd: string) => Promise<void>) | null>(null);
+  const [isConfirming, setIsConfirming] = useState(false);
 
   const fetchUsers = async () => {
     setLoading(true);
@@ -56,27 +62,6 @@ export default function UserManagement() {
 
   useEffect(() => { fetchUsers(); }, []);
 
-  const handleDelete = async (id: string) => {
-    if (!window.confirm('Are you sure you want to delete this user?')) return;
-    try {
-      await api.delete(`/admin/users/${id}`);
-      toast.success('User deleted');
-      fetchUsers();
-    } catch (err: any) {
-      toast.error(err.response?.data?.message || 'Failed to delete user');
-    }
-  };
-
-  const handleResetPassword = async (id: string, name: string) => {
-    if (!window.confirm(`Reset password for "${name}" to the default? They will need to change it on next login.`)) return;
-    try {
-      await api.post(`/admin/users/${id}/reset-password`);
-      toast.success('Password reset successfully');
-    } catch (err: any) {
-      toast.error(err.response?.data?.message || 'Failed to reset password');
-    }
-  };
-
   const openModal = (user?: AdminUser) => {
     if (user) {
       setEditingUser(user);
@@ -88,33 +73,76 @@ export default function UserManagement() {
     setIsModalOpen(true);
   };
 
-  const handleSaveUser = async (e: React.FormEvent) => {
+  const executePendingAction = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSaving(true);
+    if (!pendingAction || !confirmPassword) return;
+    
+    setIsConfirming(true);
     try {
+      await pendingAction(confirmPassword);
+      setIsPasswordConfirmOpen(false);
+      setConfirmPassword('');
+    } catch (err: any) {
+      toast.error(err.response?.data?.message || 'Verification failed or action aborted.');
+    } finally {
+      setIsConfirming(false);
+    }
+  };
+
+  const handleDelete = (id: string) => {
+    if (!window.confirm('Are you sure you want to delete this user?')) return;
+    
+    const action = async (pwd: string) => {
+      await api.delete(`/admin/users/${id}`, { headers: { 'X-Super-Password': pwd } });
+      toast.success('User deleted');
+      fetchUsers();
+    };
+    
+    setPendingAction(() => action);
+    setConfirmPassword('');
+    setIsPasswordConfirmOpen(true);
+  };
+
+  const handleResetPassword = (id: string, name: string) => {
+    if (!window.confirm(`Reset password for "${name}" to the default? They will need to change it on next login.`)) return;
+    
+    const action = async (pwd: string) => {
+      await api.post(`/admin/users/${id}/reset-password`, {}, { headers: { 'X-Super-Password': pwd } });
+      toast.success('Password reset successfully');
+    };
+    
+    setPendingAction(() => action);
+    setConfirmPassword('');
+    setIsPasswordConfirmOpen(true);
+  };
+
+  const handleSaveUser = (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!editingUser && !formData.password) {
+      toast.error('Password is required for new users');
+      return;
+    }
+
+    const action = async (pwd: string) => {
       if (editingUser) {
-        // Edit
         const payload: any = { name: formData.name, email: formData.email, role: formData.role, isActive: formData.isActive };
         if (formData.password) payload.password = formData.password;
-        await api.put(`/admin/users/${editingUser.id}`, payload);
+        await api.put(`/admin/users/${editingUser.id}`, payload, { headers: { 'X-Super-Password': pwd } });
         toast.success('User updated successfully');
       } else {
-        // Create
-        if (!formData.password) {
-          toast.error('Password is required for new users');
-          setIsSaving(false);
-          return;
-        }
-        await api.post('/admin/users', formData);
+        const payload: any = { name: formData.name, email: formData.email, role: formData.role };
+        if (formData.password) payload.password = formData.password;
+        await api.post('/admin/users', payload, { headers: { 'X-Super-Password': pwd } });
         toast.success('User created successfully');
       }
       setIsModalOpen(false);
       fetchUsers();
-    } catch (err: any) {
-      toast.error(err.response?.data?.message || 'Failed to save user');
-    } finally {
-      setIsSaving(false);
-    }
+    };
+
+    setPendingAction(() => action);
+    setConfirmPassword('');
+    setIsPasswordConfirmOpen(true);
   };
 
   return (
@@ -126,7 +154,7 @@ export default function UserManagement() {
             User Management
           </h1>
           <p className="mt-2 text-sm text-gray-700">
-            Manage admin accounts, roles, and access control.
+            Manage admin accounts, roles, and access control. <span className="font-semibold text-red-600">Super Admin verification required for changes.</span>
           </p>
         </div>
         <button onClick={() => openModal()} className="mt-4 sm:mt-0 admin-btn-primary flex items-center">
@@ -212,12 +240,12 @@ export default function UserManagement() {
 
       {/* User Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+        <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/50 p-4">
           <div className="bg-white rounded-2xl shadow-xl w-full max-w-lg overflow-hidden" style={{ animation: 'slideUp 0.2s ease-out' }}>
             <div className="flex justify-between items-center p-4 border-b">
               <h3 className="font-semibold text-lg">{editingUser ? 'Edit User' : 'Add New User'}</h3>
               <button onClick={() => setIsModalOpen(false)} className="text-gray-400 hover:text-gray-600">
-                <ShieldAlert className="h-5 w-5 opacity-0" /> {/* Spacer */}
+                <X className="h-5 w-5" />
               </button>
             </div>
             <form onSubmit={handleSaveUser} className="p-4 space-y-4">
@@ -241,10 +269,11 @@ export default function UserManagement() {
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   {editingUser ? 'New Password (leave blank to keep current)' : 'Password'}
                 </label>
-                <input type="password" required={!editingUser} className="admin-input" value={formData.password} onChange={e => setFormData({ ...formData, password: e.target.value })} placeholder={editingUser ? '••••••••' : 'Password'} minLength={6} />
+                <input type="password" required={!editingUser} className="admin-input" value={formData.password} onChange={e => setFormData({ ...formData, password: e.target.value })} placeholder={editingUser ? '••••••••' : 'Password'} minLength={8} />
+                <p className="mt-1 text-xs text-gray-500">Min 8 chars, 1 uppercase, 1 lowercase, 1 number or special char.</p>
               </div>
               {editingUser && editingUser.id !== currentUser?.id && (
-                <div className="flex items-center">
+                <div className="flex items-center mt-2">
                   <input type="checkbox" id="isActive" checked={formData.isActive} onChange={e => setFormData({ ...formData, isActive: e.target.checked })} className="h-4 w-4 text-brand-600 rounded border-gray-300 focus:ring-brand-500" />
                   <label htmlFor="isActive" className="ml-2 block text-sm text-gray-900">Active Account</label>
                 </div>
@@ -252,7 +281,46 @@ export default function UserManagement() {
               
               <div className="pt-4 flex justify-end gap-3 border-t mt-4">
                 <button type="button" onClick={() => setIsModalOpen(false)} className="admin-btn-secondary">Cancel</button>
-                <button type="submit" disabled={isSaving} className="admin-btn-primary">{isSaving ? 'Saving...' : 'Save User'}</button>
+                <button type="submit" className="admin-btn-primary">Proceed</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Security Confirmation Modal */}
+      {isPasswordConfirmOpen && (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-sm overflow-hidden border border-red-100" style={{ animation: 'slideUp 0.2s ease-out' }}>
+            <div className="flex justify-between items-center p-4 border-b border-red-100 bg-red-50/50">
+              <h3 className="font-semibold text-lg text-red-900 flex items-center gap-2">
+                <ShieldAlert className="h-5 w-5 text-red-600" />
+                Security Confirmation
+              </h3>
+              <button onClick={() => setIsPasswordConfirmOpen(false)} className="text-red-400 hover:text-red-600 transition-colors">
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+            <form onSubmit={executePendingAction} className="p-5 space-y-4">
+              <p className="text-sm text-gray-600">
+                To perform this restricted action, please verify your identity by entering your <span className="font-bold text-red-700">Super Admin password</span>.
+              </p>
+              <div>
+                <input 
+                  type="password" 
+                  required 
+                  autoFocus
+                  className="w-full bg-white border border-red-200 text-gray-900 rounded-xl px-4 py-3 text-sm focus:border-red-500 focus:ring-4 focus:ring-red-500/10 transition-all outline-none"
+                  value={confirmPassword} 
+                  onChange={e => setConfirmPassword(e.target.value)} 
+                  placeholder="Enter your password..." 
+                />
+              </div>
+              <div className="pt-2 flex justify-end gap-3">
+                <button type="button" onClick={() => setIsPasswordConfirmOpen(false)} className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-xl hover:bg-gray-200 transition-colors">Cancel</button>
+                <button type="submit" disabled={isConfirming || !confirmPassword} className="px-4 py-2 text-sm font-bold text-white bg-red-600 rounded-xl hover:bg-red-700 transition-colors disabled:opacity-50">
+                  {isConfirming ? 'Verifying...' : 'Confirm Action'}
+                </button>
               </div>
             </form>
           </div>
