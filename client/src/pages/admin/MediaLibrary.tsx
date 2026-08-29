@@ -157,34 +157,50 @@ export default function MediaLibrary() {
           <p className="mt-1 text-sm text-gray-500">Try adjusting your search query.</p>
         </div>
       ) : (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6">
           {filteredImages.map((img) => (
-            <div key={img.id} className="group relative bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-              <div className="aspect-square bg-gray-100">
-                <img
-                  src={`${import.meta.env.VITE_API_URL?.replace('/api', '') || 'http://localhost:3000'}${img.thumbPath || img.filePath}`}
-                  alt={img.fileName}
-                  className="w-full h-full object-cover"
-                  loading="lazy"
-                />
-              </div>
-              {img.isPrimary && (
-                <div className="absolute top-2 left-2">
-                  <Star className="h-4 w-4 text-yellow-500 fill-yellow-400" />
-                </div>
-              )}
-              <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+            <div 
+              key={img.id} 
+              className="group relative rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-300 bg-gray-900 aspect-[4/5] cursor-pointer"
+            >
+              <img
+                src={`${import.meta.env.VITE_API_URL?.replace('/api', '') || 'http://localhost:3000'}${img.thumbPath || img.filePath}`}
+                alt={img.fileName}
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-90 group-hover:opacity-100"
+                loading="lazy"
+              />
+              
+              {/* Gradient Overlay for text */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-black/10 opacity-60 group-hover:opacity-80 transition-opacity duration-300 pointer-events-none" />
+              
+              {/* Top Badges */}
+              <div className="absolute top-3 left-3 right-3 flex justify-between items-start z-10">
+                {img.isPrimary ? (
+                  <div className="bg-yellow-400/90 backdrop-blur-md px-2.5 py-1 rounded-full flex items-center shadow-lg">
+                    <Star className="h-3.5 w-3.5 text-yellow-900 fill-yellow-900 mr-1" />
+                    <span className="text-xs font-bold text-yellow-900">Primary</span>
+                  </div>
+                ) : <div></div>}
+                
                 <button
                   onClick={() => handleDelete(img.id)}
-                  className="p-2 bg-white rounded-lg shadow-sm hover:bg-red-50 transition-colors"
-                  title="Delete"
+                  className="p-2.5 bg-white/10 hover:bg-red-500/90 backdrop-blur-md rounded-full shadow-lg text-white opacity-0 group-hover:opacity-100 transform -translate-y-2 group-hover:translate-y-0 transition-all duration-300"
+                  title="Delete Image"
                 >
-                  <Trash2 className="h-4 w-4 text-red-600" />
+                  <Trash2 className="h-4 w-4" />
                 </button>
               </div>
-              <div className="p-2">
-                <p className="text-xs text-gray-600 truncate">{img.product?.productName || img.fileName}</p>
-                <p className="text-xs text-gray-400 truncate font-mono">{img.product?.productCode}</p>
+              
+              {/* Bottom Info */}
+              <div className="absolute bottom-0 left-0 right-0 p-4 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300 z-10">
+                <h3 className="text-white font-semibold truncate text-sm mb-1.5 drop-shadow-md" title={img.product?.productName || img.fileName}>
+                  {img.product?.productName || img.fileName}
+                </h3>
+                <div className="flex items-center justify-between">
+                  <span className="px-2 py-1 bg-white/20 backdrop-blur-md rounded-md text-[10px] font-mono text-white/90 border border-white/10 shadow-sm">
+                    {img.product?.productCode || 'No Code'}
+                  </span>
+                </div>
               </div>
             </div>
           ))}
