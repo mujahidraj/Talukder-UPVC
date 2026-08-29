@@ -129,8 +129,10 @@ export default function UserManagement() {
     const action = async (pwd: string) => {
       if (editingUser) {
         const payload: any = { name: formData.name, email: formData.email, role: formData.role, isActive: formData.isActive };
-        if (formData.password) payload.password = formData.password;
         await api.put(`/admin/users/${editingUser.id}`, payload, { headers: { 'X-Super-Password': pwd } });
+        if (formData.password) {
+          await api.post(`/admin/users/${editingUser.id}/reset-password`, { password: formData.password }, { headers: { 'X-Super-Password': pwd } });
+        }
         toast.success('User updated successfully');
       } else {
         const payload: any = { name: formData.name, email: formData.email, role: formData.role };
