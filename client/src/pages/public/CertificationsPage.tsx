@@ -12,7 +12,7 @@ export default function CertificationsPage() {
       />
       <section className="bg-gradient-to-br from-brand-900 to-brand-950 text-white py-20">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <h1 className="text-4xl font-heading font-bold">Certifications & Standards</h1>
+          <h1 className="text-4xl font-heading font-bold text-white">Certifications & Standards</h1>
           <p className="mt-4 text-brand-200 text-lg">Our commitment to quality is backed by international certifications.</p>
         </div>
       </section>

@@ -14,7 +14,7 @@ export default function PrivacyPolicyPage() {
         <div className="bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100">
           <div className="bg-brand-900 p-8 md:p-12 text-center text-white">
             <Shield className="w-16 h-16 mx-auto mb-6 text-brand-300" />
-            <h1 className="text-3xl md:text-5xl font-heading font-bold mb-4">Privacy Policy</h1>
+            <h1 className="text-3xl md:text-5xl font-heading font-bold mb-4 text-white">Privacy Policy</h1>
             <p className="text-brand-200">Last Updated: {new Date().toLocaleDateString()}</p>
           </div>
           
