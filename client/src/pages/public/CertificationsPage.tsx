@@ -17,18 +17,31 @@ export default function CertificationsPage() {
         </div>
       </section>
       <section className="max-w-5xl mx-auto px-4 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+
+        <div className="text-center mb-10">
+          <h2 className="text-3xl font-heading font-bold text-brand-950">Certificate Gallery</h2>
+          <p className="mt-2 text-gray-600">View our official compliance certificates and licenses.</p>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {[
-            { icon: Award, title: 'BS-3505 Standard', desc: <>All <span className="text-red-600">u</span>PVC pressure pipes manufactured as per British Standard BS-3505, ensuring accurate wall thickness, dimensional precision, and pressure ratings.</> },
-            { icon: ShieldCheck, title: 'ISO 9001:2015', desc: 'Quality management system certified to ISO 9001:2015, reflecting our commitment to continuous improvement and customer satisfaction.' },
-            { icon: FileCheck, title: 'BSTI Approved', desc: 'Products tested and approved by Bangladesh Standards and Testing Institution, meeting national quality requirements.' },
-          ].map(cert => (
-            <div key={cert.title} className="bg-white rounded-2xl border border-gray-100 p-8 text-center hover:shadow-lg transition-shadow">
-              <div className="h-16 w-16 mx-auto rounded-2xl bg-brand-50 flex items-center justify-center mb-5">
-                <cert.icon className="h-8 w-8 text-accent-600" />
+            { src: '/Certified/Bsti.png', alt: 'BSTI Certificate' },
+            { src: '/Certified/buetLogo.jpg', alt: 'BUET Certificate' },
+            { src: '/Certified/certified.jpg', alt: 'Certification' },
+            { src: '/Certified/environmental.png', alt: 'Environmental Clearance' },
+            { src: '/Certified/fire.jpg', alt: 'Fire Safety Certificate' },
+            { src: '/Certified/xxxx.png', alt: 'Trade License' },
+          ].map((img, idx) => (
+            <div key={idx} className="bg-white rounded-2xl border border-gray-100 p-4 shadow-sm hover:shadow-md transition-shadow overflow-hidden group">
+              <div className="aspect-[3/4] relative bg-gray-50 rounded-xl overflow-hidden flex items-center justify-center p-2">
+                <img 
+                  src={img.src} 
+                  alt={img.alt} 
+                  className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500" 
+                />
               </div>
-              <h3 className="text-xl font-heading font-bold text-brand-950">{cert.title}</h3>
-              <p className="mt-3 text-sm text-gray-600 leading-relaxed">{cert.desc}</p>
+              <p className="text-center mt-4 font-semibold text-gray-700">{img.alt}</p>
             </div>
           ))}
         </div>
