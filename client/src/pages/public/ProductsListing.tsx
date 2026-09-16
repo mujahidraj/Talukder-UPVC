@@ -76,7 +76,7 @@ export default function ProductsListing() {
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Sidebar Filters */}
           <aside className="lg:w-72 flex-shrink-0 z-10">
-            <div className="bg-white rounded-3xl magic-border magic-border-white shadow-sm p-6 lg:sticky lg:top-40">
+            <div className="bg-white rounded-lg magic-border magic-border-white shadow-sm p-6 lg:sticky lg:top-40">
               <div 
                 className="flex items-center justify-between cursor-pointer lg:cursor-default lg:mb-6"
                 onClick={() => setShowFiltersMobile(!showFiltersMobile)}
@@ -96,7 +96,7 @@ export default function ProductsListing() {
                   <div className="relative group">
                     <input
                       type="text"
-                      className="w-full bg-gray-50 rounded-xl border-transparent focus:bg-white focus:border-brand-500 focus:ring-2 focus:ring-brand-200 text-sm px-4 py-3 transition-all outline-none"
+                      className="w-full bg-gray-50 rounded-lg border-transparent focus:bg-white focus:border-brand-500 focus:ring-2 focus:ring-brand-200 text-sm px-4 py-3 transition-all outline-none"
                       placeholder="Search products..."
                       defaultValue={search}
                       onKeyDown={(e) => { if (e.key === 'Enter') updateParam('search', (e.target as HTMLInputElement).value); }}
@@ -116,7 +116,7 @@ export default function ProductsListing() {
                     <select
                       value={categoryId}
                       onChange={(e) => updateParam('category', e.target.value)}
-                      className="w-full bg-gray-50 rounded-xl border-transparent focus:bg-white focus:border-brand-500 focus:ring-2 focus:ring-brand-200 text-sm px-4 py-3 transition-all outline-none cursor-pointer"
+                      className="w-full bg-gray-50 rounded-lg border-transparent focus:bg-white focus:border-brand-500 focus:ring-2 focus:ring-brand-200 text-sm px-4 py-3 transition-all outline-none cursor-pointer"
                     >
                       <option value="">All Categories</option>
                       {categories.map((c: any) => (
@@ -140,7 +140,7 @@ export default function ProductsListing() {
                     <select
                       value={size}
                       onChange={(e) => updateParam('size', e.target.value)}
-                      className="w-full bg-gray-50 rounded-xl border-transparent focus:bg-white focus:border-brand-500 focus:ring-2 focus:ring-brand-200 text-sm px-4 py-3 transition-all outline-none cursor-pointer"
+                      className="w-full bg-gray-50 rounded-lg border-transparent focus:bg-white focus:border-brand-500 focus:ring-2 focus:ring-brand-200 text-sm px-4 py-3 transition-all outline-none cursor-pointer"
                     >
                       <option value="">All Sizes</option>
                       {filters.sizes.map((s: string) => (
@@ -161,7 +161,7 @@ export default function ProductsListing() {
                       <button
                         key={opt.val}
                         onClick={() => updateParam('sort', opt.val)}
-                        className={`text-left px-4 py-2.5 rounded-xl text-sm font-semibold transition-all ${
+                        className={`text-left px-4 py-2.5 rounded-lg text-sm font-semibold transition-all ${
                           sortBy === opt.val
                             ? 'bg-brand-50 text-brand-700'
                             : 'text-gray-500 hover:bg-gray-50 hover:text-gray-900'
@@ -197,7 +197,7 @@ export default function ProductsListing() {
           ) : viewMode === 'grid' ? (
             <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
               {products.map((p: any) => (
-                <Link key={p.id} to={`/products/${p.slug}`} className="group bg-white rounded-2xl border border-gray-100 overflow-hidden hover:shadow-lg hover:border-brand-200 transition-all duration-300">
+                <Link key={p.id} to={`/products/${p.slug}`} className="group bg-white rounded-lg border border-gray-100 overflow-hidden hover:shadow-lg hover:border-brand-200 transition-all duration-300">
                   <div className="aspect-square bg-gray-50 flex items-center justify-center p-4">
                     {p.images?.[0]?.thumbPath ? (
                       <img src={`http://localhost:3000${p.images[0].thumbPath}`} alt={p.productName} className="h-full w-full object-contain group-hover:scale-105 transition-transform" />
@@ -234,8 +234,8 @@ export default function ProductsListing() {
           ) : (
             <div className="flex flex-col gap-4">
               {products.map((p: any) => (
-                <Link key={p.id} to={`/products/${p.slug}`} className="group flex flex-col sm:flex-row gap-6 bg-white rounded-2xl border border-gray-100 p-4 sm:p-5 hover:shadow-xl hover:shadow-brand-900/5 hover:border-brand-200 transition-all duration-300">
-                  <div className="h-48 w-full sm:w-48 bg-gray-50 rounded-xl flex items-center justify-center flex-shrink-0 p-4 relative overflow-hidden group-hover:bg-brand-50/50 transition-colors">
+                <Link key={p.id} to={`/products/${p.slug}`} className="group flex flex-col sm:flex-row gap-6 bg-white rounded-lg border border-gray-100 p-4 sm:p-5 hover:shadow-xl hover:shadow-brand-900/5 hover:border-brand-200 transition-all duration-300">
+                  <div className="h-48 w-full sm:w-48 bg-gray-50 rounded-lg flex items-center justify-center flex-shrink-0 p-4 relative overflow-hidden group-hover:bg-brand-50/50 transition-colors">
                     {p.images?.[0]?.thumbPath ? <img src={`http://localhost:3000${p.images[0].thumbPath}`} className="h-full w-full object-contain group-hover:scale-110 transition-transform duration-500" /> : <Droplets className="h-12 w-12 text-gray-300" />}
                   </div>
                   <div className="min-w-0 flex-1 flex flex-col justify-between py-1">

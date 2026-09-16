@@ -103,7 +103,7 @@ export default function FactoryImagesManager() {
         />
       </div>
 
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden min-h-[400px]">
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden min-h-[400px]">
         {loading ? (
           <div className="flex flex-col items-center justify-center h-64 text-gray-400">
             <Loader2 className="h-8 w-8 animate-spin mb-2" />

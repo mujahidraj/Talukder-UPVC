@@ -44,14 +44,14 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div className="relative">
               {/* Decorative elements */}
-              <div className="absolute -top-4 -left-4 w-32 h-32 bg-brand-100 rounded-2xl -z-10" />
-              <div className="absolute -bottom-4 -right-4 w-32 h-32 bg-gray-100 rounded-2xl -z-10" />
+              <div className="absolute -top-4 -left-4 w-32 h-32 bg-brand-100 rounded-lg -z-10" />
+              <div className="absolute -bottom-4 -right-4 w-32 h-32 bg-gray-100 rounded-lg -z-10" />
               <img 
                 src="/images/tube.png" 
                 alt="Our Journey" 
-                className="rounded-3xl shadow-xl w-full h-[500px] object-cover"
+                className="rounded-lg shadow-xl w-full h-[500px] object-cover"
               />
-              <div className="absolute bottom-8 -left-8 bg-white p-6 rounded-2xl shadow-xl border border-gray-100">
+              <div className="absolute bottom-8 -left-8 bg-white p-6 rounded-lg shadow-xl border border-gray-100">
                 <div className="flex items-center gap-4">
                   <div className="h-12 w-12 bg-brand-600 rounded-full flex items-center justify-center">
                     <Award className="h-6 w-6 text-white" />
@@ -95,7 +95,7 @@ export default function AboutPage() {
               { icon: Globe, stat: 'Nationwide', label: 'Distribution Network' },
             ].map((s, idx) => (
               <div key={s.label} className={`text-center ${idx !== 0 ? 'pl-8' : ''}`}>
-                <div className="h-14 w-14 mx-auto rounded-2xl bg-brand-900 border border-brand-800 flex items-center justify-center mb-4">
+                <div className="h-14 w-14 mx-auto rounded-lg bg-brand-900 border border-brand-800 flex items-center justify-center mb-4">
                   <s.icon className="h-7 w-7 text-accent-400" />
                 </div>
                 <p className="text-2xl md:text-3xl font-heading font-bold text-white mb-1">{s.stat}</p>
@@ -114,8 +114,8 @@ export default function AboutPage() {
         <div className="max-w-7xl mx-auto px-4 relative z-10">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
             {/* Mission */}
-            <div className="bg-white p-10 md:p-14 rounded-3xl shadow-xl shadow-gray-200/50 border border-gray-100 hover:border-brand-300 transition-colors group">
-              <div className="h-16 w-16 bg-brand-50 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 transition-transform">
+            <div className="bg-white p-10 md:p-14 rounded-lg shadow-xl shadow-gray-200/50 border border-gray-100 hover:border-brand-300 transition-colors group">
+              <div className="h-16 w-16 bg-brand-50 rounded-lg flex items-center justify-center mb-8 group-hover:scale-110 transition-transform">
                 <Target className="h-8 w-8 text-brand-600" />
               </div>
               <h3 className="text-3xl font-heading font-bold text-gray-900 mb-4">Our Mission</h3>
@@ -125,8 +125,8 @@ export default function AboutPage() {
             </div>
             
             {/* Vision */}
-            <div className="bg-brand-900 p-10 md:p-14 rounded-3xl shadow-xl shadow-brand-900/20 border border-brand-800 hover:border-brand-500 transition-colors group">
-              <div className="h-16 w-16 bg-brand-800 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 transition-transform">
+            <div className="bg-brand-900 p-10 md:p-14 rounded-lg shadow-xl shadow-brand-900/20 border border-brand-800 hover:border-brand-500 transition-colors group">
+              <div className="h-16 w-16 bg-brand-800 rounded-lg flex items-center justify-center mb-8 group-hover:scale-110 transition-transform">
                 <Lightbulb className="h-8 w-8 text-brand-300" />
               </div>
               <h3 className="text-3xl font-heading font-bold text-white mb-4">Our Vision</h3>
@@ -156,8 +156,8 @@ export default function AboutPage() {
               { icon: Lightbulb, title: 'Continuous Innovation', desc: 'We constantly upgrade our machinery and techniques to stay ahead of the technological curve.' },
               { icon: TrendingUp, title: 'Nation Building', desc: 'Proudly contributing to the infrastructure, agriculture, and economic growth of Bangladesh.' },
             ].map((value, i) => (
-              <div key={i} className="p-8 bg-gray-50 rounded-2xl border border-gray-100 hover:shadow-lg hover:border-brand-200 transition-all">
-                <div className="h-12 w-12 bg-white rounded-xl shadow-sm border border-gray-100 flex items-center justify-center mb-6">
+              <div key={i} className="p-8 bg-gray-50 rounded-lg border border-gray-100 hover:shadow-lg hover:border-brand-200 transition-all">
+                <div className="h-12 w-12 bg-white rounded-lg shadow-sm border border-gray-100 flex items-center justify-center mb-6">
                   <value.icon className="h-6 w-6 text-accent-600" />
                 </div>
                 <h3 className="text-xl font-heading font-bold text-gray-900 mb-3">{value.title}</h3>
@@ -203,24 +203,24 @@ export default function AboutPage() {
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-4 mt-8">
-                <div className="bg-gray-800/80 backdrop-blur border border-gray-700 p-6 rounded-3xl">
+                <div className="bg-gray-800/80 backdrop-blur border border-gray-700 p-6 rounded-lg">
                   <Factory className="h-10 w-10 text-brand-400 mb-4" />
                   <h4 className="font-bold text-xl text-white mb-2">Modern Machinery</h4>
                   <p className="text-sm text-gray-400">Imported state-of-the-art extrusion technology.</p>
                 </div>
-                <div className="bg-brand-900/80 backdrop-blur border border-brand-800 p-6 rounded-3xl">
+                <div className="bg-brand-900/80 backdrop-blur border border-brand-800 p-6 rounded-lg">
                   <Droplets className="h-10 w-10 text-brand-300 mb-4" />
                   <h4 className="font-bold text-xl text-white mb-2">Pure Material</h4>
                   <p className="text-sm text-brand-200/70">No recycled plastics. 100% pure formulation.</p>
                 </div>
               </div>
               <div className="space-y-4">
-                <div className="bg-brand-900/80 backdrop-blur border border-brand-800 p-6 rounded-3xl">
+                <div className="bg-brand-900/80 backdrop-blur border border-brand-800 p-6 rounded-lg">
                   <Shield className="h-10 w-10 text-brand-300 mb-4" />
                   <h4 className="font-bold text-xl text-white mb-2">Certified</h4>
                   <p className="text-sm text-brand-200/70">Stringent adherence to international standards.</p>
                 </div>
-                <div className="bg-gray-800/80 backdrop-blur border border-gray-700 p-6 rounded-3xl">
+                <div className="bg-gray-800/80 backdrop-blur border border-gray-700 p-6 rounded-lg">
                   <Users className="h-10 w-10 text-brand-400 mb-4" />
                   <h4 className="font-bold text-xl text-white mb-2">Expert Team</h4>
                   <p className="text-sm text-gray-400">Led by experienced engineers and operators.</p>
@@ -234,7 +234,7 @@ export default function AboutPage() {
       {/* 7. Corporate Leadership / Talukder Group */}
       <section className="py-20 md:py-28 bg-brand-50">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <div className="inline-flex items-center justify-center p-3 bg-white rounded-2xl shadow-sm mb-6">
+          <div className="inline-flex items-center justify-center p-3 bg-white rounded-lg shadow-sm mb-6">
             <img src="/LOGO/Talukder-uPVC-Fittings-LTD-3.png" alt="Talukder Group" className="h-12 w-auto object-contain" />
           </div>
           <h2 className="text-3xl md:text-4xl font-heading font-bold text-gray-900 mb-6">A Concern of Talukder Group</h2>

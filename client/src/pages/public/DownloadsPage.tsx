@@ -24,8 +24,8 @@ export default function DownloadsPage() {
             { title: 'Pressure Rating Guide', desc: 'Guide to pipe classes and pressure ratings', size: '420 KB', href: '#' },
             { title: 'Installation Manual', desc: <>Step-by-step installation guide for <span className="text-red-600">u</span>PVC pipes</>, size: '1.2 MB', href: '#' },
           ].map(doc => (
-            <a key={doc.title} href={doc.href} target="_blank" rel="noopener noreferrer" className="flex items-start gap-4 bg-white rounded-2xl border border-gray-100 p-6 hover:shadow-lg hover:border-brand-200 transition-all group">
-              <div className="h-12 w-12 rounded-xl bg-brand-50 flex items-center justify-center flex-shrink-0 group-hover:bg-brand-100 transition-colors">
+            <a key={doc.title} href={doc.href} target="_blank" rel="noopener noreferrer" className="flex items-start gap-4 bg-white rounded-lg border border-gray-100 p-6 hover:shadow-lg hover:border-brand-200 transition-all group">
+              <div className="h-12 w-12 rounded-lg bg-brand-50 flex items-center justify-center flex-shrink-0 group-hover:bg-brand-100 transition-colors">
                 <FileText className="h-6 w-6 text-brand-600" />
               </div>
               <div className="flex-1 min-w-0">

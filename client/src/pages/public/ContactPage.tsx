@@ -64,7 +64,7 @@ export default function ContactPage() {
       />
 
       {/* Hero Section */}
-      <section className="relative bg-brand-950 text-white pt-24 pb-36 overflow-hidden">
+      <section className="relative bg-brand-950 text-white pt-24 pb-20 overflow-hidden">
         {/* Decorative background elements */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute -top-1/2 -right-1/4 w-[1000px] h-[1000px] rounded-full bg-brand-900/40 blur-3xl mix-blend-screen"></div>
@@ -81,12 +81,12 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* Contact Cards - Overlapping Hero */}
-      <section className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-20 mb-20">
+      {/* Contact Cards */}
+      <section className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
           {contactMethods.map((method, idx) => (
-            <div key={idx} className="bg-white rounded-2xl shadow-xl shadow-slate-200/50 p-8 border border-slate-100 hover:-translate-y-2 transition-transform duration-300 group">
-              <div className="h-14 w-14 rounded-2xl bg-brand-50 flex items-center justify-center mb-6 group-hover:bg-accent-50 transition-colors">
+            <div key={idx} className="bg-white rounded-lg shadow-xl shadow-slate-200/50 p-8 border border-slate-100 hover:-translate-y-2 transition-transform duration-300 group">
+              <div className="h-14 w-14 rounded-lg bg-brand-50 flex items-center justify-center mb-6 group-hover:bg-accent-50 transition-colors">
                 <method.icon className="h-7 w-7 text-brand-600 group-hover:text-accent-600 transition-colors" />
               </div>
               <h3 className="text-xl font-heading font-bold text-gray-900 mb-2">{method.title}</h3>
@@ -109,7 +109,7 @@ export default function ContactPage() {
 
       {/* Main Content Area: Map & Form */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
-        <div className="bg-white rounded-3xl shadow-xl shadow-slate-200/50 border border-slate-100 overflow-hidden flex flex-col lg:flex-row">
+        <div className="bg-white rounded-lg shadow-xl shadow-slate-200/50 border border-slate-100 overflow-hidden flex flex-col lg:flex-row">
           
           {/* Left Side: Map */}
           <div className="lg:w-5/12 bg-slate-200 relative min-h-[400px] lg:min-h-[auto]">
@@ -141,7 +141,7 @@ export default function ContactPage() {
                   <input 
                     required 
                     placeholder="Abdul Karim"
-                    className="w-full bg-slate-50 border border-slate-200 text-gray-900 px-4 py-3 rounded-xl focus:ring-2 focus:ring-accent-500/20 focus:border-accent-500 transition-all outline-none" 
+                    className="w-full bg-slate-50 border border-slate-200 text-gray-900 px-4 py-3 rounded-lg focus:ring-2 focus:ring-accent-500/20 focus:border-accent-500 transition-all outline-none" 
                     value={form.name} 
                     onChange={e => setForm({...form, name: e.target.value})} 
                   />
@@ -151,7 +151,7 @@ export default function ContactPage() {
                   <input 
                     required 
                     placeholder="+880 1..."
-                    className="w-full bg-slate-50 border border-slate-200 text-gray-900 px-4 py-3 rounded-xl focus:ring-2 focus:ring-accent-500/20 focus:border-accent-500 transition-all outline-none" 
+                    className="w-full bg-slate-50 border border-slate-200 text-gray-900 px-4 py-3 rounded-lg focus:ring-2 focus:ring-accent-500/20 focus:border-accent-500 transition-all outline-none" 
                     value={form.phone} 
                     onChange={e => setForm({...form, phone: e.target.value})} 
                   />
@@ -165,7 +165,7 @@ export default function ContactPage() {
                     required 
                     type="email" 
                     placeholder="abdul.karim@example.com"
-                    className="w-full bg-slate-50 border border-slate-200 text-gray-900 px-4 py-3 rounded-xl focus:ring-2 focus:ring-accent-500/20 focus:border-accent-500 transition-all outline-none" 
+                    className="w-full bg-slate-50 border border-slate-200 text-gray-900 px-4 py-3 rounded-lg focus:ring-2 focus:ring-accent-500/20 focus:border-accent-500 transition-all outline-none" 
                     value={form.email} 
                     onChange={e => setForm({...form, email: e.target.value})} 
                   />
@@ -174,7 +174,7 @@ export default function ContactPage() {
                   <label className="block text-sm font-semibold text-gray-700">Subject</label>
                   <input 
                     placeholder="How can we help?"
-                    className="w-full bg-slate-50 border border-slate-200 text-gray-900 px-4 py-3 rounded-xl focus:ring-2 focus:ring-accent-500/20 focus:border-accent-500 transition-all outline-none" 
+                    className="w-full bg-slate-50 border border-slate-200 text-gray-900 px-4 py-3 rounded-lg focus:ring-2 focus:ring-accent-500/20 focus:border-accent-500 transition-all outline-none" 
                     value={form.subject} 
                     onChange={e => setForm({...form, subject: e.target.value})} 
                   />
@@ -186,7 +186,7 @@ export default function ContactPage() {
                 <textarea 
                   required 
                   placeholder="Tell us about your requirements..."
-                  className="w-full bg-slate-50 border border-slate-200 text-gray-900 px-4 py-3 rounded-xl focus:ring-2 focus:ring-accent-500/20 focus:border-accent-500 transition-all outline-none resize-none" 
+                  className="w-full bg-slate-50 border border-slate-200 text-gray-900 px-4 py-3 rounded-lg focus:ring-2 focus:ring-accent-500/20 focus:border-accent-500 transition-all outline-none resize-none" 
                   rows={5} 
                   value={form.message} 
                   onChange={e => setForm({...form, message: e.target.value})} 
@@ -196,7 +196,7 @@ export default function ContactPage() {
               <button 
                 type="submit" 
                 disabled={submitting} 
-                className="w-full sm:w-auto px-8 py-4 bg-accent-600 hover:bg-accent-700 text-white font-bold rounded-xl transition-all duration-300 flex items-center justify-center gap-3 shadow-lg shadow-accent-600/30 disabled:opacity-70 disabled:cursor-not-allowed hover:-translate-y-1"
+                className="w-full sm:w-auto px-8 py-4 bg-accent-600 hover:bg-accent-700 text-white font-bold rounded-lg transition-all duration-300 flex items-center justify-center gap-3 shadow-lg shadow-accent-600/30 disabled:opacity-70 disabled:cursor-not-allowed hover:-translate-y-1"
               >
                 {submitting ? 'Sending Message...' : 'Send Message'} 
                 <Send className="h-5 w-5" />

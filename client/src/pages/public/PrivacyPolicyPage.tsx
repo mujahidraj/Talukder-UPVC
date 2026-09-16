@@ -11,7 +11,7 @@ export default function PrivacyPolicyPage() {
         canonical="/privacy-policy" 
       />
       <div className="max-w-4xl mx-auto px-4">
-        <div className="bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100">
+        <div className="bg-white rounded-lg shadow-xl overflow-hidden border border-gray-100">
           <div className="bg-brand-900 p-8 md:p-12 text-center text-white">
             <Shield className="w-16 h-16 mx-auto mb-6 text-brand-300" />
             <h1 className="text-3xl md:text-5xl font-heading font-bold mb-4 text-white">Privacy Policy</h1>
@@ -53,7 +53,7 @@ export default function PrivacyPolicyPage() {
             <p>
               If you have questions or comments about this Privacy Policy, please contact us at:
             </p>
-            <div className="bg-gray-50 p-6 rounded-xl mt-4">
+            <div className="bg-gray-50 p-6 rounded-lg mt-4">
               <strong>Talukder <span className="text-red-600">u</span>PVC Fittings Ltd.</strong><br/>
               Email: info@talukder-group.com.bd<br/>
               Phone: +880 1966-333355

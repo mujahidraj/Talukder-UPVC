@@ -125,13 +125,13 @@ export default function EnquiryModal({ isOpen, onClose, onCountChange }: Props) 
 
       {/* Modal */}
       <div
-        className="relative bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col overflow-hidden"
+        className="relative bg-white rounded-lg shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col overflow-hidden"
         style={{ animation: 'modalSlideUp 0.3s ease-out' }}
       >
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 bg-gradient-to-r from-brand-600 to-brand-700 text-white">
           <div className="flex items-center gap-3">
-            <div className="h-9 w-9 rounded-xl bg-white/20 flex items-center justify-center">
+            <div className="h-9 w-9 rounded-lg bg-white/20 flex items-center justify-center">
               <ShoppingCart className="h-5 w-5" />
             </div>
             <div>
@@ -187,7 +187,7 @@ export default function EnquiryModal({ isOpen, onClose, onCountChange }: Props) 
                   <p className="text-sm text-gray-500">No products selected.</p>
                 </div>
               ) : (
-                <div className="bg-gray-50 rounded-xl p-4 border border-gray-100 space-y-3">
+                <div className="bg-gray-50 rounded-lg p-4 border border-gray-100 space-y-3">
                   <h3 className="text-sm font-semibold text-gray-900 mb-2">Selected Products</h3>
                   {items.map(item => (
                     <div key={item.id} className="flex items-center gap-4 bg-white rounded-lg p-3 border border-gray-100 shadow-sm">

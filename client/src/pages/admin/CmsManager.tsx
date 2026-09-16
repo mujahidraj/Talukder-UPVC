@@ -164,7 +164,7 @@ function BannersTab() {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {banners.map((b: any) => (
-            <div key={b.id} className="border rounded-xl overflow-hidden relative">
+            <div key={b.id} className="border rounded-lg overflow-hidden relative">
               {!b.isActive && (
                 <div className="absolute top-2 left-2 bg-gray-900/80 text-white text-xs px-2 py-1 rounded-md z-10">Inactive</div>
               )}
@@ -189,7 +189,7 @@ function BannersTab() {
       {/* Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-          <div className="bg-white rounded-2xl shadow-xl w-full max-w-md overflow-hidden" style={{ animation: 'slideUp 0.2s ease-out' }}>
+          <div className="bg-white rounded-lg shadow-xl w-full max-w-md overflow-hidden" style={{ animation: 'slideUp 0.2s ease-out' }}>
             <div className="flex justify-between items-center p-4 border-b">
               <h3 className="font-semibold text-lg">{editingBanner ? 'Edit Banner' : 'Add Banner'}</h3>
               <button onClick={() => setIsModalOpen(false)} className="text-gray-400 hover:text-gray-600">
@@ -317,7 +317,7 @@ function PagesTab() {
       {loading ? (
         <p className="text-sm text-gray-400 py-8 text-center">Loading pages...</p>
       ) : (
-        <div className="divide-y divide-gray-100 border border-gray-100 rounded-xl">
+        <div className="divide-y divide-gray-100 border border-gray-100 rounded-lg">
           {pages.map((p: any) => (
             <div key={p.id} className="flex items-center justify-between py-4 px-4 hover:bg-gray-50 transition-colors">
               <div>
@@ -343,7 +343,7 @@ function PagesTab() {
       {/* Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-          <div className="bg-white rounded-2xl shadow-xl w-full max-w-3xl max-h-[90vh] flex flex-col overflow-hidden" style={{ animation: 'slideUp 0.2s ease-out' }}>
+          <div className="bg-white rounded-lg shadow-xl w-full max-w-3xl max-h-[90vh] flex flex-col overflow-hidden" style={{ animation: 'slideUp 0.2s ease-out' }}>
             <div className="flex justify-between items-center p-4 border-b shrink-0">
               <h3 className="font-semibold text-lg">{editingPage ? 'Edit Page' : 'Add Page'}</h3>
               <button onClick={() => setIsModalOpen(false)} className="text-gray-400 hover:text-gray-600">
@@ -473,7 +473,7 @@ function FaqsTab() {
       ) : (
         <div className="space-y-3">
           {faqs.map((faq: any, idx: number) => (
-            <div key={faq.id} className="border border-gray-200 rounded-xl p-4 hover:border-brand-300 transition-colors bg-white relative">
+            <div key={faq.id} className="border border-gray-200 rounded-lg p-4 hover:border-brand-300 transition-colors bg-white relative">
               {!faq.isActive && (
                 <div className="absolute top-2 left-2 bg-gray-900/80 text-white text-xs px-2 py-1 rounded-md z-10">Inactive</div>
               )}
@@ -499,7 +499,7 @@ function FaqsTab() {
       {/* Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-          <div className="bg-white rounded-2xl shadow-xl w-full max-w-lg overflow-hidden" style={{ animation: 'slideUp 0.2s ease-out' }}>
+          <div className="bg-white rounded-lg shadow-xl w-full max-w-lg overflow-hidden" style={{ animation: 'slideUp 0.2s ease-out' }}>
             <div className="flex justify-between items-center p-4 border-b">
               <h3 className="font-semibold text-lg">{editingFaq ? 'Edit FAQ' : 'Add FAQ'}</h3>
               <button onClick={() => setIsModalOpen(false)} className="text-gray-400 hover:text-gray-600">

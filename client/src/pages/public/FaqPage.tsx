@@ -27,7 +27,7 @@ export default function FaqPage() {
       <section className="max-w-3xl mx-auto px-4 py-16">
         <div className="space-y-3">
           {faqs.map((faq: any) => (
-            <div key={faq.id} className="bg-white rounded-xl border border-gray-100 overflow-hidden hover:border-brand-200 transition-colors">
+            <div key={faq.id} className="bg-white rounded-lg border border-gray-100 overflow-hidden hover:border-brand-200 transition-colors">
               <button
                 onClick={() => setOpenId(openId === faq.id ? null : faq.id)}
                 className="w-full flex items-center justify-between px-6 py-5 text-left"

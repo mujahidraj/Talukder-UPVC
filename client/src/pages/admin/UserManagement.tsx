@@ -245,7 +245,7 @@ export default function UserManagement() {
       {/* User Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/50 p-4">
-          <div className="bg-white rounded-2xl shadow-xl w-full max-w-lg overflow-hidden" style={{ animation: 'slideUp 0.2s ease-out' }}>
+          <div className="bg-white rounded-lg shadow-xl w-full max-w-lg overflow-hidden" style={{ animation: 'slideUp 0.2s ease-out' }}>
             <div className="flex justify-between items-center p-4 border-b">
               <h3 className="font-semibold text-lg">{editingUser ? 'Edit User' : 'Add New User'}</h3>
               <button onClick={() => setIsModalOpen(false)} className="text-gray-400 hover:text-gray-600">
@@ -300,7 +300,7 @@ export default function UserManagement() {
       {/* Security Confirmation Modal */}
       {isPasswordConfirmOpen && (
         <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
-          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-sm overflow-hidden border border-red-100" style={{ animation: 'slideUp 0.2s ease-out' }}>
+          <div className="bg-white rounded-lg shadow-2xl w-full max-w-sm overflow-hidden border border-red-100" style={{ animation: 'slideUp 0.2s ease-out' }}>
             <div className="flex justify-between items-center p-4 border-b border-red-100 bg-red-50/50">
               <h3 className="font-semibold text-lg text-red-900 flex items-center gap-2">
                 <ShieldAlert className="h-5 w-5 text-red-600" />
@@ -320,7 +320,7 @@ export default function UserManagement() {
                     type={showConfirmPassword ? 'text' : 'password'} 
                     required 
                     autoFocus
-                    className="w-full bg-white border border-red-200 text-gray-900 rounded-xl pl-4 pr-11 py-3 text-sm focus:border-red-500 focus:ring-4 focus:ring-red-500/10 transition-all outline-none"
+                    className="w-full bg-white border border-red-200 text-gray-900 rounded-lg pl-4 pr-11 py-3 text-sm focus:border-red-500 focus:ring-4 focus:ring-red-500/10 transition-all outline-none"
                     value={confirmPassword} 
                     onChange={e => setConfirmPassword(e.target.value)} 
                     placeholder="Enter your password..." 
@@ -331,8 +331,8 @@ export default function UserManagement() {
                 </div>
               </div>
               <div className="pt-2 flex justify-end gap-3">
-                <button type="button" onClick={() => setIsPasswordConfirmOpen(false)} className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-xl hover:bg-gray-200 transition-colors">Cancel</button>
-                <button type="submit" disabled={isConfirming || !confirmPassword} className="px-4 py-2 text-sm font-bold text-white bg-red-600 rounded-xl hover:bg-red-700 transition-colors disabled:opacity-50">
+                <button type="button" onClick={() => setIsPasswordConfirmOpen(false)} className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors">Cancel</button>
+                <button type="submit" disabled={isConfirming || !confirmPassword} className="px-4 py-2 text-sm font-bold text-white bg-red-600 rounded-lg hover:bg-red-700 transition-colors disabled:opacity-50">
                   {isConfirming ? 'Verifying...' : 'Confirm Action'}
                 </button>
               </div>

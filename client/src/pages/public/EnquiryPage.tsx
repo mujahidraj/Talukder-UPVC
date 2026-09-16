@@ -72,13 +72,13 @@ export default function EnquiryPage() {
         <div className="lg:col-span-2">
           <h2 className="font-heading font-semibold text-gray-900 mb-4">Selected Products ({items.length})</h2>
           {items.length === 0 ? (
-            <div className="py-12 text-center bg-white rounded-xl border border-gray-100">
+            <div className="py-12 text-center bg-white rounded-lg border border-gray-100">
               <p className="text-gray-400">No products selected. <Link to="/products" className="text-brand-600 hover:underline">Browse catalog</Link></p>
             </div>
           ) : (
             <div className="space-y-3">
               {items.map((item: any) => (
-                <div key={item.id} className="flex items-center gap-4 bg-white rounded-xl border border-gray-100 p-4">
+                <div key={item.id} className="flex items-center gap-4 bg-white rounded-lg border border-gray-100 p-4">
                   <div className="flex-1 min-w-0">
                     <p className="font-semibold text-gray-900 text-sm">{item.name}</p>
                     <p className="text-xs text-gray-400">{item.code} · {item.size}</p>
@@ -98,7 +98,7 @@ export default function EnquiryPage() {
         {/* Contact Form */}
         <div>
           <h2 className="font-heading font-semibold text-gray-900 mb-4">Your Details</h2>
-          <form onSubmit={handleSubmit} className="bg-white rounded-xl border border-gray-100 p-6 space-y-4">
+          <form onSubmit={handleSubmit} className="bg-white rounded-lg border border-gray-100 p-6 space-y-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Full Name *</label>
               <input required type="text" className="admin-input" value={form.customerName} onChange={e => setForm({ ...form, customerName: e.target.value })} />

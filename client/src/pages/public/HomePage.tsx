@@ -54,7 +54,7 @@ export default function HomePage() {
     <div>
       <SEO
         title="Home"
-        description="Bangladesh's leading manufacturer of uPVC pipes and fittings. 100% virgin material for water supply, drainage, and irrigation."
+        description="Bangladesh's leading manufacturer of uPVC pipes and fittings for water supply, drainage, and irrigation."
         canonical="/"
       />
       <section className="relative text-white overflow-hidden bg-brand-950 min-h-[90vh] flex items-center transition-all duration-1000">
@@ -86,7 +86,7 @@ export default function HomePage() {
                     activeBanner.title.includes('|') ? (
                       <>
                         {activeBanner.title.split('|')[0]}
-                        <span className="block text-transparent bg-clip-text bg-gradient-to-r from-accent-400 to-accent-300 mt-2">{activeBanner.title.split('|')[1]}</span>
+                        <span className="block text-red-600 mt-2">{activeBanner.title.split('|')[1]}</span>
                       </>
                     ) : (
                       activeBanner.title
@@ -96,11 +96,11 @@ export default function HomePage() {
                   )}
                 </h1>
                 <div className="mt-10 flex flex-wrap gap-5">
-                  <Link to={activeBanner.linkUrl || '/products'} className="group relative inline-flex items-center gap-2 bg-white text-brand-900 px-8 py-4 rounded-xl font-bold transition-all duration-300 shadow-[0_0_20px_rgba(255,255,255,0.2)] hover:shadow-[0_0_30px_rgba(255,255,255,0.4)] hover:-translate-y-1 overflow-hidden">
+                  <Link to={activeBanner.linkUrl || '/products'} className="group relative inline-flex items-center gap-2 bg-white text-brand-900 px-8 py-4 rounded-lg font-bold transition-all duration-300 shadow-[0_0_20px_rgba(255,255,255,0.2)] hover:shadow-[0_0_30px_rgba(255,255,255,0.4)] hover:-translate-y-1 overflow-hidden">
                     <span className="absolute inset-0 bg-gradient-to-r from-white via-brand-50 to-white opacity-0 group-hover:opacity-100 transition-opacity duration-500"></span>
                     <span className="relative z-10 flex items-center gap-2">{activeBanner.linkUrl ? 'Learn More' : 'Browse Catalog'} <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" /></span>
                   </Link>
-                  <Link to="/contact" className="group inline-flex items-center gap-2 border border-brand-400/40 text-white px-8 py-4 rounded-xl font-bold hover:bg-brand-800/60 hover:border-brand-400 transition-all duration-300 bg-brand-900/30 backdrop-blur-md hover:-translate-y-1 hover:shadow-[0_0_20px_rgba(59,130,246,0.3)]">
+                  <Link to="/contact" className="group inline-flex items-center gap-2 border border-brand-400/40 text-white px-8 py-4 rounded-lg font-bold hover:bg-brand-800/60 hover:border-brand-400 transition-all duration-300 bg-brand-900/30 backdrop-blur-md hover:-translate-y-1 hover:shadow-[0_0_20px_rgba(59,130,246,0.3)]">
                     Request Quote
                   </Link>
                 </div>
@@ -136,22 +136,22 @@ export default function HomePage() {
             <div className="max-w-7xl mx-auto px-4 py-24 md:py-32 relative w-full z-10">
               <div className="max-w-3xl" style={{ animation: 'fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards' }}>
                 <div className="inline-flex items-center gap-2 bg-brand-800/40 backdrop-blur-md text-brand-100 text-xs font-bold tracking-wide uppercase px-5 py-2.5 rounded-full mb-8 border border-brand-500/30 shadow-[0_0_20px_rgba(59,130,246,0.3)]">
-                  <Award className="h-4 w-4 text-accent-400" /> 100% Virgin Material
+                  <Award className="h-4 w-4 text-accent-400" /> Premium Quality uPVC
                 </div>
                 <h1 className="text-4xl md:text-6xl lg:text-7xl font-heading font-black tracking-tight text-white leading-[1.1] drop-shadow-lg">
                   Bangladesh's Trusted
-                  <span className="block mt-2"><span className="text-red-500">u</span><span className="text-transparent bg-clip-text bg-gradient-to-r from-accent-400 to-accent-300">PVC Pipe & Fittings</span></span>
+                  <span className="block mt-2 text-red-600">uPVC Pipe & Fittings</span>
                   Manufacturer
                 </h1>
                 <p className="mt-6 text-lg md:text-xl text-brand-100/90 max-w-2xl leading-relaxed drop-shadow-sm font-medium">
                   Talukder <span className="text-red-500">u</span>PVC Fittings Ltd. delivers premium quality pipes and fittings for water supply, drainage, and irrigation across the nation.
                 </p>
                 <div className="mt-10 flex flex-wrap gap-5">
-                  <Link to="/products" className="group relative inline-flex items-center gap-2 bg-white text-brand-900 px-8 py-4 rounded-xl font-bold transition-all duration-300 shadow-[0_0_20px_rgba(255,255,255,0.2)] hover:shadow-[0_0_30px_rgba(255,255,255,0.4)] hover:-translate-y-1 overflow-hidden">
+                  <Link to="/products" className="group relative inline-flex items-center gap-2 bg-white text-brand-900 px-8 py-4 rounded-lg font-bold transition-all duration-300 shadow-[0_0_20px_rgba(255,255,255,0.2)] hover:shadow-[0_0_30px_rgba(255,255,255,0.4)] hover:-translate-y-1 overflow-hidden">
                     <span className="absolute inset-0 bg-gradient-to-r from-white via-brand-50 to-white opacity-0 group-hover:opacity-100 transition-opacity duration-500"></span>
                     <span className="relative z-10 flex items-center gap-2">Browse Catalog <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" /></span>
                   </Link>
-                  <Link to="/contact" className="group inline-flex items-center gap-2 border border-brand-400/40 text-white px-8 py-4 rounded-xl font-bold hover:bg-brand-800/60 hover:border-brand-400 transition-all duration-300 bg-brand-900/30 backdrop-blur-md hover:-translate-y-1 hover:shadow-[0_0_20px_rgba(59,130,246,0.3)]">
+                  <Link to="/contact" className="group inline-flex items-center gap-2 border border-brand-400/40 text-white px-8 py-4 rounded-lg font-bold hover:bg-brand-800/60 hover:border-brand-400 transition-all duration-300 bg-brand-900/30 backdrop-blur-md hover:-translate-y-1 hover:shadow-[0_0_20px_rgba(59,130,246,0.3)]">
                     Request Quote
                   </Link>
                 </div>
@@ -176,11 +176,11 @@ export default function HomePage() {
                 {[
                   { icon: Shield, label: 'Quality Certified', desc: 'International standard' },
                   { icon: Factory, label: 'Modern Factory', desc: 'Auto-belling machines' },
-                  { icon: Droplets, label: '100% Virgin Material', desc: 'No recycled content' },
+                  { icon: Droplets, label: 'Chemical Resistant', desc: 'Corrosion free' },
                   { icon: Award, label: '50+ Year Lifespan', desc: 'Proven durability' },
                 ].map((item, idx) => (
                   <div key={item.label} className="flex items-center gap-5 group p-6 sm:p-8 lg:p-10 hover:bg-brand-900/50 transition-colors duration-500">
-                    <div className="h-16 w-16 rounded-2xl bg-gradient-to-br from-brand-900 to-brand-950 border border-brand-800 shadow-inner flex items-center justify-center group-hover:border-accent-500/50 group-hover:shadow-[0_0_30px_rgba(56,189,248,0.2)] transition-all duration-500 flex-shrink-0 group-hover:-translate-y-1">
+                    <div className="h-16 w-16 rounded-lg bg-gradient-to-br from-brand-900 to-brand-950 border border-brand-800 shadow-inner flex items-center justify-center group-hover:border-accent-500/50 group-hover:shadow-[0_0_30px_rgba(56,189,248,0.2)] transition-all duration-500 flex-shrink-0 group-hover:-translate-y-1">
                       <item.icon className="h-7 w-7 text-accent-400 group-hover:text-accent-300 transition-colors" />
                     </div>
                     <div>
@@ -217,7 +217,7 @@ export default function HomePage() {
                 <Link
                   key={cat.id}
                   to={`/categories/${cat.slug}`}
-                  className="flex-1 min-w-[260px] max-w-md group relative rounded-[2rem] p-8 bg-white shadow-[0_10px_40px_-10px_rgba(0,0,0,0.08)] magic-border magic-border-white hover:shadow-[0_20px_50px_-15px_rgba(59,130,246,0.2)] hover:-translate-y-3 transition-all duration-500 overflow-hidden block"
+                  className="flex-1 min-w-[260px] max-w-md group relative rounded-lg p-8 bg-white shadow-[0_10px_40px_-10px_rgba(0,0,0,0.08)] magic-border magic-border-white hover:shadow-[0_20px_50px_-15px_rgba(59,130,246,0.2)] hover:-translate-y-3 transition-all duration-500 overflow-hidden block"
                 >
                   {/* Product Image Background */}
                   <div
@@ -234,7 +234,7 @@ export default function HomePage() {
 
                   <div className="mt-16 relative z-10">
                     <h3 className="text-2xl font-heading font-black text-gray-900 group-hover:text-brand-700 transition-colors drop-shadow-sm">{cat.name}</h3>
-                    <div className="mt-4 inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-xl border border-gray-200/50 shadow-sm group-hover:border-brand-200 transition-colors">
+                    <div className="mt-4 inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-lg border border-gray-200/50 shadow-sm group-hover:border-brand-200 transition-colors">
                       <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.6)] animate-pulse"></span>
                       <p className="text-sm font-bold text-gray-700">
                         {cat.totalProducts ?? cat._count?.products ?? 0} Products
@@ -255,7 +255,7 @@ export default function HomePage() {
               <h2 className="text-3xl md:text-5xl font-heading font-black text-brand-950 tracking-tight">Our Products</h2>
               <p className="mt-4 text-gray-600 text-lg font-medium">Discover premium quality <span className="text-red-600">u</span>PVC products for every application.</p>
             </div>
-            <Link to="/products" className="hidden sm:inline-flex items-center gap-2 text-brand-600 font-bold hover:text-brand-700 transition-colors bg-brand-50 px-6 py-3 rounded-xl hover:bg-brand-100">
+            <Link to="/products" className="hidden sm:inline-flex items-center gap-2 text-brand-600 font-bold hover:text-brand-700 transition-colors bg-brand-50 px-6 py-3 rounded-lg hover:bg-brand-100">
               View All Catalog <ArrowRight className="h-5 w-5" />
             </Link>
           </div>
@@ -264,7 +264,7 @@ export default function HomePage() {
               <Link
                 key={product.id}
                 to={`/products/${product.slug}`}
-                className="group bg-white rounded-3xl overflow-hidden shadow-[0_5px_15px_-5px_rgba(0,0,0,0.05)] border border-gray-100 hover:shadow-[0_20px_40px_-10px_rgba(59,130,246,0.15)] hover:-translate-y-2 transition-all duration-500 flex flex-col"
+                className="group bg-white rounded-lg overflow-hidden shadow-[0_5px_15px_-5px_rgba(0,0,0,0.05)] border border-gray-100 hover:shadow-[0_20px_40px_-10px_rgba(59,130,246,0.15)] hover:-translate-y-2 transition-all duration-500 flex flex-col"
               >
                 <div className="aspect-square bg-gradient-to-b from-gray-50 to-white flex items-center justify-center p-6 overflow-hidden relative">
                   <div className="absolute inset-0 bg-brand-500/0 group-hover:bg-brand-500/5 transition-colors duration-500"></div>
@@ -291,7 +291,7 @@ export default function HomePage() {
             ))}
           </div>
           <div className="sm:hidden mt-10 text-center">
-            <Link to="/products" className="inline-flex items-center justify-center w-full gap-2 bg-brand-600 text-white px-6 py-4 rounded-xl font-bold hover:bg-brand-700 transition-colors shadow-lg">
+            <Link to="/products" className="inline-flex items-center justify-center w-full gap-2 bg-brand-600 text-white px-6 py-4 rounded-lg font-bold hover:bg-brand-700 transition-colors shadow-lg">
               View All Products
             </Link>
           </div>
@@ -307,7 +307,7 @@ export default function HomePage() {
                 <h2 className="text-3xl md:text-5xl font-heading font-black text-brand-950 tracking-tight">New Arrivals</h2>
                 <p className="mt-4 text-gray-600 text-lg font-medium">Check out the latest additions to our premium <span className="text-red-600">u</span>PVC product line.</p>
               </div>
-              <Link to="/products?isNewArrival=true" className="hidden sm:inline-flex items-center gap-2 text-brand-600 font-bold hover:text-brand-700 transition-colors bg-white border border-brand-100 px-6 py-3 rounded-xl hover:bg-brand-50 shadow-sm">
+              <Link to="/products?isNewArrival=true" className="hidden sm:inline-flex items-center gap-2 text-brand-600 font-bold hover:text-brand-700 transition-colors bg-white border border-brand-100 px-6 py-3 rounded-lg hover:bg-brand-50 shadow-sm">
                 View All New Items <ArrowRight className="h-5 w-5" />
               </Link>
             </div>
@@ -316,7 +316,7 @@ export default function HomePage() {
                 <Link
                   key={product.id}
                   to={`/products/${product.slug}`}
-                  className="group bg-white rounded-3xl overflow-hidden shadow-[0_5px_15px_-5px_rgba(0,0,0,0.05)] border border-gray-100 hover:shadow-[0_20px_40px_-10px_rgba(59,130,246,0.15)] hover:-translate-y-2 transition-all duration-500 flex flex-col"
+                  className="group bg-white rounded-lg overflow-hidden shadow-[0_5px_15px_-5px_rgba(0,0,0,0.05)] border border-gray-100 hover:shadow-[0_20px_40px_-10px_rgba(59,130,246,0.15)] hover:-translate-y-2 transition-all duration-500 flex flex-col"
                 >
                   <div className="aspect-square bg-gradient-to-b from-gray-50 to-white flex items-center justify-center p-6 overflow-hidden relative">
                     <div className="absolute top-4 right-4 z-10 bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-sm">
@@ -368,11 +368,11 @@ export default function HomePage() {
               { title: 'Industrial', desc: 'Heavy-duty pipes for chemical transport.', icon: Factory, color: 'from-orange-400 to-rose-500' },
               { title: 'Infrastructure', desc: 'Underground sewerage and supply lines.', icon: HardHat, color: 'from-purple-400 to-indigo-500' },
             ].map((app) => (
-              <div key={app.title} className="bg-blue-50 rounded-[2rem] p-8 shadow-sm border border-blue-100 hover:border-blue-300 hover:bg-blue-100 hover:shadow-[0_20px_40px_-15px_rgba(59,130,246,0.15)] hover:-translate-y-2 transition-all duration-500 text-center group relative overflow-hidden">
+              <div key={app.title} className="bg-blue-50 rounded-lg p-8 shadow-sm border border-blue-100 hover:border-blue-300 hover:bg-blue-100 hover:shadow-[0_20px_40px_-15px_rgba(59,130,246,0.15)] hover:-translate-y-2 transition-all duration-500 text-center group relative overflow-hidden">
                 <div className="absolute inset-0 bg-blue-200/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 <div className="relative z-10 flex flex-col items-center">
-                  <div className="h-20 w-20 rounded-2xl bg-white border border-blue-200 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500 group-hover:border-transparent group-hover:shadow-[0_10px_20px_-10px_rgba(59,130,246,0.2)]">
-                    <div className={`absolute inset-0 bg-gradient-to-br from-blue-100 to-blue-200 opacity-0 group-hover:opacity-30 rounded-2xl transition-opacity duration-500`}></div>
+                  <div className="h-20 w-20 rounded-lg bg-white border border-blue-200 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500 group-hover:border-transparent group-hover:shadow-[0_10px_20px_-10px_rgba(59,130,246,0.2)]">
+                    <div className={`absolute inset-0 bg-gradient-to-br from-blue-100 to-blue-200 opacity-0 group-hover:opacity-30 rounded-lg transition-opacity duration-500`}></div>
                     <app.icon className="h-10 w-10 text-blue-500 group-hover:text-blue-600 transition-colors duration-500" />
                   </div>
                   <h3 className="font-heading font-bold text-xl text-brand-900 mb-3">{app.title}</h3>
@@ -393,7 +393,7 @@ export default function HomePage() {
               <h2 className="text-3xl md:text-5xl font-heading font-black text-brand-950 tracking-tight">Tubewells</h2>
               <p className="mt-4 text-gray-600 text-lg font-medium">Premium tubewell pipes and high-durability accessories.</p>
             </div>
-            <Link to="/products?search=tubewell" className="hidden sm:inline-flex items-center gap-2 text-brand-600 font-bold hover:text-brand-700 transition-colors bg-brand-100/50 px-6 py-3 rounded-xl hover:bg-brand-100">
+            <Link to="/products?search=tubewell" className="hidden sm:inline-flex items-center gap-2 text-brand-600 font-bold hover:text-brand-700 transition-colors bg-brand-100/50 px-6 py-3 rounded-lg hover:bg-brand-100">
               View All Tubewells <ArrowRight className="h-5 w-5" />
             </Link>
           </div>
@@ -402,7 +402,7 @@ export default function HomePage() {
               <Link
                 key={product.id}
                 to={`/products/${product.slug}`}
-                className="group bg-white rounded-3xl overflow-hidden shadow-[0_5px_15px_-5px_rgba(0,0,0,0.05)] border border-gray-100 hover:shadow-[0_20px_40px_-10px_rgba(59,130,246,0.15)] hover:-translate-y-2 transition-all duration-500 flex flex-col"
+                className="group bg-white rounded-lg overflow-hidden shadow-[0_5px_15px_-5px_rgba(0,0,0,0.05)] border border-gray-100 hover:shadow-[0_20px_40px_-10px_rgba(59,130,246,0.15)] hover:-translate-y-2 transition-all duration-500 flex flex-col"
               >
                 <div className="aspect-square bg-gradient-to-b from-gray-50 to-white flex items-center justify-center p-6 overflow-hidden relative">
                   <div className="absolute inset-0 bg-brand-500/0 group-hover:bg-brand-500/5 transition-colors duration-500"></div>
@@ -429,7 +429,7 @@ export default function HomePage() {
             ))}
           </div>
           <div className="sm:hidden mt-10 text-center">
-            <Link to="/products?search=tubewell" className="inline-flex items-center justify-center w-full gap-2 bg-brand-600 text-white px-6 py-4 rounded-xl font-bold hover:bg-brand-700 transition-colors shadow-lg">
+            <Link to="/products?search=tubewell" className="inline-flex items-center justify-center w-full gap-2 bg-brand-600 text-white px-6 py-4 rounded-lg font-bold hover:bg-brand-700 transition-colors shadow-lg">
               View All Tubewells
             </Link>
           </div>
@@ -462,7 +462,7 @@ export default function HomePage() {
               { title: 'Modern Manufacturing', desc: 'State-of-the-art factory equipped with auto-belling machines, ensuring consistent wall thickness and accuracy.', icon: Factory },
               { title: 'Nationwide Distribution', desc: 'Comprehensive distribution network ensuring timely delivery across Bangladesh with dedicated logistics support.', icon: Shield },
             ].map((item, idx) => (
-              <div key={item.title} className="group relative bg-brand-900/40 backdrop-blur-xl border border-white/10 rounded-[2rem] p-10 hover:bg-brand-800/50 hover:border-accent-500/40 transition-all duration-500 hover:-translate-y-3 hover:shadow-[0_20px_40px_-10px_rgba(56,189,248,0.2)] overflow-hidden">
+              <div key={item.title} className="group relative bg-brand-900/40 backdrop-blur-xl border border-white/10 rounded-lg p-10 hover:bg-brand-800/50 hover:border-accent-500/40 transition-all duration-500 hover:-translate-y-3 hover:shadow-[0_20px_40px_-10px_rgba(56,189,248,0.2)] overflow-hidden">
                 {/* Accent top border glow */}
                 <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-accent-400 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 shadow-[0_0_20px_rgba(56,189,248,1)]"></div>
 
@@ -472,7 +472,7 @@ export default function HomePage() {
                 </div>
 
                 <div className="relative z-10">
-                  <div className="h-16 w-16 rounded-2xl bg-gradient-to-br from-brand-800 to-brand-950 border border-brand-700 shadow-[inset_0_2px_10px_rgba(255,255,255,0.1)] flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-500 group-hover:border-accent-500/50">
+                  <div className="h-16 w-16 rounded-lg bg-gradient-to-br from-brand-800 to-brand-950 border border-brand-700 shadow-[inset_0_2px_10px_rgba(255,255,255,0.1)] flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-500 group-hover:border-accent-500/50">
                     <item.icon className="h-8 w-8 text-accent-400 group-hover:text-white transition-colors" />
                   </div>
                   <h3 className="text-2xl font-heading font-bold text-white mb-4 group-hover:text-accent-100 transition-colors leading-tight">{item.title}</h3>
@@ -523,11 +523,11 @@ export default function HomePage() {
           <h2 className="text-4xl md:text-5xl font-heading font-black text-brand-950 tracking-tight">Ready to Place an Order?</h2>
           <p className="mt-6 text-gray-800 text-lg md:text-xl font-medium max-w-2xl mx-auto leading-relaxed drop-shadow-sm">Browse our catalog and add products to your enquiry list for a customized quote.</p>
           <div className="mt-10 flex flex-wrap justify-center gap-5">
-            <Link to="/products" className="group relative inline-flex items-center gap-2 bg-brand-600 text-white px-8 py-4 rounded-xl font-bold transition-all duration-300 shadow-[0_10px_20px_-10px_rgba(59,130,246,0.6)] hover:shadow-[0_15px_30px_-10px_rgba(59,130,246,0.8)] hover:-translate-y-1 overflow-hidden">
+            <Link to="/products" className="group relative inline-flex items-center gap-2 bg-brand-600 text-white px-8 py-4 rounded-lg font-bold transition-all duration-300 shadow-[0_10px_20px_-10px_rgba(59,130,246,0.6)] hover:shadow-[0_15px_30px_-10px_rgba(59,130,246,0.8)] hover:-translate-y-1 overflow-hidden">
               <span className="absolute inset-0 bg-gradient-to-r from-brand-500 via-brand-600 to-brand-700 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></span>
               <span className="relative z-10 flex items-center gap-2">Browse Catalog <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" /></span>
             </Link>
-            <Link to="/contact" className="group inline-flex items-center gap-2 border-2 border-brand-200 text-brand-700 px-8 py-4 rounded-xl font-bold hover:bg-brand-50 hover:border-brand-300 transition-all duration-300">
+            <Link to="/contact" className="group inline-flex items-center gap-2 border-2 border-brand-200 text-brand-700 px-8 py-4 rounded-lg font-bold hover:bg-brand-50 hover:border-brand-300 transition-all duration-300">
               Contact Sales
             </Link>
           </div>

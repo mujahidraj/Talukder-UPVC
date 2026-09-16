@@ -168,7 +168,7 @@ export default function ProductDetail() {
               )}
 
               {/* Specs Table */}
-              <div className="mt-8 border rounded-xl overflow-hidden">
+              <div className="mt-8 border rounded-lg overflow-hidden">
                 <table className="w-full text-sm">
                   <tbody className="divide-y divide-gray-100">
                     {[
@@ -203,7 +203,7 @@ export default function ProductDetail() {
                     </div>
                     <h3 className="text-base font-heading font-bold text-gray-900">Key Features</h3>
                   </div>
-                  <div className="bg-gradient-to-br from-brand-50/60 to-white rounded-xl border border-brand-100/60 p-4">
+                  <div className="bg-gradient-to-br from-brand-50/60 to-white rounded-lg border border-brand-100/60 p-4">
                     <div className="grid grid-cols-1 gap-2.5">
                       {parsedFeatures.map((f: string, i: number) => (
                         <div key={i} className="flex items-start gap-3 bg-white/80 rounded-lg px-3.5 py-2.5 border border-brand-50 hover:border-brand-200 hover:shadow-sm transition-all group">
@@ -283,12 +283,12 @@ export default function ProductDetail() {
 
               {/* Variant count badge */}
               <div className="mt-3 flex flex-wrap items-center gap-3">
-                <span className="inline-flex items-center gap-2 text-sm font-semibold text-brand-700 bg-brand-50 px-4 py-2 rounded-xl border border-brand-100">
+                <span className="inline-flex items-center gap-2 text-sm font-semibold text-brand-700 bg-brand-50 px-4 py-2 rounded-lg border border-brand-100">
                   <Layers className="h-4 w-4" />
                   {isMultiVariant ? `${variants.length} Variants Available` : '1 Variant'}
                 </span>
                 {hasClass && variants[0]?.classType && variants[0].classType !== '-' && (
-                  <span className="inline-flex items-center gap-2 text-sm font-semibold text-gray-700 bg-gray-100 px-4 py-2 rounded-xl border border-gray-200">
+                  <span className="inline-flex items-center gap-2 text-sm font-semibold text-gray-700 bg-gray-100 px-4 py-2 rounded-lg border border-gray-200">
                     Class: {variants[0].classType}
                   </span>
                 )}
@@ -306,7 +306,7 @@ export default function ProductDetail() {
                     </div>
                     <h3 className="text-base font-heading font-bold text-gray-900">Key Features</h3>
                   </div>
-                  <div className="bg-gradient-to-br from-brand-50/60 to-white rounded-xl border border-brand-100/60 p-4">
+                  <div className="bg-gradient-to-br from-brand-50/60 to-white rounded-lg border border-brand-100/60 p-4">
                     <div className="grid grid-cols-1 gap-2.5">
                       {parsedFeatures.map((f: string, i: number) => (
                         <div key={i} className="flex items-start gap-3 bg-white/80 rounded-lg px-3.5 py-2.5 border border-brand-50 hover:border-brand-200 hover:shadow-sm transition-all group">
@@ -354,7 +354,7 @@ export default function ProductDetail() {
           <section className="mt-12">
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-3">
-                <div className="h-10 w-10 rounded-xl bg-brand-100 flex items-center justify-center">
+                <div className="h-10 w-10 rounded-lg bg-brand-100 flex items-center justify-center">
                   <Package className="h-5 w-5 text-brand-600" />
                 </div>
                 <div>
@@ -435,7 +435,7 @@ export default function ProductDetail() {
           <h2 className="text-2xl font-heading font-bold text-brand-950 mb-6">Related Products</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {related.map((p: any) => (
-              <Link key={p.id} to={`/products/${p.slug}`} className="group bg-white rounded-2xl border border-gray-100 overflow-hidden hover:shadow-lg transition-all">
+              <Link key={p.id} to={`/products/${p.slug}`} className="group bg-white rounded-lg border border-gray-100 overflow-hidden hover:shadow-lg transition-all">
                 <div className="aspect-square bg-gray-50 flex items-center justify-center p-4">
                   {p.images?.[0]?.thumbPath ? <img src={`http://localhost:3000${p.images[0].thumbPath}`} className="h-full w-full object-contain group-hover:scale-105 transition-transform" /> : <Droplets className="h-12 w-12 text-gray-300" />}
                 </div>

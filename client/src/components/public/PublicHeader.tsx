@@ -195,13 +195,13 @@ export default function PublicHeader({ onEnquiryClick }: HeaderProps = {}) {
                 </button>
                 
                 {showSearch && (
-                  <div className="absolute right-0 top-full mt-3 w-[90vw] sm:w-[28rem] max-w-lg bg-white shadow-2xl rounded-2xl border border-gray-100 overflow-hidden z-50 animate-in fade-in zoom-in-95 duration-200">
+                  <div className="absolute right-0 top-full mt-3 w-[90vw] sm:w-[28rem] max-w-lg bg-white shadow-2xl rounded-lg border border-gray-100 overflow-hidden z-50 animate-in fade-in zoom-in-95 duration-200">
                     <div className="p-4 border-b border-gray-100 bg-gray-50/50">
                       <div className="relative">
                         <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
                         <input
                           type="text"
-                          className="w-full bg-white border border-gray-200 rounded-xl pl-10 pr-4 py-3 text-sm focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none transition-all placeholder:text-gray-400"
+                          className="w-full bg-white border border-gray-200 rounded-lg pl-10 pr-4 py-3 text-sm focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none transition-all placeholder:text-gray-400"
                           placeholder="Search for products, codes, or categories..."
                           value={searchQuery}
                           onChange={(e) => setSearchQuery(e.target.value)}
@@ -315,7 +315,7 @@ export default function PublicHeader({ onEnquiryClick }: HeaderProps = {}) {
                 <ChevronDown className={`h-5 w-5 transition-transform ${megaOpen ? 'rotate-180' : ''}`} />
               </button>
               {megaOpen && (
-                <div className="px-4 pb-4 space-y-2 bg-gray-50 rounded-xl mt-2 p-3">
+                <div className="px-4 pb-4 space-y-2 bg-gray-50 rounded-lg mt-2 p-3">
                   {categories.map(cat => (
                     <Link
                       key={cat.id}

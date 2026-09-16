@@ -33,8 +33,8 @@ export default function CertificationsPage() {
             { src: '/Certified/fire.jpg', alt: 'Fire Safety Certificate' },
             { src: '/Certified/xxxx.png', alt: 'Trade License' },
           ].map((img, idx) => (
-            <div key={idx} className="bg-white rounded-2xl border border-gray-100 p-4 shadow-sm hover:shadow-md transition-shadow overflow-hidden group">
-              <div className="aspect-[3/4] relative bg-gray-50 rounded-xl overflow-hidden flex items-center justify-center p-2">
+            <div key={idx} className="bg-white rounded-lg border border-gray-100 p-4 shadow-sm hover:shadow-md transition-shadow overflow-hidden group">
+              <div className="aspect-[3/4] relative bg-gray-50 rounded-lg overflow-hidden flex items-center justify-center p-2">
                 <img 
                   src={img.src} 
                   alt={img.alt} 

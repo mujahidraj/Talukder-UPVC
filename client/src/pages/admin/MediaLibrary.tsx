@@ -161,7 +161,7 @@ export default function MediaLibrary() {
           {filteredImages.map((img) => (
             <div 
               key={img.id} 
-              className="group relative rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-300 bg-gray-900 aspect-[4/5] cursor-pointer"
+              className="group relative rounded-lg overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-300 bg-gray-900 aspect-[4/5] cursor-pointer"
             >
               <img
                 src={`${import.meta.env.VITE_API_URL?.replace('/api', '') || 'http://localhost:3000'}${img.thumbPath || img.filePath}`}

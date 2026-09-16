@@ -142,7 +142,7 @@ export default function AdminProductDetail() {
         <div className="lg:col-span-1 space-y-6">
           {/* Image Gallery */}
           <div className="glass-panel p-4">
-            <div className="aspect-square bg-gray-50 rounded-xl flex items-center justify-center overflow-hidden mb-3">
+            <div className="aspect-square bg-gray-50 rounded-lg flex items-center justify-center overflow-hidden mb-3">
               {product.images?.length > 0 ? (
                 <img
                   src={`http://localhost:3000${product.images[activeImage]?.fullPath || product.images[activeImage]?.filePath}`}
@@ -181,17 +181,17 @@ export default function AdminProductDetail() {
               Analytics
             </h3>
             <div className="grid grid-cols-3 gap-3">
-              <div className="text-center p-3 bg-blue-50 rounded-xl">
+              <div className="text-center p-3 bg-blue-50 rounded-lg">
                 <Eye className="h-5 w-5 text-blue-600 mx-auto mb-1" />
                 <div className="text-xl font-bold text-blue-900 tabular-nums">{product.viewCount ?? 0}</div>
                 <div className="text-xs text-blue-600 font-medium">Views</div>
               </div>
-              <div className="text-center p-3 bg-pink-50 rounded-xl">
+              <div className="text-center p-3 bg-pink-50 rounded-lg">
                 <Heart className="h-5 w-5 text-pink-600 mx-auto mb-1" />
                 <div className="text-xl font-bold text-pink-900 tabular-nums">{product.wishlistCount ?? 0}</div>
                 <div className="text-xs text-pink-600 font-medium">Wishlist</div>
               </div>
-              <div className="text-center p-3 bg-emerald-50 rounded-xl">
+              <div className="text-center p-3 bg-emerald-50 rounded-lg">
                 <MessageSquare className="h-5 w-5 text-emerald-600 mx-auto mb-1" />
                 <div className="text-xl font-bold text-emerald-900 tabular-nums">{product.enquiryCount ?? 0}</div>
                 <div className="text-xs text-emerald-600 font-medium">Enquiries</div>

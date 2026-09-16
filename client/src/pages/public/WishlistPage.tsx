@@ -60,7 +60,7 @@ export default function WishlistPage() {
       ) : (
         <div className="mt-8 space-y-3">
           {items.map((item: any) => (
-            <div key={item.id} className="flex items-center justify-between bg-white rounded-xl border border-gray-100 p-4 hover:shadow-sm transition-shadow">
+            <div key={item.id} className="flex items-center justify-between bg-white rounded-lg border border-gray-100 p-4 hover:shadow-sm transition-shadow">
               <Link to={`/products/${item.slug}`} className="flex-1 min-w-0">
                 <p className="font-semibold text-gray-900 text-sm">{item.name}</p>
                 <p className="text-xs text-gray-400">{item.code} · {item.size}</p>

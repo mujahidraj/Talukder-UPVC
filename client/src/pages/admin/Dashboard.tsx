@@ -87,7 +87,7 @@ export default function Dashboard() {
         {/* Widget 1: Media Storage */}
         <div 
           onClick={() => navigate('/admin/media')}
-          className="glass-panel bg-white p-5 shadow-sm rounded-xl border border-gray-100 flex items-center cursor-pointer hover:shadow-md hover:-translate-y-0.5 transition-all"
+          className="glass-panel bg-white p-5 shadow-sm rounded-lg border border-gray-100 flex items-center cursor-pointer hover:shadow-md hover:-translate-y-0.5 transition-all"
         >
           <div className="p-3 rounded-lg bg-indigo-50 text-indigo-600 mr-4">
             <HardDrive className="h-6 w-6" />
@@ -102,7 +102,7 @@ export default function Dashboard() {
         {/* Widget 2: Admins Online */}
         <div 
           onClick={() => navigate('/admin/users')}
-          className="glass-panel bg-white p-5 shadow-sm rounded-xl border border-gray-100 flex items-center cursor-pointer hover:shadow-md hover:-translate-y-0.5 transition-all"
+          className="glass-panel bg-white p-5 shadow-sm rounded-lg border border-gray-100 flex items-center cursor-pointer hover:shadow-md hover:-translate-y-0.5 transition-all"
         >
           <div className="p-3 rounded-lg bg-emerald-50 text-emerald-600 mr-4">
             <ShieldCheck className="h-6 w-6" />
@@ -117,7 +117,7 @@ export default function Dashboard() {
         {/* Widget 3: Total Categories */}
         <div 
           onClick={() => navigate('/admin/categories')}
-          className="glass-panel bg-white p-5 shadow-sm rounded-xl border border-gray-100 flex items-center cursor-pointer hover:shadow-md hover:-translate-y-0.5 transition-all"
+          className="glass-panel bg-white p-5 shadow-sm rounded-lg border border-gray-100 flex items-center cursor-pointer hover:shadow-md hover:-translate-y-0.5 transition-all"
         >
           <div className="p-3 rounded-lg bg-amber-50 text-amber-600 mr-4">
             <Layers className="h-6 w-6" />
@@ -132,7 +132,7 @@ export default function Dashboard() {
         {/* Widget 4: Top Wishlisted */}
         <div 
           onClick={() => navigate('/admin/products')}
-          className="glass-panel bg-white p-5 shadow-sm rounded-xl border border-gray-100 flex flex-col justify-between cursor-pointer hover:shadow-md hover:-translate-y-0.5 transition-all"
+          className="glass-panel bg-white p-5 shadow-sm rounded-lg border border-gray-100 flex flex-col justify-between cursor-pointer hover:shadow-md hover:-translate-y-0.5 transition-all"
         >
           <div className="flex items-center justify-between mb-2">
             <p className="text-sm font-medium text-gray-500 flex items-center"><Heart className="h-4 w-4 mr-1 text-rose-500" /> Most Desired</p>
@@ -153,7 +153,7 @@ export default function Dashboard() {
         {/* Products */}
         <div 
           onClick={() => navigate('/admin/products')}
-          className="glass-panel bg-white p-4 shadow-sm rounded-xl border border-gray-100 cursor-pointer hover:shadow-md hover:-translate-y-0.5 transition-all"
+          className="glass-panel bg-white p-4 shadow-sm rounded-lg border border-gray-100 cursor-pointer hover:shadow-md hover:-translate-y-0.5 transition-all"
         >
           <p className="text-xs font-medium text-gray-500 uppercase">Total Products</p>
           <p className="text-2xl font-bold text-gray-900 mt-1">{data.extraStats.totalProducts}</p>
@@ -163,7 +163,7 @@ export default function Dashboard() {
         {/* Missing Data */}
         <div 
           onClick={() => navigate('/admin/products/missing-data')}
-          className="glass-panel bg-white p-4 shadow-sm rounded-xl border border-red-100 cursor-pointer hover:shadow-md hover:-translate-y-0.5 transition-all"
+          className="glass-panel bg-white p-4 shadow-sm rounded-lg border border-red-100 cursor-pointer hover:shadow-md hover:-translate-y-0.5 transition-all"
         >
           <p className="text-xs font-medium text-red-500 uppercase">Missing Data</p>
           <p className="text-2xl font-bold text-gray-900 mt-1">{data.extraStats.missingDataProducts}</p>
@@ -173,7 +173,7 @@ export default function Dashboard() {
         {/* Deleted Products */}
         <div 
           onClick={() => navigate('/admin/products/trash')}
-          className="glass-panel bg-white p-4 shadow-sm rounded-xl border border-gray-100 cursor-pointer hover:shadow-md hover:-translate-y-0.5 transition-all"
+          className="glass-panel bg-white p-4 shadow-sm rounded-lg border border-gray-100 cursor-pointer hover:shadow-md hover:-translate-y-0.5 transition-all"
         >
           <p className="text-xs font-medium text-gray-500 uppercase">Recycle Bin</p>
           <p className="text-2xl font-bold text-gray-900 mt-1">{data.extraStats.deletedProducts}</p>
@@ -183,7 +183,7 @@ export default function Dashboard() {
         {/* Categories Count */}
         <div 
           onClick={() => navigate('/admin/categories')}
-          className="glass-panel bg-white p-4 shadow-sm rounded-xl border border-gray-100 cursor-pointer hover:shadow-md hover:-translate-y-0.5 transition-all"
+          className="glass-panel bg-white p-4 shadow-sm rounded-lg border border-gray-100 cursor-pointer hover:shadow-md hover:-translate-y-0.5 transition-all"
         >
           <p className="text-xs font-medium text-gray-500 uppercase">Categories</p>
           <p className="text-2xl font-bold text-gray-900 mt-1">{data.extraStats.totalCategoriesCount}</p>
@@ -193,7 +193,7 @@ export default function Dashboard() {
         {/* Wishlist Saves */}
         <div 
           onClick={() => navigate('/admin/products')}
-          className="glass-panel bg-white p-4 shadow-sm rounded-xl border border-gray-100 cursor-pointer hover:shadow-md hover:-translate-y-0.5 transition-all"
+          className="glass-panel bg-white p-4 shadow-sm rounded-lg border border-gray-100 cursor-pointer hover:shadow-md hover:-translate-y-0.5 transition-all"
         >
           <p className="text-xs font-medium text-gray-500 uppercase">Total Saves</p>
           <p className="text-2xl font-bold text-gray-900 mt-1">{data.extraStats.totalWishlistSaves}</p>
@@ -203,7 +203,7 @@ export default function Dashboard() {
         {/* Enquiries */}
         <div 
           onClick={() => navigate('/admin/enquiries')}
-          className="glass-panel bg-white p-4 shadow-sm rounded-xl border border-gray-100 cursor-pointer hover:shadow-md hover:-translate-y-0.5 transition-all"
+          className="glass-panel bg-white p-4 shadow-sm rounded-lg border border-gray-100 cursor-pointer hover:shadow-md hover:-translate-y-0.5 transition-all"
         >
           <p className="text-xs font-medium text-gray-500 uppercase">Total Enquiries</p>
           <p className="text-2xl font-bold text-gray-900 mt-1">{data.extraStats.totalEnquiries}</p>
@@ -213,7 +213,7 @@ export default function Dashboard() {
         {/* Pending Enquiries */}
         <div 
           onClick={() => navigate('/admin/enquiries')}
-          className="glass-panel bg-white p-4 shadow-sm rounded-xl border border-gray-100 cursor-pointer hover:shadow-md hover:-translate-y-0.5 transition-all"
+          className="glass-panel bg-white p-4 shadow-sm rounded-lg border border-gray-100 cursor-pointer hover:shadow-md hover:-translate-y-0.5 transition-all"
         >
           <p className="text-xs font-medium text-gray-500 uppercase">Pending Review</p>
           <p className="text-2xl font-bold text-gray-900 mt-1">{data.extraStats.pendingEnquiries}</p>
@@ -223,7 +223,7 @@ export default function Dashboard() {
         {/* Quoted Enquiries */}
         <div 
           onClick={() => navigate('/admin/enquiries')}
-          className="glass-panel bg-white p-4 shadow-sm rounded-xl border border-gray-100 cursor-pointer hover:shadow-md hover:-translate-y-0.5 transition-all"
+          className="glass-panel bg-white p-4 shadow-sm rounded-lg border border-gray-100 cursor-pointer hover:shadow-md hover:-translate-y-0.5 transition-all"
         >
           <p className="text-xs font-medium text-gray-500 uppercase">Quoted Deals</p>
           <p className="text-2xl font-bold text-gray-900 mt-1">{data.extraStats.quotedEnquiries}</p>
@@ -233,7 +233,7 @@ export default function Dashboard() {
         {/* Banners */}
         <div 
           onClick={() => navigate('/admin/cms')}
-          className="glass-panel bg-white p-4 shadow-sm rounded-xl border border-gray-100 cursor-pointer hover:shadow-md hover:-translate-y-0.5 transition-all"
+          className="glass-panel bg-white p-4 shadow-sm rounded-lg border border-gray-100 cursor-pointer hover:shadow-md hover:-translate-y-0.5 transition-all"
         >
           <p className="text-xs font-medium text-gray-500 uppercase">Banners</p>
           <p className="text-2xl font-bold text-gray-900 mt-1">{data.extraStats.totalBanners}</p>
@@ -243,7 +243,7 @@ export default function Dashboard() {
         {/* FAQs */}
         <div 
           onClick={() => navigate('/admin/cms')}
-          className="glass-panel bg-white p-4 shadow-sm rounded-xl border border-gray-100 cursor-pointer hover:shadow-md hover:-translate-y-0.5 transition-all"
+          className="glass-panel bg-white p-4 shadow-sm rounded-lg border border-gray-100 cursor-pointer hover:shadow-md hover:-translate-y-0.5 transition-all"
         >
           <p className="text-xs font-medium text-gray-500 uppercase">Total FAQs</p>
           <p className="text-2xl font-bold text-gray-900 mt-1">{data.extraStats.totalFaqs}</p>
@@ -253,7 +253,7 @@ export default function Dashboard() {
         {/* Import Jobs */}
         <div 
           onClick={() => navigate('/admin/import')}
-          className="glass-panel bg-white p-4 shadow-sm rounded-xl border border-gray-100 cursor-pointer hover:shadow-md hover:-translate-y-0.5 transition-all"
+          className="glass-panel bg-white p-4 shadow-sm rounded-lg border border-gray-100 cursor-pointer hover:shadow-md hover:-translate-y-0.5 transition-all"
         >
           <p className="text-xs font-medium text-gray-500 uppercase">Import Jobs</p>
           <p className="text-2xl font-bold text-gray-900 mt-1">{data.extraStats.totalImportJobs}</p>
@@ -263,7 +263,7 @@ export default function Dashboard() {
         {/* Activity Logs */}
         <div 
           onClick={() => navigate('/admin/reports')}
-          className="glass-panel bg-white p-4 shadow-sm rounded-xl border border-gray-100 cursor-pointer hover:shadow-md hover:-translate-y-0.5 transition-all"
+          className="glass-panel bg-white p-4 shadow-sm rounded-lg border border-gray-100 cursor-pointer hover:shadow-md hover:-translate-y-0.5 transition-all"
         >
           <p className="text-xs font-medium text-gray-500 uppercase">Audit Logs</p>
           <p className="text-2xl font-bold text-gray-900 mt-1">{data.extraStats.totalActivityLogs}</p>
@@ -274,7 +274,7 @@ export default function Dashboard() {
       {/* MIDDLE ROW: Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Widget 5: Engagement Trends */}
-        <div className="glass-panel bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+        <div className="glass-panel bg-white p-6 rounded-lg shadow-sm border border-gray-100">
           <h2 className="text-lg font-heading font-semibold mb-4 text-gray-900">Top Products by Engagement</h2>
           <div className="h-72 w-full">
             {data.topProducts.length > 0 ? (
@@ -300,7 +300,7 @@ export default function Dashboard() {
         </div>
 
         {/* Widget 6: Category Distribution */}
-        <div className="glass-panel bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+        <div className="glass-panel bg-white p-6 rounded-lg shadow-sm border border-gray-100">
           <h2 className="text-lg font-heading font-semibold mb-4 text-gray-900">Products per Category</h2>
           <div className="h-72 w-full">
             {data.categoryDistribution.length > 0 ? (
@@ -333,7 +333,7 @@ export default function Dashboard() {
       {/* BOTTOM ROW: Tables & Lists */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Widget 7: Recent Enquiries */}
-        <div className="lg:col-span-2 glass-panel bg-white p-6 rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+        <div className="lg:col-span-2 glass-panel bg-white p-6 rounded-lg shadow-sm border border-gray-100 overflow-hidden">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-lg font-heading font-semibold text-gray-900">Recent Customer Enquiries</h2>
             <a href="/admin/enquiries" className="text-xs font-semibold text-brand-600 hover:text-brand-700">View All</a>
@@ -377,7 +377,7 @@ export default function Dashboard() {
         </div>
 
         {/* Widget 8: Recent Activity Log */}
-        <div className="glass-panel bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+        <div className="glass-panel bg-white p-6 rounded-lg shadow-sm border border-gray-100">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-lg font-heading font-semibold text-gray-900">System Activity</h2>
           </div>

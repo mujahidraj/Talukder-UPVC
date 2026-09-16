@@ -141,7 +141,7 @@ const CategoryModal: React.FC<EditModalProps> = ({ category, allCategories, onCl
 
       {/* Modal */}
       <div
-        className="relative bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto"
+        className="relative bg-white rounded-lg shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto"
         style={{ animation: 'modalIn 0.2s ease-out' }}
       >
         {/* Header */}
@@ -240,7 +240,7 @@ const CategoryModal: React.FC<EditModalProps> = ({ category, allCategories, onCl
           </div>
 
           {/* Visibility Toggle */}
-          <div className="flex items-center justify-between py-2 px-4 bg-gray-50 rounded-xl">
+          <div className="flex items-center justify-between py-2 px-4 bg-gray-50 rounded-lg">
             <div>
               <label className="text-sm font-medium text-gray-700">Visible on Website</label>
               <p className="text-xs text-gray-400">Show this category on the public site</p>
@@ -360,7 +360,7 @@ const CategoryNode: React.FC<{
   return (
     <div className="w-full">
       <div
-        className={`flex items-center justify-between p-3.5 mb-3 bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300 group relative overflow-hidden`}
+        className={`flex items-center justify-between p-3.5 mb-3 bg-white rounded-lg border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300 group relative overflow-hidden`}
         style={{ marginLeft: `${depth * 3}rem`, width: `calc(100% - ${depth * 3}rem)` }}
       >
         {/* Colorful left border indicator */}
@@ -370,7 +370,7 @@ const CategoryNode: React.FC<{
           {node.children.length > 0 ? (
             <button
               onClick={() => setExpanded(!expanded)}
-              className={`p-1.5 rounded-xl transition-all duration-300 ${expanded ? 'bg-gray-100 text-gray-800' : 'bg-gray-50 text-gray-400 -rotate-90 hover:bg-gray-200'}`}
+              className={`p-1.5 rounded-lg transition-all duration-300 ${expanded ? 'bg-gray-100 text-gray-800' : 'bg-gray-50 text-gray-400 -rotate-90 hover:bg-gray-200'}`}
             >
               <ChevronDown className="h-5 w-5" />
             </button>
@@ -403,14 +403,14 @@ const CategoryNode: React.FC<{
         <div className="flex items-center gap-2 pr-2 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-4 group-hover:translate-x-0">
           <button
             onClick={() => onEdit(node)}
-            className="p-2 text-brand-600 bg-brand-50 hover:bg-brand-100 hover:text-brand-700 rounded-xl transition-all shadow-sm flex items-center gap-2"
+            className="p-2 text-brand-600 bg-brand-50 hover:bg-brand-100 hover:text-brand-700 rounded-lg transition-all shadow-sm flex items-center gap-2"
             title="Edit"
           >
             <Edit2 className="h-4 w-4" />
           </button>
           <button
             onClick={handleDelete}
-            className="p-2 text-red-600 bg-red-50 hover:bg-red-100 hover:text-red-700 rounded-xl transition-all shadow-sm flex items-center gap-2"
+            className="p-2 text-red-600 bg-red-50 hover:bg-red-100 hover:text-red-700 rounded-lg transition-all shadow-sm flex items-center gap-2"
             title="Delete"
           >
             <Trash2 className="h-4 w-4" />
@@ -494,15 +494,15 @@ export default function CategoriesManager() {
 
       <div className="mt-8">
         {isLoading ? (
-          <div className="p-12 text-center text-gray-500 bg-white rounded-3xl border border-gray-100 shadow-sm">
+          <div className="p-12 text-center text-gray-500 bg-white rounded-lg border border-gray-100 shadow-sm">
             <div className="flex items-center justify-center gap-3">
               <div className="w-6 h-6 border-2 border-brand-200 border-t-brand-600 rounded-full animate-spin" />
               <span className="font-medium text-lg">Loading hierarchy...</span>
             </div>
           </div>
         ) : categories.length === 0 ? (
-          <div className="p-16 text-center bg-white rounded-3xl border border-dashed border-gray-300 flex flex-col items-center justify-center">
-            <div className="p-4 bg-gray-50 rounded-2xl mb-4">
+          <div className="p-16 text-center bg-white rounded-lg border border-dashed border-gray-300 flex flex-col items-center justify-center">
+            <div className="p-4 bg-gray-50 rounded-lg mb-4">
               <FolderTree className="h-8 w-8 text-gray-400" />
             </div>
             <h3 className="text-lg font-semibold text-gray-900 mb-1">No categories yet</h3>

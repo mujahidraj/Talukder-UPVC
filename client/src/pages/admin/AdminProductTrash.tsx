@@ -161,12 +161,12 @@ export default function AdminProductTrash() {
           <div className="flex items-center gap-4 mb-3">
             <Link 
               to="/admin/products" 
-              className="p-2 bg-white border border-gray-200 rounded-xl text-gray-500 hover:text-brand-600 hover:border-brand-200 hover:bg-brand-50 transition-all shadow-sm group"
+              className="p-2 bg-white border border-gray-200 rounded-lg text-gray-500 hover:text-brand-600 hover:border-brand-200 hover:bg-brand-50 transition-all shadow-sm group"
             >
               <ArrowLeft className="h-5 w-5 group-hover:-translate-x-0.5 transition-transform" />
             </Link>
             <h1 className="text-3xl font-bold tracking-tight text-gray-900 flex items-center gap-3">
-              <div className="p-2.5 bg-red-50 rounded-xl text-red-500">
+              <div className="p-2.5 bg-red-50 rounded-lg text-red-500">
                 <Trash2 className="h-7 w-7" />
               </div>
               Recycle Bin
@@ -181,12 +181,12 @@ export default function AdminProductTrash() {
       {/* Bulk Action Bar */}
       {selectedIds.size > 0 && (
         <div
-          className="mb-6 bg-red-50/80 border border-red-200 rounded-2xl px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-sm relative overflow-hidden"
+          className="mb-6 bg-red-50/80 border border-red-200 rounded-lg px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-sm relative overflow-hidden"
           style={{ animation: 'slideDown 0.2s ease-out' }}
         >
           <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-red-500"></div>
           <div className="flex items-center gap-4">
-            <div className="flex items-center justify-center h-10 w-10 rounded-xl bg-red-600 text-white text-base font-bold shadow-md shadow-red-500/20">
+            <div className="flex items-center justify-center h-10 w-10 rounded-lg bg-red-600 text-white text-base font-bold shadow-md shadow-red-500/20">
               {selectedIds.size}
             </div>
             <span className="text-base font-bold text-red-900">
@@ -197,7 +197,7 @@ export default function AdminProductTrash() {
             <button
               onClick={handleBulkRestore}
               disabled={isProcessing}
-              className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-bold text-white bg-green-600 rounded-xl hover:bg-green-700 transition-colors shadow-sm disabled:opacity-50"
+              className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-bold text-white bg-green-600 rounded-lg hover:bg-green-700 transition-colors shadow-sm disabled:opacity-50"
             >
               {isProcessing ? <Loader2 className="h-4 w-4 animate-spin" /> : <RefreshCw className="h-4 w-4" />}
               {isProcessing ? 'Processing...' : 'Restore Selected'}
@@ -205,14 +205,14 @@ export default function AdminProductTrash() {
             <button
               onClick={handleBulkPermanentDelete}
               disabled={isProcessing}
-              className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-bold text-white bg-red-600 rounded-xl hover:bg-red-700 transition-colors shadow-sm disabled:opacity-50"
+              className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-bold text-white bg-red-600 rounded-lg hover:bg-red-700 transition-colors shadow-sm disabled:opacity-50"
             >
               {isProcessing ? <Loader2 className="h-4 w-4 animate-spin" /> : <Trash2 className="h-4 w-4" />}
               {isProcessing ? 'Processing...' : 'Delete Forever'}
             </button>
             <button
               onClick={() => setSelectedIds(new Set())}
-              className="inline-flex items-center gap-1.5 px-4 py-2.5 text-sm font-semibold text-gray-600 hover:text-gray-900 hover:bg-white/80 rounded-xl transition-colors"
+              className="inline-flex items-center gap-1.5 px-4 py-2.5 text-sm font-semibold text-gray-600 hover:text-gray-900 hover:bg-white/80 rounded-lg transition-colors"
             >
               <X className="h-4 w-4" />
               Cancel
@@ -222,7 +222,7 @@ export default function AdminProductTrash() {
       )}
 
       {/* Main Container */}
-      <div className="bg-white rounded-3xl shadow-[0_2px_15px_-3px_rgba(6,81,237,0.05)] border border-gray-100 overflow-hidden relative">
+      <div className="bg-white rounded-lg shadow-[0_2px_15px_-3px_rgba(6,81,237,0.05)] border border-gray-100 overflow-hidden relative">
         {/* Search Bar */}
         <div className="p-5 border-b border-gray-100 bg-white flex flex-col lg:flex-row lg:items-center justify-between gap-5 relative z-10">
           <div className="flex flex-col sm:flex-row items-center gap-4 w-full lg:max-w-2xl">
@@ -232,7 +232,7 @@ export default function AdminProductTrash() {
               </div>
               <input
                 type="text"
-                className="w-full bg-gray-50 border border-gray-200 text-gray-900 rounded-xl pl-11 pr-4 py-3 text-sm focus:bg-white focus:border-red-500 focus:ring-4 focus:ring-red-500/10 transition-all outline-none"
+                className="w-full bg-gray-50 border border-gray-200 text-gray-900 rounded-lg pl-11 pr-4 py-3 text-sm focus:bg-white focus:border-red-500 focus:ring-4 focus:ring-red-500/10 transition-all outline-none"
                 placeholder="Search deleted products..."
                 value={search}
                 onChange={(e) => { setSearch(e.target.value); setPage(1); }}
@@ -242,14 +242,14 @@ export default function AdminProductTrash() {
               <button
                 onClick={toggleSelectAll}
                 disabled={isSelectingAll}
-                className="flex items-center justify-center gap-2 px-5 py-3 bg-white border border-gray-200 rounded-xl text-sm font-bold text-gray-700 hover:bg-gray-50 hover:border-gray-300 transition-all whitespace-nowrap disabled:opacity-50 shadow-sm"
+                className="flex items-center justify-center gap-2 px-5 py-3 bg-white border border-gray-200 rounded-lg text-sm font-bold text-gray-700 hover:bg-gray-50 hover:border-gray-300 transition-all whitespace-nowrap disabled:opacity-50 shadow-sm"
               >
                 {selectedIds.size === totalCount ? <MinusSquare className="h-5 w-5 text-red-500" /> : <CheckSquare className="h-5 w-5 text-gray-400" />}
                 {isSelectingAll ? 'Selecting...' : selectedIds.size === totalCount ? 'Deselect All' : 'Select All Files'}
               </button>
             )}
           </div>
-          <div className="text-sm font-bold text-red-600 bg-red-50 px-4 py-2.5 rounded-xl border border-red-100 whitespace-nowrap inline-flex items-center shadow-sm">
+          <div className="text-sm font-bold text-red-600 bg-red-50 px-4 py-2.5 rounded-lg border border-red-100 whitespace-nowrap inline-flex items-center shadow-sm">
             <AlertTriangle className="h-4 w-4 mr-2" />
             <span className="text-red-700">{totalCount} item{totalCount !== 1 ? 's' : ''} in trash</span>
           </div>
@@ -296,7 +296,7 @@ export default function AdminProductTrash() {
                 <tr>
                   <td colSpan={6} className="px-6 py-24 text-center">
                     <div className="flex flex-col items-center gap-4">
-                      <div className="h-16 w-16 rounded-3xl bg-gray-50 flex items-center justify-center mb-2 shadow-sm border border-gray-100">
+                      <div className="h-16 w-16 rounded-lg bg-gray-50 flex items-center justify-center mb-2 shadow-sm border border-gray-100">
                         <Trash2 className="h-8 w-8 text-gray-300" />
                       </div>
                       <div>
@@ -327,7 +327,7 @@ export default function AdminProductTrash() {
                     </td>
                     {/* Image */}
                     <td className="px-6 py-5 whitespace-nowrap">
-                      <div className="relative overflow-hidden rounded-xl border border-gray-200 shadow-sm opacity-70 group-hover:opacity-100 transition-opacity">
+                      <div className="relative overflow-hidden rounded-lg border border-gray-200 shadow-sm opacity-70 group-hover:opacity-100 transition-opacity">
                         {product.images?.[0]?.thumbPath ? (
                           <img
                             src={`http://localhost:3000${product.images[0].thumbPath}`}
@@ -362,7 +362,7 @@ export default function AdminProductTrash() {
                       <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                         <button
                           onClick={() => handleRestore(product.id)}
-                          className="inline-flex items-center justify-center px-4 py-2 bg-green-50 text-green-700 hover:bg-green-600 hover:text-white rounded-xl text-xs font-bold transition-all shadow-sm gap-1.5"
+                          className="inline-flex items-center justify-center px-4 py-2 bg-green-50 text-green-700 hover:bg-green-600 hover:text-white rounded-lg text-xs font-bold transition-all shadow-sm gap-1.5"
                           title="Restore Product"
                         >
                           <RefreshCw className="h-3.5 w-3.5" />
@@ -370,7 +370,7 @@ export default function AdminProductTrash() {
                         </button>
                         <button
                           onClick={() => handlePermanentDelete(product.id)}
-                          className="inline-flex items-center justify-center px-4 py-2 bg-red-50 text-red-700 hover:bg-red-600 hover:text-white rounded-xl text-xs font-bold transition-all shadow-sm gap-1.5"
+                          className="inline-flex items-center justify-center px-4 py-2 bg-red-50 text-red-700 hover:bg-red-600 hover:text-white rounded-lg text-xs font-bold transition-all shadow-sm gap-1.5"
                           title="Permanently Delete"
                         >
                           <Trash2 className="h-3.5 w-3.5" />
@@ -396,14 +396,14 @@ export default function AdminProductTrash() {
             <button
               onClick={() => setPage(p => Math.max(1, p - 1))}
               disabled={page === 1}
-              className="inline-flex items-center justify-center px-4 py-2 bg-white border border-gray-200 text-sm font-bold text-gray-700 rounded-xl shadow-sm hover:bg-gray-50 hover:border-gray-300 transition-all disabled:opacity-50 disabled:pointer-events-none"
+              className="inline-flex items-center justify-center px-4 py-2 bg-white border border-gray-200 text-sm font-bold text-gray-700 rounded-lg shadow-sm hover:bg-gray-50 hover:border-gray-300 transition-all disabled:opacity-50 disabled:pointer-events-none"
             >
               Previous
             </button>
             <button
               onClick={() => setPage(p => Math.min(totalPages, p + 1))}
               disabled={page === totalPages || totalPages === 0}
-              className="inline-flex items-center justify-center px-4 py-2 bg-white border border-gray-200 text-sm font-bold text-gray-700 rounded-xl shadow-sm hover:bg-gray-50 hover:border-gray-300 transition-all disabled:opacity-50 disabled:pointer-events-none"
+              className="inline-flex items-center justify-center px-4 py-2 bg-white border border-gray-200 text-sm font-bold text-gray-700 rounded-lg shadow-sm hover:bg-gray-50 hover:border-gray-300 transition-all disabled:opacity-50 disabled:pointer-events-none"
             >
               Next
             </button>

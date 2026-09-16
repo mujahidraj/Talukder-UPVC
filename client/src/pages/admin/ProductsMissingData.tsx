@@ -72,7 +72,7 @@ export default function ProductsMissingData() {
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
         <div className="max-w-2xl">
           <h1 className="text-3xl font-bold tracking-tight text-gray-900 mb-2 flex items-center gap-3">
-            <div className="p-2.5 bg-amber-50 rounded-xl">
+            <div className="p-2.5 bg-amber-50 rounded-lg">
               <AlertCircle className="h-7 w-7 text-amber-500" />
             </div>
             Action Required
@@ -83,7 +83,7 @@ export default function ProductsMissingData() {
         </div>
       </div>
 
-      <div className="bg-white rounded-3xl shadow-[0_2px_15px_-3px_rgba(6,81,237,0.05)] border border-gray-100 overflow-hidden relative">
+      <div className="bg-white rounded-lg shadow-[0_2px_15px_-3px_rgba(6,81,237,0.05)] border border-gray-100 overflow-hidden relative">
         {/* Search */}
         <div className="p-6 border-b border-gray-100 bg-white flex flex-col sm:flex-row sm:items-center justify-between gap-5 relative z-10">
           <div className="relative max-w-md w-full">
@@ -92,13 +92,13 @@ export default function ProductsMissingData() {
             </div>
             <input
               type="text"
-              className="w-full bg-gray-50 border border-gray-200 text-gray-900 rounded-xl pl-11 pr-4 py-3 text-sm focus:bg-white focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 transition-all outline-none"
+              className="w-full bg-gray-50 border border-gray-200 text-gray-900 rounded-lg pl-11 pr-4 py-3 text-sm focus:bg-white focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 transition-all outline-none"
               placeholder="Search by product code or name..."
               value={search}
               onChange={(e) => { setSearch(e.target.value); setPage(1); }}
             />
           </div>
-          <div className="text-sm font-bold text-amber-700 bg-amber-50 px-5 py-3 rounded-xl border border-amber-200/60 whitespace-nowrap inline-flex items-center shadow-sm">
+          <div className="text-sm font-bold text-amber-700 bg-amber-50 px-5 py-3 rounded-lg border border-amber-200/60 whitespace-nowrap inline-flex items-center shadow-sm">
             <span className="text-xl mr-2">{totalCount}</span> product{totalCount !== 1 ? 's' : ''} need attention
           </div>
         </div>
@@ -127,7 +127,7 @@ export default function ProductsMissingData() {
                 <tr>
                   <td colSpan={3} className="px-8 py-24 text-center">
                     <div className="flex flex-col items-center gap-4">
-                      <div className="h-16 w-16 rounded-3xl bg-emerald-50 flex items-center justify-center mb-2 shadow-sm border border-emerald-100">
+                      <div className="h-16 w-16 rounded-lg bg-emerald-50 flex items-center justify-center mb-2 shadow-sm border border-emerald-100">
                         <CheckCircle2 className="h-8 w-8 text-emerald-500" />
                       </div>
                       <div>
@@ -149,10 +149,10 @@ export default function ProductsMissingData() {
                               <img
                                 src={`http://localhost:3000${product.images[0].thumbPath}`}
                                 alt="thumb"
-                                className="h-12 w-12 rounded-xl object-cover border border-gray-200 shadow-sm"
+                                className="h-12 w-12 rounded-lg object-cover border border-gray-200 shadow-sm"
                               />
                             ) : (
-                              <div className="h-12 w-12 rounded-xl bg-gray-100 flex items-center justify-center border border-gray-200">
+                              <div className="h-12 w-12 rounded-lg bg-gray-100 flex items-center justify-center border border-gray-200">
                                 <span className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">No Img</span>
                               </div>
                             )}
@@ -176,7 +176,7 @@ export default function ProductsMissingData() {
                       <td className="px-8 py-5 whitespace-nowrap text-right">
                         <Link
                           to={`/admin/products/${product.id}/edit`}
-                          className="inline-flex items-center justify-center px-5 py-2.5 bg-white border border-gray-200 text-sm font-bold rounded-xl text-gray-700 hover:bg-brand-50 hover:text-brand-700 hover:border-brand-200 transition-all shadow-sm group-hover:shadow-md gap-2"
+                          className="inline-flex items-center justify-center px-5 py-2.5 bg-white border border-gray-200 text-sm font-bold rounded-lg text-gray-700 hover:bg-brand-50 hover:text-brand-700 hover:border-brand-200 transition-all shadow-sm group-hover:shadow-md gap-2"
                         >
                           <Edit2 className="h-4 w-4" />
                           Resolve
@@ -201,14 +201,14 @@ export default function ProductsMissingData() {
             <button
               onClick={() => setPage(p => Math.max(1, p - 1))}
               disabled={page === 1}
-              className="inline-flex items-center justify-center px-4 py-2 bg-white border border-gray-200 text-sm font-bold text-gray-700 rounded-xl shadow-sm hover:bg-gray-50 hover:border-gray-300 transition-all disabled:opacity-50 disabled:pointer-events-none"
+              className="inline-flex items-center justify-center px-4 py-2 bg-white border border-gray-200 text-sm font-bold text-gray-700 rounded-lg shadow-sm hover:bg-gray-50 hover:border-gray-300 transition-all disabled:opacity-50 disabled:pointer-events-none"
             >
               Previous
             </button>
             <button
               onClick={() => setPage(p => Math.min(totalPages, p + 1))}
               disabled={page === totalPages || totalPages === 0}
-              className="inline-flex items-center justify-center px-4 py-2 bg-white border border-gray-200 text-sm font-bold text-gray-700 rounded-xl shadow-sm hover:bg-gray-50 hover:border-gray-300 transition-all disabled:opacity-50 disabled:pointer-events-none"
+              className="inline-flex items-center justify-center px-4 py-2 bg-white border border-gray-200 text-sm font-bold text-gray-700 rounded-lg shadow-sm hover:bg-gray-50 hover:border-gray-300 transition-all disabled:opacity-50 disabled:pointer-events-none"
             >
               Next
             </button>

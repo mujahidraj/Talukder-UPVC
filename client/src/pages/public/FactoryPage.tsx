@@ -61,7 +61,7 @@ export default function FactoryPage() {
 
       {/* Description Section */}
       <section className="max-w-4xl mx-auto px-4 py-8 text-center mt-12">
-        <div className="bg-white rounded-3xl p-8 md:p-12 shadow-sm border border-gray-100">
+        <div className="bg-white rounded-lg p-8 md:p-12 shadow-sm border border-gray-100">
           <p className="text-base md:text-lg leading-relaxed text-gray-700">
             Our manufacturing facility, located in Baniargati, Bashundia, Jashore, is equipped with modern machinery and technology to produce <span className="text-red-600 font-bold">u</span><span className="font-bold text-gray-900">PVC</span> pipes and fittings of the highest quality. We strictly adhere to international standards to ensure durability and reliability in every product.
           </p>
@@ -80,7 +80,7 @@ export default function FactoryPage() {
             <Loader2 className="h-8 w-8 animate-spin text-brand-600" />
           </div>
         ) : factoryImages.length === 0 ? (
-          <div className="text-center py-12 text-gray-500 bg-white rounded-xl shadow-sm border border-gray-100">
+          <div className="text-center py-12 text-gray-500 bg-white rounded-lg shadow-sm border border-gray-100">
             No factory images available at the moment.
           </div>
         ) : (
@@ -88,7 +88,7 @@ export default function FactoryPage() {
             {factoryImages.map((img) => (
               <div 
                 key={img.id} 
-                className="break-inside-avoid relative group rounded-2xl overflow-hidden bg-gray-200 cursor-pointer shadow-sm hover:shadow-2xl transition-all duration-500"
+                className="break-inside-avoid relative group rounded-lg overflow-hidden bg-gray-200 cursor-pointer shadow-sm hover:shadow-2xl transition-all duration-500"
                 onClick={() => setSelectedImage(img.fullPath)}
               >
                 <img 
@@ -128,7 +128,7 @@ export default function FactoryPage() {
             <img 
               src={`http://localhost:3000${selectedImage}`} 
               alt="Factory Full View"
-              className="max-w-full max-h-[90vh] object-contain rounded-xl shadow-2xl"
+              className="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl"
               onClick={(e) => e.stopPropagation()}
             />
           </div>

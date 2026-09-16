@@ -115,7 +115,7 @@ export default function BulkImport() {
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Excel File</label>
-              <div className="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center hover:border-brand-400 transition-colors">
+              <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-brand-400 transition-colors">
                 <Upload className="mx-auto h-10 w-10 text-gray-400" />
                 <div className="mt-4">
                   <input

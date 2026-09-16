@@ -238,7 +238,7 @@ export default function EnquiriesManager() {
       {stats && (
         <div className="grid grid-cols-3 gap-4 mb-6">
           <div className="glass-panel p-4 flex items-center gap-4">
-            <div className="h-10 w-10 rounded-xl bg-brand-100 flex items-center justify-center">
+            <div className="h-10 w-10 rounded-lg bg-brand-100 flex items-center justify-center">
               <MessageSquare className="h-5 w-5 text-brand-600" />
             </div>
             <div>
@@ -247,7 +247,7 @@ export default function EnquiriesManager() {
             </div>
           </div>
           <div className="glass-panel p-4 flex items-center gap-4">
-            <div className="h-10 w-10 rounded-xl bg-amber-100 flex items-center justify-center">
+            <div className="h-10 w-10 rounded-lg bg-amber-100 flex items-center justify-center">
               <Clock className="h-5 w-5 text-amber-600" />
             </div>
             <div>
@@ -256,7 +256,7 @@ export default function EnquiriesManager() {
             </div>
           </div>
           <div className="glass-panel p-4 flex items-center gap-4">
-            <div className="h-10 w-10 rounded-xl bg-emerald-100 flex items-center justify-center">
+            <div className="h-10 w-10 rounded-lg bg-emerald-100 flex items-center justify-center">
               <Calendar className="h-5 w-5 text-emerald-600" />
             </div>
             <div>
@@ -386,7 +386,7 @@ export default function EnquiriesManager() {
         {/* ─── Right: Enquiry Detail ────────────────── */}
         <div className="lg:col-span-2 glass-panel bg-white overflow-hidden flex flex-col" style={{ height: 'calc(100vh - 320px)', minHeight: '400px' }}>
           {!selectedId ? (
-            <div className="flex-1 flex items-center justify-center text-gray-400 border-2 border-dashed border-gray-100 m-4 rounded-xl">
+            <div className="flex-1 flex items-center justify-center text-gray-400 border-2 border-dashed border-gray-100 m-4 rounded-lg">
               <div className="text-center">
                 <MessageSquare className="mx-auto h-12 w-12 text-gray-200" />
                 <h3 className="mt-3 text-sm font-semibold text-gray-900">Select an enquiry</h3>
@@ -446,7 +446,7 @@ export default function EnquiriesManager() {
               <div className="p-6 space-y-6">
                 {/* Contact Info */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-xl">
+                  <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
                     <div className="h-8 w-8 rounded-lg bg-blue-100 flex items-center justify-center flex-shrink-0">
                       <Mail className="h-4 w-4 text-blue-600" />
                     </div>
@@ -457,7 +457,7 @@ export default function EnquiriesManager() {
                       </a>
                     </div>
                   </div>
-                  <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-xl">
+                  <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
                     <div className="h-8 w-8 rounded-lg bg-emerald-100 flex items-center justify-center flex-shrink-0">
                       <Phone className="h-4 w-4 text-emerald-600" />
                     </div>
@@ -469,7 +469,7 @@ export default function EnquiriesManager() {
                     </div>
                   </div>
                   {detail.address && (
-                    <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-xl">
+                    <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
                       <div className="h-8 w-8 rounded-lg bg-amber-100 flex items-center justify-center flex-shrink-0">
                         <MapPin className="h-4 w-4 text-amber-600" />
                       </div>
@@ -480,7 +480,7 @@ export default function EnquiriesManager() {
                     </div>
                   )}
                   {detail.deliveryPref && (
-                    <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-xl">
+                    <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
                       <div className="h-8 w-8 rounded-lg bg-violet-100 flex items-center justify-center flex-shrink-0">
                         <Truck className="h-4 w-4 text-violet-600" />
                       </div>
@@ -499,7 +499,7 @@ export default function EnquiriesManager() {
                       <span className="h-1.5 w-1.5 bg-brand-600 rounded-full" />
                       Customer Message
                     </h4>
-                    <div className="bg-brand-50 rounded-xl p-4 text-sm text-gray-700 leading-relaxed whitespace-pre-wrap border border-brand-100">
+                    <div className="bg-brand-50 rounded-lg p-4 text-sm text-gray-700 leading-relaxed whitespace-pre-wrap border border-brand-100">
                       {detail.message}
                     </div>
                   </div>
@@ -511,7 +511,7 @@ export default function EnquiriesManager() {
                     <span className="h-1.5 w-1.5 bg-brand-600 rounded-full" />
                     Requested Products ({detail.items.length})
                   </h4>
-                  <div className="border border-gray-200 rounded-xl overflow-hidden">
+                  <div className="border border-gray-200 rounded-lg overflow-hidden">
                     <table className="min-w-full divide-y divide-gray-200">
                       <thead className="bg-gray-50/80">
                         <tr>
@@ -561,7 +561,7 @@ export default function EnquiriesManager() {
                     Internal Notes
                   </h4>
                   {detail.internalNotes ? (
-                    <div className="bg-amber-50 rounded-xl p-4 text-sm text-gray-700 leading-relaxed whitespace-pre-wrap border border-amber-100 mb-3 font-mono text-xs">
+                    <div className="bg-amber-50 rounded-lg p-4 text-sm text-gray-700 leading-relaxed whitespace-pre-wrap border border-amber-100 mb-3 font-mono text-xs">
                       {detail.internalNotes}
                     </div>
                   ) : (

@@ -243,7 +243,7 @@ export default function ProductsManager() {
             type="button"
             onClick={handleExport}
             disabled={isExporting}
-            className="flex items-center px-4 py-2.5 bg-white border border-gray-200 text-gray-700 text-sm font-semibold rounded-xl hover:bg-gray-50 hover:border-gray-300 shadow-sm transition-all disabled:opacity-50"
+            className="flex items-center px-4 py-2.5 bg-white border border-gray-200 text-gray-700 text-sm font-semibold rounded-lg hover:bg-gray-50 hover:border-gray-300 shadow-sm transition-all disabled:opacity-50"
           >
             <Download className={`h-4 w-4 mr-2 ${isExporting ? 'animate-bounce' : 'text-gray-500'}`} />
             {isExporting ? 'Exporting...' : 'Export CSV'}
@@ -251,7 +251,7 @@ export default function ProductsManager() {
           <button
             type="button"
             onClick={() => setShowFilters(!showFilters)}
-            className={`flex items-center px-4 py-2.5 border text-sm font-semibold rounded-xl shadow-sm transition-all ${
+            className={`flex items-center px-4 py-2.5 border text-sm font-semibold rounded-lg shadow-sm transition-all ${
               showFilters 
                 ? 'bg-brand-50 border-brand-200 text-brand-700' 
                 : 'bg-white border-gray-200 text-gray-700 hover:bg-gray-50 hover:border-gray-300'
@@ -262,7 +262,7 @@ export default function ProductsManager() {
           </button>
           <button 
             type="button" 
-            className="flex items-center px-5 py-2.5 bg-gradient-to-r from-brand-600 to-brand-500 text-white text-sm font-bold rounded-xl shadow-lg shadow-brand-500/30 hover:shadow-brand-500/50 hover:-translate-y-0.5 transition-all active:scale-95"
+            className="flex items-center px-5 py-2.5 bg-gradient-to-r from-brand-600 to-brand-500 text-white text-sm font-bold rounded-lg shadow-lg shadow-brand-500/30 hover:shadow-brand-500/50 hover:-translate-y-0.5 transition-all active:scale-95"
           >
             <Plus className="h-4 w-4 mr-2" />
             Add Product
@@ -273,12 +273,12 @@ export default function ProductsManager() {
       {/* Bulk Action Bar */}
       {selectedIds.size > 0 && (
         <div
-          className="mb-6 bg-brand-50 border border-brand-200 rounded-2xl px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-sm relative overflow-hidden"
+          className="mb-6 bg-brand-50 border border-brand-200 rounded-lg px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-sm relative overflow-hidden"
           style={{ animation: 'slideDown 0.2s ease-out' }}
         >
           <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-brand-500"></div>
           <div className="flex items-center gap-4">
-            <div className="flex items-center justify-center h-10 w-10 rounded-xl bg-brand-600 text-white text-base font-bold shadow-md shadow-brand-500/20">
+            <div className="flex items-center justify-center h-10 w-10 rounded-lg bg-brand-600 text-white text-base font-bold shadow-md shadow-brand-500/20">
               {selectedIds.size}
             </div>
             <span className="text-base font-bold text-brand-900">
@@ -289,14 +289,14 @@ export default function ProductsManager() {
             <button
               onClick={handleBulkDelete}
               disabled={isBulkDeleting}
-              className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-bold text-white bg-red-600 rounded-xl hover:bg-red-700 transition-colors shadow-sm disabled:opacity-50"
+              className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-bold text-white bg-red-600 rounded-lg hover:bg-red-700 transition-colors shadow-sm disabled:opacity-50"
             >
               {isBulkDeleting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Trash2 className="h-4 w-4" />}
               {isBulkDeleting ? 'Deleting...' : 'Delete Selected'}
             </button>
             <button
               onClick={() => setSelectedIds(new Set())}
-              className="inline-flex items-center gap-1.5 px-4 py-2.5 text-sm font-semibold text-gray-600 hover:text-gray-900 hover:bg-gray-100/80 rounded-xl transition-colors"
+              className="inline-flex items-center gap-1.5 px-4 py-2.5 text-sm font-semibold text-gray-600 hover:text-gray-900 hover:bg-gray-100/80 rounded-lg transition-colors"
             >
               <X className="h-4 w-4" />
               Clear
@@ -306,7 +306,7 @@ export default function ProductsManager() {
       )}
 
       {/* Main Container */}
-      <div className="bg-white rounded-3xl shadow-[0_2px_15px_-3px_rgba(6,81,237,0.05)] border border-gray-100 overflow-hidden relative">
+      <div className="bg-white rounded-lg shadow-[0_2px_15px_-3px_rgba(6,81,237,0.05)] border border-gray-100 overflow-hidden relative">
         {/* Search & Filter Bar */}
         <div className="p-5 border-b border-gray-100 bg-white flex flex-col lg:flex-row lg:items-center justify-between gap-5 relative z-10">
           <div className="flex flex-col sm:flex-row items-center gap-4 w-full lg:max-w-2xl">
@@ -316,7 +316,7 @@ export default function ProductsManager() {
               </div>
               <input
                 type="text"
-                className="w-full bg-gray-50 border border-gray-200 text-gray-900 rounded-xl pl-11 pr-4 py-3 text-sm focus:bg-white focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 transition-all outline-none"
+                className="w-full bg-gray-50 border border-gray-200 text-gray-900 rounded-lg pl-11 pr-4 py-3 text-sm focus:bg-white focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 transition-all outline-none"
                 placeholder="Search by name, code, or description..."
                 value={search}
                 onChange={(e) => { setSearch(e.target.value); setPage(1); }}
@@ -326,14 +326,14 @@ export default function ProductsManager() {
               <button
                 onClick={toggleSelectAll}
                 disabled={isSelectingAll}
-                className="flex items-center justify-center gap-2 px-5 py-3 bg-white border border-gray-200 rounded-xl text-sm font-bold text-gray-700 hover:bg-gray-50 hover:border-gray-300 transition-all whitespace-nowrap disabled:opacity-50 shadow-sm"
+                className="flex items-center justify-center gap-2 px-5 py-3 bg-white border border-gray-200 rounded-lg text-sm font-bold text-gray-700 hover:bg-gray-50 hover:border-gray-300 transition-all whitespace-nowrap disabled:opacity-50 shadow-sm"
               >
                 {selectedIds.size === totalCount ? <MinusSquare className="h-5 w-5 text-brand-600" /> : <CheckSquare className="h-5 w-5 text-gray-400" />}
                 {isSelectingAll ? 'Selecting...' : selectedIds.size === totalCount ? 'Deselect All' : 'Select All Files'}
               </button>
             )}
           </div>
-          <div className="text-sm font-bold text-gray-500 bg-gray-50 px-4 py-2.5 rounded-xl border border-gray-100 whitespace-nowrap inline-flex items-center shadow-sm">
+          <div className="text-sm font-bold text-gray-500 bg-gray-50 px-4 py-2.5 rounded-lg border border-gray-100 whitespace-nowrap inline-flex items-center shadow-sm">
             Total: <span className="text-brand-600 ml-1.5">{totalCount} product{totalCount !== 1 ? 's' : ''}</span>
           </div>
         </div>
@@ -344,7 +344,7 @@ export default function ProductsManager() {
             <div className="flex-1 min-w-[200px] max-w-sm">
               <label className="block text-xs font-bold text-gray-700 mb-2 uppercase tracking-wider">Category</label>
               <select
-                className="w-full bg-white border border-gray-200 text-gray-900 rounded-xl px-4 py-3 text-sm focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 outline-none shadow-sm transition-all cursor-pointer"
+                className="w-full bg-white border border-gray-200 text-gray-900 rounded-lg px-4 py-3 text-sm focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 outline-none shadow-sm transition-all cursor-pointer"
                 value={filters.categoryId}
                 onChange={e => { setFilters(prev => ({ ...prev, categoryId: e.target.value })); setPage(1); }}
               >
@@ -357,7 +357,7 @@ export default function ProductsManager() {
             <div className="flex-1 min-w-[150px] max-w-[250px]">
               <label className="block text-xs font-bold text-gray-700 mb-2 uppercase tracking-wider">Status</label>
               <select
-                className="w-full bg-white border border-gray-200 text-gray-900 rounded-xl px-4 py-3 text-sm focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 outline-none shadow-sm transition-all cursor-pointer"
+                className="w-full bg-white border border-gray-200 text-gray-900 rounded-lg px-4 py-3 text-sm focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 outline-none shadow-sm transition-all cursor-pointer"
                 value={filters.status}
                 onChange={e => { setFilters(prev => ({ ...prev, status: e.target.value })); setPage(1); }}
               >
@@ -449,7 +449,7 @@ export default function ProductsManager() {
                 <tr>
                   <td colSpan={10} className="px-6 py-20 text-center text-gray-500">
                     <div className="flex flex-col items-center gap-3">
-                      <div className="p-4 bg-gray-50 rounded-2xl border border-gray-100">
+                      <div className="p-4 bg-gray-50 rounded-lg border border-gray-100">
                         <AlertTriangle className="h-10 w-10 text-gray-400" />
                       </div>
                       <p className="text-lg font-bold text-gray-900 mt-2">No products found</p>
@@ -483,11 +483,11 @@ export default function ProductsManager() {
                           <img
                             src={`http://localhost:3000${product.images[0].thumbPath}`}
                             alt="thumb"
-                            className="w-12 h-12 object-cover rounded-xl border border-gray-200 shadow-sm"
+                            className="w-12 h-12 object-cover rounded-lg border border-gray-200 shadow-sm"
                           />
                         </div>
                       ) : (
-                        <div className="w-12 h-12 bg-gray-100 rounded-xl border border-gray-200 flex flex-col items-center justify-center">
+                        <div className="w-12 h-12 bg-gray-100 rounded-lg border border-gray-200 flex flex-col items-center justify-center">
                           <span className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">No Img</span>
                         </div>
                       )}
@@ -551,21 +551,21 @@ export default function ProductsManager() {
                       <div className="flex gap-2">
                         <button
                           onClick={() => navigate(`/admin/products/${product.id}/edit`)}
-                          className="p-2 text-brand-600 bg-brand-50 hover:bg-brand-100 hover:text-brand-700 rounded-xl transition-all shadow-sm"
+                          className="p-2 text-brand-600 bg-brand-50 hover:bg-brand-100 hover:text-brand-700 rounded-lg transition-all shadow-sm"
                           title="Edit"
                         >
                           <Edit2 className="h-4 w-4" />
                         </button>
                         <button
                           onClick={() => handleClone(product.id)}
-                          className="p-2 text-gray-600 bg-gray-100 hover:bg-gray-200 hover:text-gray-900 rounded-xl transition-all shadow-sm"
+                          className="p-2 text-gray-600 bg-gray-100 hover:bg-gray-200 hover:text-gray-900 rounded-lg transition-all shadow-sm"
                           title="Clone"
                         >
                           <Copy className="h-4 w-4" />
                         </button>
                         <button
                           onClick={() => handleDelete(product.id)}
-                          className="p-2 text-red-600 bg-red-50 hover:bg-red-100 hover:text-red-700 rounded-xl transition-all shadow-sm"
+                          className="p-2 text-red-600 bg-red-50 hover:bg-red-100 hover:text-red-700 rounded-lg transition-all shadow-sm"
                           title="Delete"
                         >
                           <Trash2 className="h-4 w-4" />
@@ -590,14 +590,14 @@ export default function ProductsManager() {
             <button
               onClick={() => setPage(p => Math.max(1, p - 1))}
               disabled={page === 1}
-              className="inline-flex items-center justify-center px-4 py-2 bg-white border border-gray-200 text-sm font-bold text-gray-700 rounded-xl shadow-sm hover:bg-gray-50 hover:border-gray-300 transition-all disabled:opacity-50 disabled:pointer-events-none"
+              className="inline-flex items-center justify-center px-4 py-2 bg-white border border-gray-200 text-sm font-bold text-gray-700 rounded-lg shadow-sm hover:bg-gray-50 hover:border-gray-300 transition-all disabled:opacity-50 disabled:pointer-events-none"
             >
               Previous
             </button>
             <button
               onClick={() => setPage(p => Math.min(totalPages, p + 1))}
               disabled={page === totalPages || totalPages === 0}
-              className="inline-flex items-center justify-center px-4 py-2 bg-white border border-gray-200 text-sm font-bold text-gray-700 rounded-xl shadow-sm hover:bg-gray-50 hover:border-gray-300 transition-all disabled:opacity-50 disabled:pointer-events-none"
+              className="inline-flex items-center justify-center px-4 py-2 bg-white border border-gray-200 text-sm font-bold text-gray-700 rounded-lg shadow-sm hover:bg-gray-50 hover:border-gray-300 transition-all disabled:opacity-50 disabled:pointer-events-none"
             >
               Next
             </button>

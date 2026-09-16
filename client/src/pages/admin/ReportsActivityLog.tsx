@@ -24,11 +24,11 @@ export default function ReportsActivityLog() {
   return (
     <div className="animate-fade-in pb-12">
       {/* Header */}
-      <div className="relative overflow-hidden bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-3xl p-8 sm:p-10 mb-8 shadow-2xl text-white">
+      <div className="relative overflow-hidden bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-lg p-8 sm:p-10 mb-8 shadow-2xl text-white">
         <div className="relative z-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div className="max-w-2xl">
             <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-3 flex items-center gap-4 text-white">
-              <div className="p-3 bg-white/10 rounded-2xl backdrop-blur-md border border-white/20 shadow-inner">
+              <div className="p-3 bg-white/10 rounded-lg backdrop-blur-md border border-white/20 shadow-inner">
                 <BarChart3 className="h-7 w-7 text-brand-300" />
               </div>
               Reports & Analytics
@@ -44,35 +44,35 @@ export default function ReportsActivityLog() {
 
       {/* Metric Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-        <div className="relative overflow-hidden bg-gradient-to-br from-blue-500 to-blue-700 rounded-3xl p-6 text-white shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+        <div className="relative overflow-hidden bg-gradient-to-br from-blue-500 to-blue-700 rounded-lg p-6 text-white shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
           <div className="relative z-10 flex justify-between items-start">
             <div>
               <p className="text-blue-100 font-medium text-sm mb-1 uppercase tracking-wider">Total Product Views</p>
               <h3 className="text-4xl font-bold">{stats.totalViews.toLocaleString()}</h3>
             </div>
-            <div className="p-3 bg-white/20 backdrop-blur-sm rounded-2xl shadow-inner"><Eye className="h-6 w-6 text-white" /></div>
+            <div className="p-3 bg-white/20 backdrop-blur-sm rounded-lg shadow-inner"><Eye className="h-6 w-6 text-white" /></div>
           </div>
           <div className="absolute -bottom-6 -right-6 w-24 h-24 bg-white/10 rounded-full blur-2xl"></div>
         </div>
 
-        <div className="relative overflow-hidden bg-gradient-to-br from-emerald-500 to-emerald-700 rounded-3xl p-6 text-white shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+        <div className="relative overflow-hidden bg-gradient-to-br from-emerald-500 to-emerald-700 rounded-lg p-6 text-white shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
           <div className="relative z-10 flex justify-between items-start">
             <div>
               <p className="text-emerald-100 font-medium text-sm mb-1 uppercase tracking-wider">Enquiries Received</p>
               <h3 className="text-4xl font-bold">{stats.totalEnquiries.toLocaleString()}</h3>
             </div>
-            <div className="p-3 bg-white/20 backdrop-blur-sm rounded-2xl shadow-inner"><ShoppingCart className="h-6 w-6 text-white" /></div>
+            <div className="p-3 bg-white/20 backdrop-blur-sm rounded-lg shadow-inner"><ShoppingCart className="h-6 w-6 text-white" /></div>
           </div>
           <div className="absolute -bottom-6 -right-6 w-24 h-24 bg-white/10 rounded-full blur-2xl"></div>
         </div>
 
-        <div className="relative overflow-hidden bg-gradient-to-br from-rose-500 to-rose-700 rounded-3xl p-6 text-white shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+        <div className="relative overflow-hidden bg-gradient-to-br from-rose-500 to-rose-700 rounded-lg p-6 text-white shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
           <div className="relative z-10 flex justify-between items-start">
             <div>
               <p className="text-rose-100 font-medium text-sm mb-1 uppercase tracking-wider">Products in Wishlists</p>
               <h3 className="text-4xl font-bold">{stats.totalWishlist.toLocaleString()}</h3>
             </div>
-            <div className="p-3 bg-white/20 backdrop-blur-sm rounded-2xl shadow-inner"><Activity className="h-6 w-6 text-white" /></div>
+            <div className="p-3 bg-white/20 backdrop-blur-sm rounded-lg shadow-inner"><Activity className="h-6 w-6 text-white" /></div>
           </div>
           <div className="absolute -bottom-6 -right-6 w-24 h-24 bg-white/10 rounded-full blur-2xl"></div>
         </div>
@@ -80,10 +80,10 @@ export default function ReportsActivityLog() {
 
       {/* Tabs */}
       <div className="flex justify-center mb-10">
-        <div className="inline-flex bg-gray-100/80 backdrop-blur-md p-1.5 rounded-2xl shadow-inner">
+        <div className="inline-flex bg-gray-100/80 backdrop-blur-md p-1.5 rounded-lg shadow-inner">
           <button
             onClick={() => setActiveTab('overview')}
-            className={`flex items-center gap-2 py-3 px-6 rounded-xl font-semibold text-sm transition-all duration-300 ${
+            className={`flex items-center gap-2 py-3 px-6 rounded-lg font-semibold text-sm transition-all duration-300 ${
               activeTab === 'overview' ? 'bg-white text-brand-700 shadow-sm' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-200/50'
             }`}
           >
@@ -91,7 +91,7 @@ export default function ReportsActivityLog() {
           </button>
           <button
             onClick={() => setActiveTab('reports')}
-            className={`flex items-center gap-2 py-3 px-6 rounded-xl font-semibold text-sm transition-all duration-300 ${
+            className={`flex items-center gap-2 py-3 px-6 rounded-lg font-semibold text-sm transition-all duration-300 ${
               activeTab === 'reports' ? 'bg-white text-brand-700 shadow-sm' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-200/50'
             }`}
           >
@@ -99,7 +99,7 @@ export default function ReportsActivityLog() {
           </button>
           <button
             onClick={() => setActiveTab('activity')}
-            className={`flex items-center gap-2 py-3 px-6 rounded-xl font-semibold text-sm transition-all duration-300 ${
+            className={`flex items-center gap-2 py-3 px-6 rounded-lg font-semibold text-sm transition-all duration-300 ${
               activeTab === 'activity' ? 'bg-white text-brand-700 shadow-sm' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-200/50'
             }`}
           >
@@ -140,7 +140,7 @@ function OverviewDashboard() {
     <div className="space-y-8 animate-fade-in">
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
         {/* Bar Chart */}
-        <div className="bg-white p-8 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-300">
+        <div className="bg-white p-8 rounded-lg shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-300">
           <h3 className="text-xl font-bold text-gray-900 mb-8 flex items-center gap-2">
             <span className="w-2 h-6 bg-brand-500 rounded-full"></span>
             Top 10 Products (Enquiries vs Wishlist)
@@ -169,7 +169,7 @@ function OverviewDashboard() {
         </div>
 
         {/* Area Chart */}
-        <div className="bg-white p-8 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-300">
+        <div className="bg-white p-8 rounded-lg shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-300">
           <h3 className="text-xl font-bold text-gray-900 mb-8 flex items-center gap-2">
             <span className="w-2 h-6 bg-emerald-500 rounded-full"></span>
             Views Engagement Trend
@@ -217,7 +217,7 @@ function ProductPerformance() {
   }, []);
 
   return (
-    <div className="bg-white rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 overflow-hidden animate-fade-in">
+    <div className="bg-white rounded-lg shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 overflow-hidden animate-fade-in">
       <div className="px-8 py-6 border-b border-gray-100 bg-white flex justify-between items-center">
         <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
           <span className="w-2 h-6 bg-brand-500 rounded-full"></span>
@@ -292,10 +292,10 @@ function ActivityLogView() {
   }, []);
 
   return (
-    <div className="bg-white p-8 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 animate-fade-in max-w-4xl mx-auto">
+    <div className="bg-white p-8 rounded-lg shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 animate-fade-in max-w-4xl mx-auto">
       <div className="flex justify-between items-center mb-10 pb-6 border-b border-gray-100">
         <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-3">
-          <div className="p-2.5 bg-brand-50 rounded-xl text-brand-600">
+          <div className="p-2.5 bg-brand-50 rounded-lg text-brand-600">
             <Clock className="h-6 w-6" />
           </div>
           System Activity Log
@@ -311,7 +311,7 @@ function ActivityLogView() {
           <p className="font-medium text-gray-500">Loading activity history...</p>
         </div>
       ) : logs.length === 0 ? (
-        <div className="text-center py-20 bg-gray-50 rounded-2xl border border-dashed border-gray-200">
+        <div className="text-center py-20 bg-gray-50 rounded-lg border border-dashed border-gray-200">
           <Clock className="mx-auto h-12 w-12 text-gray-300 mb-4" />
           <p className="font-bold text-gray-900 text-lg mb-2">No Activity Found</p>
           <p className="text-gray-500">System events and admin actions will be recorded here.</p>
@@ -327,7 +327,7 @@ function ActivityLogView() {
               
               {/* Card - alternating sides on desktop */}
               <div className={`w-full pl-16 md:pl-0 md:w-[calc(50%-3rem)] ${idx % 2 === 0 ? 'md:pr-12 md:text-right' : 'md:ml-auto md:pl-12'}`}>
-                <div className="p-5 rounded-2xl border border-gray-100 bg-white shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 relative">
+                <div className="p-5 rounded-lg border border-gray-100 bg-white shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 relative">
                   <div className={`flex flex-col md:flex-row md:items-center gap-2 mb-2 ${idx % 2 === 0 ? 'md:flex-row-reverse' : ''}`}>
                     <span className="font-bold text-gray-900 text-base">{log.actor?.name || 'System User'}</span>
                     <time className="text-xs font-bold text-brand-700 bg-brand-50 px-2.5 py-1 rounded-md">
@@ -339,7 +339,7 @@ function ActivityLogView() {
                     <span className="font-bold text-gray-800">{log.entity}</span>
                   </p>
                   {log.after && (
-                    <div className={`mt-3 text-xs text-gray-500 bg-gray-50 p-3 rounded-xl border border-gray-100 font-mono overflow-x-auto ${idx % 2 === 0 ? 'text-left' : ''}`}>
+                    <div className={`mt-3 text-xs text-gray-500 bg-gray-50 p-3 rounded-lg border border-gray-100 font-mono overflow-x-auto ${idx % 2 === 0 ? 'text-left' : ''}`}>
                       {JSON.stringify(log.after)}
                     </div>
                   )}

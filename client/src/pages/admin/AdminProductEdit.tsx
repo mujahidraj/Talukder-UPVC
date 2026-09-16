@@ -487,7 +487,7 @@ export default function AdminProductEdit() {
                   ))}
                 </div>
               ) : (
-                <div className="aspect-square bg-gray-50 rounded-xl flex flex-col items-center justify-center text-gray-300">
+                <div className="aspect-square bg-gray-50 rounded-lg flex flex-col items-center justify-center text-gray-300">
                   <Droplets className="h-12 w-12 mb-2" />
                   <span className="text-xs">No images</span>
                 </div>
