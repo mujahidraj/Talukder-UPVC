@@ -297,3 +297,18 @@ model ActivityLog {
   @@index([createdAt])
   @@map("activity_logs")
 }
+
+// ─── Factory Images ──────────────────────────────────────
+model FactoryImage {
+  id        String   @id @default(cuid())
+  fileName  String   @map("file_name")
+  filePath  String   @map("file_path")
+  fullPath  String   @map("full_path")
+  altText   String?  @map("alt_text")
+  sortOrder Int      @default(0) @map("sort_order")
+  isActive  Boolean  @default(true) @map("is_active")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("factory_images")
+}

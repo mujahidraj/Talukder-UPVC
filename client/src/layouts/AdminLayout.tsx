@@ -26,6 +26,7 @@ const navigation = [
   { name: 'Categories', href: '/admin/categories', icon: FolderTree, roles: ['SUPER_ADMIN', 'CATALOG_MANAGER'] },
   { name: 'Enquiries', href: '/admin/enquiries', icon: MessageSquare, roles: ['SUPER_ADMIN', 'SALES_STAFF'] },
   { name: 'Media', href: '/admin/media', icon: Image, roles: ['SUPER_ADMIN', 'CATALOG_MANAGER'] },
+  { name: 'Factory Images', href: '/admin/factory-images', icon: Image, roles: ['SUPER_ADMIN', 'CATALOG_MANAGER'] },
   { name: 'Bulk Import', href: '/admin/import', icon: FileSpreadsheet, roles: ['SUPER_ADMIN', 'CATALOG_MANAGER'] },
   { name: 'CMS', href: '/admin/cms', icon: FileText, roles: ['SUPER_ADMIN', 'CATALOG_MANAGER'] },
   { name: 'Reports', href: '/admin/reports', icon: BarChart3, roles: ['SUPER_ADMIN', 'CATALOG_MANAGER'] },

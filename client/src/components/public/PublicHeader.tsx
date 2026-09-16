@@ -183,6 +183,7 @@ export default function PublicHeader({ onEnquiryClick }: HeaderProps = {}) {
               <Link to="/about" className="text-sm font-semibold text-gray-700 hover:text-brand-800 transition-colors py-2 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-accent-600 after:transition-all hover:after:w-full">About</Link>
               <Link to="/faq" className="text-sm font-semibold text-gray-700 hover:text-brand-800 transition-colors py-2 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-accent-600 after:transition-all hover:after:w-full">FAQ</Link>
               <Link to="/contact" className="text-sm font-semibold text-gray-700 hover:text-brand-800 transition-colors py-2 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-accent-600 after:transition-all hover:after:w-full">Contact</Link>
+              <Link to="/factory" className="text-sm font-semibold text-gray-700 hover:text-brand-800 transition-colors py-2 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-accent-600 after:transition-all hover:after:w-full">Factory Visit</Link>
             </div>
 
             {/* Right Actions */}
@@ -257,6 +258,8 @@ export default function PublicHeader({ onEnquiryClick }: HeaderProps = {}) {
                   </div>
                 )}
               </div>
+
+
 
               {/* Wishlist */}
               <Link to="/wishlist" className="relative text-gray-600 hover:text-brand-700 transition-colors">
@@ -337,6 +340,7 @@ export default function PublicHeader({ onEnquiryClick }: HeaderProps = {}) {
             <Link to="/about" onClick={() => setMenuOpen(false)} className="block px-4 py-3 text-lg font-bold text-gray-900 border-b border-gray-100">About</Link>
             <Link to="/faq" onClick={() => setMenuOpen(false)} className="block px-4 py-3 text-lg font-bold text-gray-900 border-b border-gray-100">FAQ</Link>
             <Link to="/contact" onClick={() => setMenuOpen(false)} className="block px-4 py-3 text-lg font-bold text-gray-900 border-b border-gray-100">Contact</Link>
+            <Link to="/factory" onClick={() => setMenuOpen(false)} className="block px-4 py-3 text-lg font-bold text-gray-900 border-b border-gray-100">Factory Visit</Link>
 
             <div className="pt-6 px-4">
               <button onClick={() => { setMenuOpen(false); onEnquiryClick?.(); }} className="block w-full text-center bg-accent-600 text-white px-7 py-3.5 rounded-lg font-bold text-lg hover:bg-accent-700 transition-colors shadow-md">
