@@ -23,10 +23,6 @@ export default function AboutPage() {
         <div className="absolute inset-0 bg-gradient-to-r from-brand-950 via-brand-950/90 to-brand-900/40" />
         <div className="max-w-7xl mx-auto px-4 relative z-10 w-full">
           <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-800/50 border border-brand-700/50 backdrop-blur-md mb-6 shadow-sm">
-              <span className="h-2 w-2 rounded-full bg-brand-400 animate-pulse"></span>
-              <span className="text-xs font-semibold text-accent-400 tracking-wider uppercase">About Our Company</span>
-            </div>
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold tracking-tight mb-6 text-white leading-[1.15] drop-shadow-md">
               Building the Future of <br className="hidden md:block" />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-300 to-brand-50">Piping Systems</span>
@@ -64,7 +60,6 @@ export default function AboutPage() {
               </div>
             </div>
             <div>
-              <span className="text-brand-600 font-bold tracking-wider uppercase text-sm">Our Story</span>
               <h2 className="text-3xl md:text-4xl font-heading font-bold text-gray-900 mt-4 mb-6">
                 A Legacy of Trust & Engineering Excellence
               </h2>
@@ -142,7 +137,6 @@ export default function AboutPage() {
       <section className="py-20 md:py-28 bg-white">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center max-w-3xl mx-auto mb-16">
-            <span className="text-brand-600 font-bold tracking-wider uppercase text-sm">Principles We Stand By</span>
             <h2 className="text-3xl md:text-4xl font-heading font-bold text-gray-900 mt-4 mb-4">Our Core Values</h2>
             <p className="text-lg text-gray-600">The fundamental beliefs that guide our business, dictate our behavior, and help us achieve our vision.</p>
           </div>

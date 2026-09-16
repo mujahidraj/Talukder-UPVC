@@ -49,9 +49,6 @@ export default function FactoryPage() {
            <div className="absolute inset-0 bg-gradient-to-t from-brand-950 via-brand-950/80 to-transparent"></div>
         </div>
         <div className="relative z-10 max-w-5xl mx-auto px-4 text-center">
-          <span className="inline-block py-1.5 px-4 rounded-full bg-accent-500/10 text-accent-400 font-semibold text-sm mb-6 border border-accent-500/20 backdrop-blur-sm tracking-wide">
-            MANUFACTURING EXCELLENCE
-          </span>
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-heading font-bold mb-6 tracking-tight text-white">Our Factory</h1>
           <p className="mt-4 text-brand-200 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
             Take a glimpse into our state-of-the-art manufacturing facility, where premium quality meets modern technology.

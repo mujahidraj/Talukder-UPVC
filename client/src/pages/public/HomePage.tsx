@@ -135,9 +135,6 @@ export default function HomePage() {
 
             <div className="max-w-7xl mx-auto px-4 py-24 md:py-32 relative w-full z-10">
               <div className="max-w-3xl" style={{ animation: 'fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards' }}>
-                <div className="inline-flex items-center gap-2 bg-brand-800/40 backdrop-blur-md text-brand-100 text-xs font-bold tracking-wide uppercase px-5 py-2.5 rounded-full mb-8 border border-brand-500/30 shadow-[0_0_20px_rgba(59,130,246,0.3)]">
-                  <Award className="h-4 w-4 text-accent-400" /> Premium Quality uPVC
-                </div>
                 <h1 className="text-4xl md:text-6xl lg:text-7xl font-heading font-black tracking-tight text-white leading-[1.1] drop-shadow-lg">
                   Bangladesh's Trusted
                   <span className="block mt-2 text-red-600">uPVC Pipe & Fittings</span>
@@ -168,9 +165,9 @@ export default function HomePage() {
       >
         <div className="absolute inset-0 bg-gradient-to-b from-white/90 via-white/40 to-white/90 z-0"></div>
 
-        {/* Trust Bar (Full Width Glassmorphism) */}
+        {/* Trust Bar (Full Width Solid Deep Color) */}
         <div className="relative z-30 w-full -mt-12 sm:-mt-16 mb-16 md:mb-24">
-          <div className="bg-brand-950/80 backdrop-blur-xl border-y border-brand-800/50 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.5)] overflow-hidden">
+          <div className="bg-brand-950 border-y border-brand-800/50 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.5)] overflow-hidden">
             <div className="max-w-7xl mx-auto px-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-0 divide-y sm:divide-y-0 sm:divide-x divide-brand-800/50">
                 {[
@@ -224,7 +221,7 @@ export default function HomePage() {
                     className="absolute inset-0 bg-cover bg-center z-0 group-hover:scale-105 transition-transform duration-1000 opacity-100"
                     style={{ backgroundImage: `url('${getBgImage(cat.name)}')` }}
                   ></div>
-                  <div className="absolute inset-0 bg-gradient-to-t from-white via-white/20 to-transparent z-0 transition-opacity duration-500"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/50 to-transparent z-0 transition-opacity duration-500"></div>
 
                   <div className="flex items-start justify-end relative z-10">
                     <div className="h-12 w-12 rounded-full bg-white flex items-center justify-center shadow-md group-hover:bg-brand-500 group-hover:shadow-[0_0_20px_rgba(59,130,246,0.4)] transition-all duration-500 border border-gray-100 group-hover:border-transparent">
@@ -233,7 +230,7 @@ export default function HomePage() {
                   </div>
 
                   <div className="mt-16 relative z-10">
-                    <h3 className="text-2xl font-heading font-black text-gray-900 group-hover:text-brand-700 transition-colors drop-shadow-sm">{cat.name}</h3>
+                    <h3 className="text-2xl font-heading font-black text-white group-hover:text-brand-200 transition-colors drop-shadow-md">{cat.name}</h3>
                     <div className="mt-4 inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-lg border border-gray-200/50 shadow-sm group-hover:border-brand-200 transition-colors">
                       <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.6)] animate-pulse"></span>
                       <p className="text-sm font-bold text-gray-700">
@@ -359,7 +356,7 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 relative z-10">
           <div className="text-center mb-16 md:mb-20">
             <h2 className="text-3xl md:text-5xl font-heading font-black text-brand-950 tracking-tight">Applications & Use Cases</h2>
-            <p className="mt-6 text-gray-600 max-w-2xl mx-auto text-lg font-medium">Tailored <span className="text-red-600">u</span>PVC solutions engineered for diverse industries and demanding everyday needs.</p>
+            <p className="mt-6 text-brand-900 max-w-2xl mx-auto text-lg font-medium">Tailored <span className="text-red-600">u</span>PVC solutions engineered for diverse industries and demanding everyday needs.</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
             {[
@@ -449,10 +446,7 @@ export default function HomePage() {
 
         <div className="max-w-7xl mx-auto px-4 relative z-10">
           <div className="text-center mb-16 md:mb-24">
-            <div className="inline-flex items-center gap-2 bg-white/5 backdrop-blur-md text-brand-100 text-xs font-bold tracking-wide uppercase px-5 py-2.5 rounded-full mb-6 border border-white/10 shadow-[0_0_20px_rgba(255,255,255,0.05)]">
-              <Shield className="h-4 w-4 text-accent-400" /> Our Promise
-            </div>
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-heading font-black text-white tracking-tight">Why Choose <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent-400 to-brand-200">Talukder </span><span className="text-red-500">u</span><span className="text-transparent bg-clip-text bg-gradient-to-r from-accent-400 to-brand-200">PVC?</span></h2>
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-heading font-black text-white tracking-tight">Why Choose <span className="text-red-600">Talukder uPVC?</span></h2>
             <p className="mt-6 text-brand-100/80 max-w-2xl mx-auto text-lg font-medium leading-relaxed">Industry-leading quality backed by decades of manufacturing excellence and a relentless pursuit of perfection.</p>
           </div>
 
@@ -517,9 +511,6 @@ export default function HomePage() {
       >
         <div className="absolute inset-0 bg-white/60 z-0"></div>
         <div className="max-w-5xl mx-auto px-4 text-center relative z-10">
-          <div className="inline-flex items-center gap-2 bg-brand-100/90 text-brand-800 text-xs font-bold tracking-wide uppercase px-4 py-2 rounded-full mb-6 border border-brand-200">
-            <CheckCircle2 className="h-4 w-4 text-brand-600" /> Available Nationwide
-          </div>
           <h2 className="text-4xl md:text-5xl font-heading font-black text-brand-950 tracking-tight">Ready to Place an Order?</h2>
           <p className="mt-6 text-gray-800 text-lg md:text-xl font-medium max-w-2xl mx-auto leading-relaxed drop-shadow-sm">Browse our catalog and add products to your enquiry list for a customized quote.</p>
           <div className="mt-10 flex flex-wrap justify-center gap-5">

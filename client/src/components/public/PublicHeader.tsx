@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { Search, Heart, Phone, Mail, Menu, X, ChevronDown, ArrowRight, ShoppingCart } from 'lucide-react';
 import api from '../../lib/axios';
 
@@ -24,6 +24,11 @@ export default function PublicHeader({ onEnquiryClick }: HeaderProps = {}) {
   const [showSearch, setShowSearch] = useState(false);
   const searchRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
+  const location = useLocation();
+  const isProductsActive = location.pathname.startsWith('/products') || location.pathname.startsWith('/categories');
+
+  const navLinkClass = ({ isActive }: { isActive: boolean }) => 
+    `text-sm font-semibold transition-colors py-2 relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:bg-red-600 after:transition-all ${isActive ? 'text-brand-900 after:w-full' : 'text-gray-700 hover:text-brand-800 after:w-0 hover:after:w-full'}`;
 
   useEffect(() => {
     api.get('/categories/tree').then(res => setCategories(res.data)).catch(() => { });
@@ -107,9 +112,9 @@ export default function PublicHeader({ onEnquiryClick }: HeaderProps = {}) {
 
             {/* Desktop Nav Links */}
             <div className="hidden lg:flex items-center gap-8">
-              <Link to="/" className="text-sm font-semibold text-gray-700 hover:text-brand-800 transition-colors py-2 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-accent-600 after:transition-all hover:after:w-full">
+              <NavLink to="/" className={navLinkClass}>
                 Home
-              </Link>
+              </NavLink>
 
               {/* Products Mega Menu */}
               <div
@@ -117,7 +122,7 @@ export default function PublicHeader({ onEnquiryClick }: HeaderProps = {}) {
                 onMouseEnter={() => setMegaOpen(true)}
                 onMouseLeave={() => setMegaOpen(false)}
               >
-                <button className="text-sm font-semibold text-gray-700 hover:text-brand-800 transition-colors py-2 flex items-center gap-1.5 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-accent-600 after:transition-all hover:after:w-full">
+                <button className={`text-sm font-semibold transition-colors py-2 flex items-center gap-1.5 relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:bg-red-600 after:transition-all ${isProductsActive ? 'text-brand-900 after:w-full' : 'text-gray-700 hover:text-brand-800 after:w-0 hover:after:w-full'}`}>
                   Products <ChevronDown className={`h-3 w-3 transition-transform duration-200 ${megaOpen ? 'rotate-180' : ''}`} />
                 </button>
 
@@ -180,10 +185,10 @@ export default function PublicHeader({ onEnquiryClick }: HeaderProps = {}) {
                 )}
               </div>
 
-              <Link to="/about" className="text-sm font-semibold text-gray-700 hover:text-brand-800 transition-colors py-2 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-accent-600 after:transition-all hover:after:w-full">About</Link>
-              <Link to="/faq" className="text-sm font-semibold text-gray-700 hover:text-brand-800 transition-colors py-2 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-accent-600 after:transition-all hover:after:w-full">FAQ</Link>
-              <Link to="/contact" className="text-sm font-semibold text-gray-700 hover:text-brand-800 transition-colors py-2 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-accent-600 after:transition-all hover:after:w-full">Contact</Link>
-              <Link to="/factory" className="text-sm font-semibold text-gray-700 hover:text-brand-800 transition-colors py-2 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-accent-600 after:transition-all hover:after:w-full">Factory Visit</Link>
+              <NavLink to="/about" className={navLinkClass}>About</NavLink>
+              <NavLink to="/faq" className={navLinkClass}>FAQ</NavLink>
+              <NavLink to="/contact" className={navLinkClass}>Contact</NavLink>
+              <NavLink to="/factory" className={navLinkClass}>Factory Visit</NavLink>
             </div>
 
             {/* Right Actions */}
