@@ -6,6 +6,11 @@ import * as sharpImport from 'sharp';
 const sharp = (sharpImport as any).default || sharpImport;
 import { v4 as uuidv4 } from 'uuid';
 
+/** Strip characters that could cause XSS or path issues from a filename */
+function sanitizeFilename(name: string): string {
+  return name.replace(/[^a-zA-Z0-9._\-\s()]/g, '_').substring(0, 255);
+}
+
 @Injectable()
 export class FactoryImagesService {
   private readonly uploadDir = process.env.UPLOAD_LOCAL_PATH || './uploads';
@@ -47,7 +52,7 @@ export class FactoryImagesService {
 
     return this.prisma.factoryImage.create({
       data: {
-        fileName: file.originalname,
+        fileName: sanitizeFilename(file.originalname),
         filePath: relPath,
         fullPath: relPath,
         sortOrder: (maxOrder._max.sortOrder || 0) + 1,
@@ -60,13 +65,23 @@ export class FactoryImagesService {
     if (!img) return;
 
     try {
-      const rootDir = path.resolve(__dirname, '..', '..', '..');
-      const targetPath = path.resolve(rootDir, img.fullPath);
-      
-      // basic safety check
-      if (targetPath.startsWith(rootDir)) {
-        await fs.unlink(targetPath).catch(() => {});
+      // Use resolved upload directory as the safe root
+      const safeRoot = path.resolve(this.uploadDir);
+      // Strip leading slashes/dots from stored path to prevent traversal
+      const cleanPath = (img.fullPath || '').replace(/^[\/\\]+/, '').replace(/\.\./g, '');
+      const targetPath = path.resolve(safeRoot, '..', cleanPath);
+      const normalizedTarget = path.normalize(targetPath);
+      const normalizedRoot = path.normalize(safeRoot);
+
+      if (!normalizedTarget.startsWith(normalizedRoot)) {
+        console.warn(
+          'Security Warning: Path traversal detected in factory image deletion',
+          normalizedTarget,
+        );
+        return;
       }
+
+      await fs.unlink(normalizedTarget).catch(() => {});
     } catch (e) {
       console.warn('Failed to delete factory image file', e);
     }
@@ -74,3 +89,4 @@ export class FactoryImagesService {
     await this.prisma.factoryImage.delete({ where: { id } });
   }
 }
+

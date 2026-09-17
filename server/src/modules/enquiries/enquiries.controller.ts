@@ -10,26 +10,29 @@ import {
   ValidateNested,
   IsInt,
   Min,
+  MaxLength,
+  ArrayMaxSize,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 
 class EnquiryItemDto {
   @IsString() @IsNotEmpty() productId: string;
   @Type(() => Number) @IsInt() @Min(1) quantity: number;
-  @IsString() @IsOptional() note?: string;
+  @IsString() @IsOptional() @MaxLength(500) note?: string;
 }
 
 class SubmitEnquiryDto {
-  @IsString() @IsNotEmpty() customerName: string;
-  @IsString() @IsOptional() companyName?: string;
-  @IsEmail() email: string;
-  @IsString() @IsNotEmpty() phone: string;
-  @IsString() @IsOptional() address?: string;
-  @IsString() @IsOptional() district?: string;
-  @IsString() @IsOptional() deliveryPref?: string;
-  @IsString() @IsOptional() message?: string;
-  @IsString() @IsOptional() sourcePage?: string;
+  @IsString() @IsNotEmpty() @MaxLength(200) customerName: string;
+  @IsString() @IsOptional() @MaxLength(200) companyName?: string;
+  @IsEmail() @MaxLength(255) email: string;
+  @IsString() @IsNotEmpty() @MaxLength(30) phone: string;
+  @IsString() @IsOptional() @MaxLength(500) address?: string;
+  @IsString() @IsOptional() @MaxLength(100) district?: string;
+  @IsString() @IsOptional() @MaxLength(100) deliveryPref?: string;
+  @IsString() @IsOptional() @MaxLength(2000) message?: string;
+  @IsString() @IsOptional() @MaxLength(255) sourcePage?: string;
   @IsArray()
+  @ArrayMaxSize(50)
   @ValidateNested({ each: true })
   @Type(() => EnquiryItemDto)
   items: EnquiryItemDto[];

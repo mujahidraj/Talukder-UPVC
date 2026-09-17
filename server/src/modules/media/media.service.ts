@@ -6,6 +6,11 @@ import * as sharpImport from 'sharp';
 const sharp = (sharpImport as any).default || sharpImport;
 import { v4 as uuidv4 } from 'uuid';
 
+/** Strip characters that could cause XSS or path issues from a filename */
+function sanitizeFilename(name: string): string {
+  return name.replace(/[^a-zA-Z0-9._\-\s()]/g, '_').substring(0, 255);
+}
+
 @Injectable()
 export class MediaService {
   private readonly uploadDir = process.env.UPLOAD_LOCAL_PATH || './uploads';
@@ -91,7 +96,7 @@ export class MediaService {
     return this.prisma.productImage.create({
       data: {
         productId,
-        fileName: file.originalname,
+        fileName: sanitizeFilename(file.originalname),
         filePath: fullPathRel,
         fullPath: fullPathRel,
         mediumPath: mediumPathRel,
@@ -119,19 +124,24 @@ export class MediaService {
 
     // Delete files securely
     try {
-      const rootDir = path.resolve(__dirname, '..', '..', '..');
+      const safeRoot = path.resolve(this.uploadDir);
 
       const safeUnlink = async (filePath: string | null) => {
         if (!filePath) return;
-        const targetPath = path.resolve(rootDir, filePath);
-        if (!targetPath.startsWith(rootDir)) {
+        // Strip leading slashes/dots from stored path to prevent traversal
+        const cleanPath = filePath.replace(/^[\/\\]+/, '').replace(/\.\./g, '');
+        const targetPath = path.resolve(safeRoot, '..', cleanPath);
+        const normalizedTarget = path.normalize(targetPath);
+        const normalizedRoot = path.normalize(safeRoot);
+
+        if (!normalizedTarget.startsWith(normalizedRoot)) {
           console.warn(
             'Security Warning: Path traversal detected in image deletion',
-            targetPath,
+            normalizedTarget,
           );
           return;
         }
-        await fs.unlink(targetPath).catch(() => {});
+        await fs.unlink(normalizedTarget).catch(() => {});
       };
 
       await safeUnlink(img.fullPath);

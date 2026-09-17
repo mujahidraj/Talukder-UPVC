@@ -14,11 +14,14 @@ import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { ChangePasswordDto } from './dto/change-password.dto';
-import { decode } from 'jsonwebtoken';
+import { ConfigService } from '@nestjs/config';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private configService: ConfigService,
+  ) {}
 
   @UseGuards(LocalAuthGuard)
   @Post('login')
@@ -41,8 +44,15 @@ export class AuthController {
       throw new UnauthorizedException('Refresh token missing');
     }
 
-    // We decode the refresh token to get the user ID
-    const decoded = decode(refreshToken) as any;
+    // Verify the refresh token signature and extract payload
+    let decoded: any;
+    try {
+      const { verify } = await import('jsonwebtoken');
+      decoded = verify(refreshToken, this.configService.get<string>('app.jwt.refreshSecret')!) as any;
+    } catch {
+      throw new UnauthorizedException('Invalid or expired refresh token');
+    }
+
     if (!decoded || !decoded.sub) {
       throw new UnauthorizedException('Invalid refresh token');
     }

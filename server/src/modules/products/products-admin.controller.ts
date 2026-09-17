@@ -20,6 +20,7 @@ import { AdminRole, ProductStatus } from '@prisma/client';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { QueryProductsDto } from './dto/query-products.dto';
+import { BulkDeleteDto, BulkStatusChangeDto } from './dto/bulk-operations.dto';
 
 @Controller('admin/products')
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -148,8 +149,8 @@ export class ProductsAdminController {
 
   @Delete('bulk/delete')
   @Roles(AdminRole.SUPER_ADMIN, AdminRole.CATALOG_MANAGER)
-  bulkDelete(@Body() body: { ids: string[] }) {
-    return this.productsService.bulkSoftDelete(body.ids);
+  bulkDelete(@Body() dto: BulkDeleteDto) {
+    return this.productsService.bulkSoftDelete(dto.ids);
   }
 
   @Delete(':id')
@@ -179,7 +180,7 @@ export class ProductsAdminController {
   }
 
   @Put('bulk/status')
-  bulkStatusChange(@Body() body: { ids: string[]; status: ProductStatus }) {
-    return this.productsService.bulkStatusChange(body.ids, body.status);
+  bulkStatusChange(@Body() dto: BulkStatusChangeDto) {
+    return this.productsService.bulkStatusChange(dto.ids, dto.status);
   }
 }

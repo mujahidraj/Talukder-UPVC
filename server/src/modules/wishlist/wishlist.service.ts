@@ -6,10 +6,22 @@ export class WishlistService {
   constructor(private prisma: PrismaService) {}
 
   async trackAdd(productId: string) {
-    return this.prisma.product.update({
+    // Verify product exists to prevent blind incrementing
+    const product = await this.prisma.product.findUnique({
+      where: { id: productId },
+      select: { id: true, isDeleted: true },
+    });
+
+    if (!product || product.isDeleted) {
+      return { success: false };
+    }
+
+    await this.prisma.product.update({
       where: { id: productId },
       data: { wishlistCount: { increment: 1 } },
     });
+
+    return { success: true };
   }
 
   async getInsights(limit = 10) {

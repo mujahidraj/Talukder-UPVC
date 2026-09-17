@@ -15,7 +15,9 @@ export class PasswordConfirmGuard implements CanActivate {
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
     const user = request.user;
-    const superPassword = request.headers['x-super-password'];
+    // Read password confirmation from body instead of header for security
+    // (headers can be logged by proxies/load balancers)
+    const superPassword = request.body?.superPassword || request.headers['x-super-password'];
 
     if (!user || !user.id) {
       throw new UnauthorizedException('Authentication required');

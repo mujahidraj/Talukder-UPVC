@@ -14,6 +14,11 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { AdminRole, EnquiryStatus } from '@prisma/client';
+import {
+  UpdateEnquiryStatusDto,
+  AssignEnquiryDto,
+  AddEnquiryNoteDto,
+} from './dto/enquiry-admin.dto';
 
 @Controller('admin/enquiries')
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -23,16 +28,16 @@ export class EnquiriesAdminController {
 
   @Get()
   findAll(
-    @Query('page') page?: number,
-    @Query('limit') limit?: number,
+    @Query('page') page?: string,
+    @Query('limit') limit?: string,
     @Query('status') status?: EnquiryStatus,
     @Query('search') search?: string,
     @Query('startDate') startDate?: string,
     @Query('endDate') endDate?: string,
   ) {
     return this.enquiriesService.findAll({
-      page,
-      limit,
+      page: page ? parseInt(page, 10) : undefined,
+      limit: limit ? parseInt(limit, 10) : undefined,
       status,
       search,
       startDate,
@@ -53,23 +58,23 @@ export class EnquiriesAdminController {
   @Put(':id/status')
   updateStatus(
     @Param('id') id: string,
-    @Body() body: { status: EnquiryStatus; internalNotes?: string },
+    @Body() dto: UpdateEnquiryStatusDto,
   ) {
     return this.enquiriesService.updateStatus(
       id,
-      body.status,
-      body.internalNotes,
+      dto.status,
+      dto.internalNotes,
     );
   }
 
   @Put(':id/assign')
-  assign(@Param('id') id: string, @Body() body: { assignedToId: string }) {
-    return this.enquiriesService.assign(id, body.assignedToId);
+  assign(@Param('id') id: string, @Body() dto: AssignEnquiryDto) {
+    return this.enquiriesService.assign(id, dto.assignedToId);
   }
 
   @Post(':id/note')
-  addNote(@Param('id') id: string, @Body() body: { note: string }) {
-    return this.enquiriesService.addNote(id, body.note);
+  addNote(@Param('id') id: string, @Body() dto: AddEnquiryNoteDto) {
+    return this.enquiriesService.addNote(id, dto.note);
   }
 
   @Delete(':id')

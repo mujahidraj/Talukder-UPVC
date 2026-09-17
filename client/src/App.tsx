@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { HelmetProvider } from 'react-helmet-async';
@@ -54,6 +54,11 @@ import { LoadingScreen } from './components/common/LoadingScreen';
 const PageLoader = () => <LoadingScreen />;
 
 function App() {
+  // Validate stored auth state against the server on app load
+  useEffect(() => {
+    useAuthStore.getState().validateSession();
+  }, []);
+
   return (
     <HelmetProvider>
       <BrowserRouter>
