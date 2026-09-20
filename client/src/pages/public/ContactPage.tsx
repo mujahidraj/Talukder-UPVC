@@ -23,7 +23,7 @@ export default function ContactPage() {
       toast.success('Message sent successfully! Our team will contact you soon.');
       setForm({ name: '', phone: '', email: '', subject: '', message: '' });
     } catch (err: any) {
-      toast.error(err.response?.data?.message || 'Failed to send message');
+      toast.error((err.response && err.response.data && err.response.data.message) || 'Failed to send message');
     } finally {
       setSubmitting(false);
     }
