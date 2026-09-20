@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+﻿import React, { useState, useEffect, useCallback } from 'react';
 import {
   MessageSquare,
   Calendar,
@@ -268,7 +268,7 @@ export default function EnquiriesManager() {
       )}
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* ─── Left: Enquiries List ─────────────────── */}
+        {/* â”€â”€â”€ Left: Enquiries List â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         <div className="lg:col-span-1 glass-panel overflow-hidden bg-white flex flex-col" style={{ height: 'calc(100vh - 320px)', minHeight: '400px' }}>
           {/* Search & Filter */}
           <div className="p-3 border-b border-gray-100 bg-gray-50/50 space-y-2">
@@ -383,7 +383,7 @@ export default function EnquiriesManager() {
           )}
         </div>
 
-        {/* ─── Right: Enquiry Detail ────────────────── */}
+        {/* â”€â”€â”€ Right: Enquiry Detail â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         <div className="lg:col-span-2 glass-panel bg-white overflow-hidden flex flex-col" style={{ height: 'calc(100vh - 320px)', minHeight: '400px' }}>
           {!selectedId ? (
             <div className="flex-1 flex items-center justify-center text-gray-400 border-2 border-dashed border-gray-100 m-4 rounded-lg">
@@ -528,7 +528,7 @@ export default function EnquiriesManager() {
                               <div className="flex items-center gap-3">
                                 {item.product.images?.[0]?.thumbPath ? (
                                   <img
-                                    src={`http://localhost:3000${item.product.images[0].thumbPath}`}
+                                    src={`${import.meta.env.VITE_IMAGE_URL}${item.product.images[0].thumbPath}`}
                                     className="h-8 w-8 rounded-md object-cover border border-gray-200"
                                     alt=""
                                   />
@@ -546,7 +546,7 @@ export default function EnquiriesManager() {
                                 {item.quantity}
                               </span>
                             </td>
-                            <td className="px-4 py-3 text-xs text-gray-500">{item.note || '—'}</td>
+                            <td className="px-4 py-3 text-xs text-gray-500">{item.note || 'â€”'}</td>
                           </tr>
                         ))}
                       </tbody>

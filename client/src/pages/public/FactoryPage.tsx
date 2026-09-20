@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { Factory, Cog, Gauge, Zap, X, Loader2 } from 'lucide-react';
 import SEO from '../../components/SEO';
 import api from '../../lib/axios';
@@ -41,7 +41,7 @@ export default function FactoryPage() {
         <div className="absolute inset-0 z-0">
            {factoryImages.length > 0 && (
              <img 
-                src={`http://localhost:3000${factoryImages[0].fullPath}`} 
+                src={`${import.meta.env.VITE_IMAGE_URL}${factoryImages[0].fullPath}`} 
                 alt="Factory Background" 
                 className="w-full h-full object-cover opacity-10"
              />
@@ -89,7 +89,7 @@ export default function FactoryPage() {
                 onClick={() => setSelectedImage(img.fullPath)}
               >
                 <img 
-                  src={`http://localhost:3000${img.fullPath}`} 
+                  src={`${import.meta.env.VITE_IMAGE_URL}${img.fullPath}`} 
                   alt={img.fileName || 'Factory view'}
                   className="w-full h-auto object-cover transform group-hover:scale-110 transition-transform duration-700 ease-in-out"
                   loading="lazy"
@@ -123,7 +123,7 @@ export default function FactoryPage() {
             onClick={() => setSelectedImage(null)}
           >
             <img 
-              src={`http://localhost:3000${selectedImage}`} 
+              src={`${import.meta.env.VITE_IMAGE_URL}${selectedImage}`} 
               alt="Factory Full View"
               className="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl"
               onClick={(e) => e.stopPropagation()}

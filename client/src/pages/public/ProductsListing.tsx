@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+﻿import React, { useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { Grid3X3, List, Filter, Droplets, ChevronRight, ArrowRight, Layers } from 'lucide-react';
 import api from '../../lib/axios';
@@ -200,7 +200,7 @@ export default function ProductsListing() {
                 <Link key={p.id} to={`/products/${p.slug}`} className="group bg-white rounded-lg border border-gray-100 overflow-hidden hover:shadow-lg hover:border-brand-200 transition-all duration-300">
                   <div className="aspect-square bg-gray-50 flex items-center justify-center p-4">
                     {p.images?.[0]?.thumbPath ? (
-                      <img src={`http://localhost:3000${p.images[0].thumbPath}`} alt={p.productName} className="h-full w-full object-contain group-hover:scale-105 transition-transform" />
+                      <img src={`${import.meta.env.VITE_IMAGE_URL}${p.images[0].thumbPath}`} alt={p.productName} className="h-full w-full object-contain group-hover:scale-105 transition-transform" />
                     ) : (
                       <Droplets className="h-12 w-12 text-gray-300" />
                     )}
@@ -236,7 +236,7 @@ export default function ProductsListing() {
               {products.map((p: any) => (
                 <Link key={p.id} to={`/products/${p.slug}`} className="group flex flex-col sm:flex-row gap-6 bg-white rounded-lg border border-gray-100 p-4 sm:p-5 hover:shadow-xl hover:shadow-brand-900/5 hover:border-brand-200 transition-all duration-300">
                   <div className="h-48 w-full sm:w-48 bg-gray-50 rounded-lg flex items-center justify-center flex-shrink-0 p-4 relative overflow-hidden group-hover:bg-brand-50/50 transition-colors">
-                    {p.images?.[0]?.thumbPath ? <img src={`http://localhost:3000${p.images[0].thumbPath}`} className="h-full w-full object-contain group-hover:scale-110 transition-transform duration-500" /> : <Droplets className="h-12 w-12 text-gray-300" />}
+                    {p.images?.[0]?.thumbPath ? <img src={`${import.meta.env.VITE_IMAGE_URL}${p.images[0].thumbPath}`} className="h-full w-full object-contain group-hover:scale-110 transition-transform duration-500" /> : <Droplets className="h-12 w-12 text-gray-300" />}
                   </div>
                   <div className="min-w-0 flex-1 flex flex-col justify-between py-1">
                     <div>

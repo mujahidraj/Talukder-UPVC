@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+﻿import React, { useState, useEffect, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
   Search,
@@ -330,7 +330,7 @@ export default function AdminProductTrash() {
                       <div className="relative overflow-hidden rounded-lg border border-gray-200 shadow-sm opacity-70 group-hover:opacity-100 transition-opacity">
                         {product.images?.[0]?.thumbPath ? (
                           <img
-                            src={`http://localhost:3000${product.images[0].thumbPath}`}
+                            src={`${import.meta.env.VITE_IMAGE_URL}${product.images[0].thumbPath}`}
                             alt="thumb"
                             className="w-12 h-12 object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
                           />

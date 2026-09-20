@@ -125,7 +125,7 @@ export default function MediaLibrary() {
             <label className="block text-sm font-medium text-gray-700 mb-1">Image File</label>
             <input
               type="file"
-              accept="image/*"
+              accept="image/*, .glb, .gltf"
               className="admin-input file:mr-4 file:py-1 file:px-3 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-brand-50 file:text-brand-700 hover:file:bg-brand-100"
               onChange={(e) => setFile(e.target.files?.[0] || null)}
             />
@@ -164,7 +164,7 @@ export default function MediaLibrary() {
               className="group relative rounded-lg overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-300 bg-gray-900 aspect-[4/5] cursor-pointer"
             >
               <img
-                src={`${import.meta.env.VITE_API_URL?.replace('/api', '') || 'http://localhost:3000'}${img.thumbPath || img.filePath}`}
+                src={`${import.meta.env.VITE_IMAGE_URL}${img.thumbPath || img.filePath}`}
                 alt={img.fileName}
                 className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-90 group-hover:opacity-100"
                 loading="lazy"

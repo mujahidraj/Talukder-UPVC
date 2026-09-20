@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+﻿import React, { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import {
   ArrowLeft,
@@ -71,7 +71,7 @@ export default function AdminProductDetail() {
         <Package className="h-16 w-16 text-gray-300 mx-auto mb-4" />
         <h2 className="text-xl font-heading font-semibold text-gray-900">Product Not Found</h2>
         <Link to="/admin/products" className="text-brand-600 hover:underline mt-2 inline-block">
-          ← Back to Products
+          â† Back to Products
         </Link>
       </div>
     );
@@ -138,14 +138,14 @@ export default function AdminProductDetail() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Left Column — Images + Quick Info */}
+        {/* Left Column â€” Images + Quick Info */}
         <div className="lg:col-span-1 space-y-6">
           {/* Image Gallery */}
           <div className="glass-panel p-4">
             <div className="aspect-square bg-gray-50 rounded-lg flex items-center justify-center overflow-hidden mb-3">
               {product.images?.length > 0 ? (
                 <img
-                  src={`http://localhost:3000${product.images[activeImage]?.fullPath || product.images[activeImage]?.filePath}`}
+                  src={`${import.meta.env.VITE_IMAGE_URL}${product.images[activeImage]?.fullPath || product.images[activeImage]?.filePath}`}
                   alt={product.productName}
                   className="w-full h-full object-contain p-4"
                 />
@@ -164,7 +164,7 @@ export default function AdminProductDetail() {
                     }`}
                   >
                     <img
-                      src={`http://localhost:3000${img.thumbPath || img.filePath}`}
+                      src={`${import.meta.env.VITE_IMAGE_URL}${img.thumbPath || img.filePath}`}
                       alt=""
                       className="w-full h-full object-cover"
                     />
@@ -240,7 +240,7 @@ export default function AdminProductDetail() {
           </div>
         </div>
 
-        {/* Right Column — Details */}
+        {/* Right Column â€” Details */}
         <div className="lg:col-span-2 space-y-6">
           {/* Product Header */}
           <div className="glass-panel p-6">

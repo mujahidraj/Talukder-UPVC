@@ -3,7 +3,7 @@ export function productJsonLd(product: any) {
     "@context": "https://schema.org",
     "@type": "Product",
     "name": product.productName,
-    "image": product.images?.[0]?.fullPath ? [`http://localhost:3000${product.images[0].fullPath}`] : undefined,
+    "image": product.images?.[0]?.fullPath ? [`${import.meta.env.VITE_IMAGE_URL}${product.images[0].fullPath}`] : undefined,
     "description": product.description,
     "sku": product.productCode,
     "brand": {
@@ -36,7 +36,7 @@ export function breadcrumbJsonLd(items: { name: string; url: string }[]) {
       "@type": "ListItem",
       "position": index + 1,
       "name": item.name,
-      "item": `http://localhost:5173${item.url}`
+      "item": `${import.meta.env.VITE_SITE_URL}${item.url}`
     }))
   };
 }

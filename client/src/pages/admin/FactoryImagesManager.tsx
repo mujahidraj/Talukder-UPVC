@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+﻿import React, { useState, useEffect, useRef } from 'react';
 import { Upload, X, Factory, Trash2, Image as ImageIcon, Loader2 } from 'lucide-react';
 import api from '../../lib/axios';
 
@@ -120,7 +120,7 @@ export default function FactoryImagesManager() {
             {images.map((img) => (
               <div key={img.id} className="group relative bg-gray-100 rounded-lg overflow-hidden border border-gray-200 aspect-square">
                 <img
-                  src={`http://localhost:3000${img.fullPath}`}
+                  src={`${import.meta.env.VITE_IMAGE_URL}${img.fullPath}`}
                   alt={img.fileName}
                   className="w-full h-full object-cover"
                 />

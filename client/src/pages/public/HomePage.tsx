@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+﻿import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Shield, Award, Factory, Droplets, ChevronRight, Play, Camera, Globe, Video, MessageCircle, Tractor, Building2, HardHat, CheckCircle2, Wrench, Users, Layers } from 'lucide-react';
 import api from '../../lib/axios';
@@ -273,7 +273,7 @@ export default function HomePage() {
                 <div className="aspect-square bg-gradient-to-b from-gray-50 to-white flex items-center justify-center p-6 overflow-hidden relative">
                   <div className="absolute inset-0 bg-brand-500/0 group-hover:bg-brand-500/5 transition-colors duration-500"></div>
                   {product.images?.[0]?.thumbPath ? (
-                    <img src={`http://localhost:3000${product.images[0].thumbPath}`} alt={product.productName} className="h-full w-full object-contain group-hover:scale-110 transition-transform duration-700 drop-shadow-sm" />
+                    <img src={`${import.meta.env.VITE_IMAGE_URL}${product.images[0].thumbPath}`} alt={product.productName} className="h-full w-full object-contain group-hover:scale-110 transition-transform duration-700 drop-shadow-sm" />
                   ) : (
                     <Droplets className="h-16 w-16 text-gray-200" />
                   )}
@@ -328,7 +328,7 @@ export default function HomePage() {
                     </div>
                     <div className="absolute inset-0 bg-brand-500/0 group-hover:bg-brand-500/5 transition-colors duration-500"></div>
                     {product.images?.[0]?.thumbPath ? (
-                      <img src={`http://localhost:3000${product.images[0].thumbPath}`} alt={product.productName} className="h-full w-full object-contain group-hover:scale-110 transition-transform duration-700 drop-shadow-sm" />
+                      <img src={`${import.meta.env.VITE_IMAGE_URL}${product.images[0].thumbPath}`} alt={product.productName} className="h-full w-full object-contain group-hover:scale-110 transition-transform duration-700 drop-shadow-sm" />
                     ) : (
                       <Droplets className="h-16 w-16 text-gray-200" />
                     )}
@@ -410,7 +410,7 @@ export default function HomePage() {
                 <div className="aspect-square bg-gradient-to-b from-gray-50 to-white flex items-center justify-center p-6 overflow-hidden relative">
                   <div className="absolute inset-0 bg-brand-500/0 group-hover:bg-brand-500/5 transition-colors duration-500"></div>
                   {product.images?.[0]?.thumbPath ? (
-                    <img src={`http://localhost:3000${product.images[0].thumbPath}`} alt={product.productName} className="h-full w-full object-contain group-hover:scale-110 transition-transform duration-700 drop-shadow-sm" />
+                    <img src={`${import.meta.env.VITE_IMAGE_URL}${product.images[0].thumbPath}`} alt={product.productName} className="h-full w-full object-contain group-hover:scale-110 transition-transform duration-700 drop-shadow-sm" />
                   ) : (
                     <Droplets className="h-16 w-16 text-gray-200" />
                   )}

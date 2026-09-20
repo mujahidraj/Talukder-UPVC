@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+﻿import React, { useState, useEffect, useRef } from 'react';
 import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { Search, Heart, Phone, Mail, Menu, X, ChevronDown, ArrowRight, ShoppingCart } from 'lucide-react';
 import api from '../../lib/axios';
@@ -197,7 +197,7 @@ export default function PublicHeader({ onEnquiryClick }: HeaderProps = {}) {
                     ))}
                     <div className="border-t border-gray-100 mt-2 pt-2">
                       <Link to="/products" className="block px-5 py-2.5 text-sm font-bold text-brand-700 hover:bg-gray-50 transition-colors">
-                        View All Products →
+                        View All Products â†’
                       </Link>
                     </div>
                   </ul>
@@ -246,7 +246,7 @@ export default function PublicHeader({ onEnquiryClick }: HeaderProps = {}) {
                                 >
                                   <div className="h-12 w-12 bg-white rounded-lg border border-gray-100 flex-shrink-0 flex items-center justify-center p-1.5 shadow-sm group-hover:border-brand-200 transition-colors">
                                     {p.images?.[0]?.thumbPath ? (
-                                      <img src={`http://localhost:3000${p.images[0].thumbPath}`} className="h-full w-full object-contain" />
+                                      <img src={`${import.meta.env.VITE_IMAGE_URL}${p.images[0].thumbPath}`} className="h-full w-full object-contain" />
                                     ) : (
                                       <span className="text-gray-300 text-xs">IMG</span>
                                     )}
@@ -355,7 +355,7 @@ export default function PublicHeader({ onEnquiryClick }: HeaderProps = {}) {
                     onClick={() => setMenuOpen(false)}
                     className="block px-3 py-2 text-base font-bold text-brand-700 mt-2 border-t border-gray-200 pt-2"
                   >
-                    View All Products →
+                    View All Products â†’
                   </Link>
                 </div>
               )}

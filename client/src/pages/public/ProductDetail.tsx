@@ -1,6 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { ChevronRight, Heart, ShoppingCart, Droplets, Share2, Package, Layers, ArrowRight, CheckCircle2, Sparkles, Zap } from 'lucide-react';
+
+declare global {
+  namespace JSX {
+    interface IntrinsicElements {
+      'model-viewer': any;
+    }
+  }
+}
+
+import { ChevronRight, Heart, ShoppingCart, Droplets, Share2, Package, Layers, ArrowRight, CheckCircle2, Sparkles, Zap, Box } from 'lucide-react';
+import '@google/model-viewer';
 import toast from 'react-hot-toast';
 import api from '../../lib/axios';
 import SEO from '../../components/SEO';
@@ -12,6 +22,7 @@ export default function ProductDetail() {
   const [product, setProduct] = useState<any>(null);
   const [related, setRelated] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [show3D, setShow3D] = useState(false);
 
   useEffect(() => {
     if (!slug) return;
@@ -105,14 +116,17 @@ export default function ProductDetail() {
   const hasFitting = variants.some((v: any) => v.fittingConnectionType && v.fittingConnectionType !== '-');
   const hasBrand = variants.some((v: any) => v.brandManufacturer && v.brandManufacturer !== '-');
 
+  const model3d = product.images?.find((img: any) => img.fullPath?.match(/\.(glb|gltf)$/i) || img.filePath?.match(/\.(glb|gltf)$/i));
+  const mainImage = product.images?.find((img: any) => !img.fullPath?.match(/\.(glb|gltf)$/i) && !img.filePath?.match(/\.(glb|gltf)$/i)) || product.images?.[0];
+
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
       <SEO
         title={product.metaTitle || product.productName}
-        description={product.metaDescription || product.description || `Buy ${product.productName} – premium uPVC pipes & fittings from Talukder uPVC Fittings Ltd.`}
+        description={product.metaDescription || product.description || `Buy ${product.productName} â€“ premium uPVC pipes & fittings from Talukder uPVC Fittings Ltd.`}
         canonical={`/products/${product.slug}`}
         type="product"
-        image={product.images?.[0]?.fullPath ? `http://localhost:3000${product.images[0].fullPath}` : undefined}
+        image={product.images?.[0]?.fullPath ? `${import.meta.env.VITE_IMAGE_URL}${product.images[0].fullPath}` : undefined}
         jsonLd={productJsonLd(product)}
       />
 
@@ -129,15 +143,31 @@ export default function ProductDetail() {
         ))}
       </nav>
 
-      {/* ─── TUBEWELL: Original single-product layout ─── */}
+      {/* â”€â”€â”€ TUBEWELL: Original single-product layout â”€â”€â”€ */}
       {isTubewell ? (
         <>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
             {/* Image */}
             <div className="relative bg-white border-[3px] border-[#3769A8] flex flex-col justify-between min-h-[400px] md:min-h-[500px] lg:min-h-[600px] shadow-[8px_8px_15px_rgba(0,0,0,0.35)] overflow-hidden">
               <div className="flex-1 flex items-center justify-center p-8 z-10 relative">
-                {product.images?.length > 0 ? (
-                  <img src={`http://localhost:3000${product.images[0].fullPath || product.images[0].filePath}`} alt={product.productName} className="max-h-[250px] md:max-h-[350px] lg:max-h-[400px] max-w-full object-contain hover:scale-105 transition-transform duration-300 drop-shadow-xl" />
+                {model3d && (
+                  <button onClick={() => setShow3D(!show3D)} className="absolute top-4 right-4 bg-white/90 p-2 rounded-full shadow-lg z-20 hover:bg-white transition-colors group flex items-center gap-2" title="Toggle 3D View">
+                    {show3D ? <Droplets className="h-5 w-5 text-brand-600" /> : <Box className="h-5 w-5 text-brand-600" />}
+                    <span className="text-xs font-bold text-brand-800 pr-1">{show3D ? 'View Image' : 'View 3D'}</span>
+                  </button>
+                )}
+                {show3D && model3d ? (
+                  React.createElement('model-viewer', {
+                    src: `${import.meta.env.VITE_IMAGE_URL}${model3d.fullPath || model3d.filePath}`,
+                    alt: product.productName,
+                    'auto-rotate': true,
+                    'camera-controls': true,
+                    ar: true,
+                    'shadow-intensity': "1",
+                    style: { width: '100%', height: '100%', minHeight: '350px' }
+                  })
+                ) : mainImage ? (
+                  <img src={`${import.meta.env.VITE_IMAGE_URL}${mainImage.fullPath || mainImage.filePath}`} alt={product.productName} className="max-h-[250px] md:max-h-[350px] lg:max-h-[400px] max-w-full object-contain hover:scale-105 transition-transform duration-300 drop-shadow-xl" />
                 ) : (
                   <Droplets className="h-32 w-32 text-gray-200" />
                 )}
@@ -251,14 +281,30 @@ export default function ProductDetail() {
           </div>
         </>
       ) : (
-        /* ─── NON-TUBEWELL: Grouped product layout with variants table ─── */
+        /* â”€â”€â”€ NON-TUBEWELL: Grouped product layout with variants table â”€â”€â”€ */
         <>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
             {/* Image */}
             <div className="relative bg-white border-[3px] border-[#3769A8] flex flex-col justify-between min-h-[400px] md:min-h-[500px] lg:min-h-[600px] shadow-[8px_8px_15px_rgba(0,0,0,0.35)] overflow-hidden">
               <div className="flex-1 flex items-center justify-center p-8 z-10 relative">
-                {product.images?.length > 0 ? (
-                  <img src={`http://localhost:3000${product.images[0].fullPath || product.images[0].filePath}`} alt={product.productName} className="max-h-[250px] md:max-h-[350px] lg:max-h-[400px] max-w-full object-contain hover:scale-105 transition-transform duration-300 drop-shadow-xl" />
+                {model3d && (
+                  <button onClick={() => setShow3D(!show3D)} className="absolute top-4 right-4 bg-white/90 p-2 rounded-full shadow-lg z-20 hover:bg-white transition-colors group flex items-center gap-2" title="Toggle 3D View">
+                    {show3D ? <Droplets className="h-5 w-5 text-brand-600" /> : <Box className="h-5 w-5 text-brand-600" />}
+                    <span className="text-xs font-bold text-brand-800 pr-1">{show3D ? 'View Image' : 'View 3D'}</span>
+                  </button>
+                )}
+                {show3D && model3d ? (
+                  React.createElement('model-viewer', {
+                    src: `${import.meta.env.VITE_IMAGE_URL}${model3d.fullPath || model3d.filePath}`,
+                    alt: product.productName,
+                    'auto-rotate': true,
+                    'camera-controls': true,
+                    ar: true,
+                    'shadow-intensity': "1",
+                    style: { width: '100%', height: '100%', minHeight: '350px' }
+                  })
+                ) : mainImage ? (
+                  <img src={`${import.meta.env.VITE_IMAGE_URL}${mainImage.fullPath || mainImage.filePath}`} alt={product.productName} className="max-h-[250px] md:max-h-[350px] lg:max-h-[400px] max-w-full object-contain hover:scale-105 transition-transform duration-300 drop-shadow-xl" />
                 ) : (
                   <Droplets className="h-32 w-32 text-gray-200" />
                 )}
@@ -350,7 +396,7 @@ export default function ProductDetail() {
             </div>
           </div>
 
-          {/* ─── Variants Table ─── */}
+          {/* â”€â”€â”€ Variants Table â”€â”€â”€ */}
           <section className="mt-12">
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-3">
@@ -437,7 +483,7 @@ export default function ProductDetail() {
             {related.map((p: any) => (
               <Link key={p.id} to={`/products/${p.slug}`} className="group bg-white rounded-lg border border-gray-100 overflow-hidden hover:shadow-lg transition-all">
                 <div className="aspect-square bg-gray-50 flex items-center justify-center p-4">
-                  {p.images?.[0]?.thumbPath ? <img src={`http://localhost:3000${p.images[0].thumbPath}`} className="h-full w-full object-contain group-hover:scale-105 transition-transform" /> : <Droplets className="h-12 w-12 text-gray-300" />}
+                  {p.images?.[0]?.thumbPath ? <img src={`${import.meta.env.VITE_IMAGE_URL}${p.images[0].thumbPath}`} className="h-full w-full object-contain group-hover:scale-105 transition-transform" /> : <Droplets className="h-12 w-12 text-gray-300" />}
                 </div>
                 <div className="p-3">
                   <p className="text-xs text-brand-600 font-medium">{p.category?.name}</p>

@@ -191,7 +191,7 @@ export default function AdminProductEdit() {
     return cats.reduce((acc: { id: string; label: string }[], cat) => {
       acc.push({ id: cat.id, label: prefix + cat.name });
       if (cat.children?.length) {
-        acc.push(...flattenCategories(cat.children, prefix + cat.name + ' → '));
+        acc.push(...flattenCategories(cat.children, prefix + cat.name + ' â†’ '));
       }
       return acc;
     }, []);
@@ -213,7 +213,7 @@ export default function AdminProductEdit() {
         <Package className="h-16 w-16 text-gray-300 mx-auto mb-4" />
         <h2 className="text-xl font-heading font-semibold text-gray-900">Product Not Found</h2>
         <Link to="/admin/products" className="text-brand-600 hover:underline mt-2 inline-block">
-          ← Back to Products
+          â† Back to Products
         </Link>
       </div>
     );
@@ -467,7 +467,7 @@ export default function AdminProductEdit() {
                   {product.images.map((img: any) => (
                     <div key={img.id} className="relative aspect-square rounded-lg overflow-hidden border border-gray-200 bg-gray-50 group">
                       <img
-                        src={`http://localhost:3000${img.thumbPath || img.filePath}`}
+                        src={`${import.meta.env.VITE_IMAGE_URL}${img.thumbPath || img.filePath}`}
                         alt=""
                         className="w-full h-full object-cover"
                       />
@@ -500,7 +500,7 @@ export default function AdminProductEdit() {
                   <input
                     type="file"
                     multiple
-                    accept="image/*"
+                    accept="image/*, .glb, .gltf"
                     className="hidden"
                     onChange={handleImageUpload}
                     disabled={uploadingImage}

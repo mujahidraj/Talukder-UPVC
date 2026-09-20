@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+﻿import React, { useState, useEffect, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
   Plus,
@@ -59,7 +59,7 @@ export default function ProductsManager() {
     return cats.reduce((acc: { id: string; label: string }[], cat) => {
       acc.push({ id: cat.id, label: prefix + cat.name });
       if (cat.children?.length) {
-        acc.push(...flattenCategories(cat.children, prefix + cat.name + ' → '));
+        acc.push(...flattenCategories(cat.children, prefix + cat.name + ' â†’ '));
       }
       return acc;
     }, []);
@@ -481,7 +481,7 @@ export default function ProductsManager() {
                       {product.images?.[0]?.thumbPath ? (
                         <div className="relative group-hover:scale-105 transition-transform duration-300">
                           <img
-                            src={`http://localhost:3000${product.images[0].thumbPath}`}
+                            src={`${import.meta.env.VITE_IMAGE_URL}${product.images[0].thumbPath}`}
                             alt="thumb"
                             className="w-12 h-12 object-cover rounded-lg border border-gray-200 shadow-sm"
                           />
@@ -498,7 +498,7 @@ export default function ProductsManager() {
                         {product.productCode}
                       </span>
                     </td>
-                    {/* Name — Clickable */}
+                    {/* Name â€” Clickable */}
                     <td className="px-6 py-5 text-sm">
                       <Link
                         to={`/admin/products/${product.id}`}
@@ -510,7 +510,7 @@ export default function ProductsManager() {
                     </td>
                     {/* Size */}
                     <td className="px-6 py-5 whitespace-nowrap text-sm font-medium text-gray-600">
-                      {product.size || '—'}
+                      {product.size || 'â€”'}
                     </td>
                     {/* Category */}
                     <td className="px-6 py-5 whitespace-nowrap text-sm text-gray-600">

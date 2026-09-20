@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+﻿import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Search,
@@ -147,7 +147,7 @@ export default function ProductsMissingData() {
                           <div className="flex-shrink-0 relative group-hover:scale-105 transition-transform duration-300">
                             {product.images?.[0]?.thumbPath ? (
                               <img
-                                src={`http://localhost:3000${product.images[0].thumbPath}`}
+                                src={`${import.meta.env.VITE_IMAGE_URL}${product.images[0].thumbPath}`}
                                 alt="thumb"
                                 className="h-12 w-12 rounded-lg object-cover border border-gray-200 shadow-sm"
                               />
