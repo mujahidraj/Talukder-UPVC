@@ -26,9 +26,25 @@ export default function PublicHeader({ onEnquiryClick }: HeaderProps = {}) {
   const navigate = useNavigate();
   const location = useLocation();
   const isProductsActive = location.pathname.startsWith('/products') || location.pathname.startsWith('/categories');
+  const isHomePage = location.pathname === '/';
+  
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setIsScrolled(window.scrollY > 50);
+    window.addEventListener('scroll', handleScroll);
+    handleScroll();
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const isTransparent = isHomePage && !isScrolled;
 
   const navLinkClass = ({ isActive }: { isActive: boolean }) => 
-    `text-sm font-semibold transition-colors py-2 relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:bg-red-600 after:transition-all ${isActive ? 'text-brand-900 after:w-full' : 'text-gray-700 hover:text-brand-800 after:w-0 hover:after:w-full'}`;
+    `text-sm font-semibold transition-colors py-2 relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:bg-red-600 after:transition-all ${
+      isActive 
+        ? (isTransparent ? 'text-white after:w-full' : 'text-brand-900 after:w-full')
+        : (isTransparent ? 'text-white/80 hover:text-white after:w-0 hover:after:w-full' : 'text-gray-700 hover:text-brand-800 after:w-0 hover:after:w-full')
+    }`;
 
   useEffect(() => {
     api.get('/categories/tree').then(res => setCategories(res.data)).catch(() => { });
@@ -80,10 +96,10 @@ export default function PublicHeader({ onEnquiryClick }: HeaderProps = {}) {
   }, []);
 
   return (
-    <header className="sticky top-0 z-50">
+    <header className={`w-full top-0 z-50 transition-all duration-300 ${isHomePage ? 'fixed' : 'sticky'}`}>
       {/* Top Bar */}
-      <div className="bg-brand-950 text-brand-200 text-xs py-2 hidden md:block">
-        <div className="max-w-7xl mx-auto px-4 flex items-center justify-between">
+      <div className={`text-xs py-2 hidden md:block transition-colors duration-300 ${isTransparent ? 'bg-transparent text-white/90 border-b border-white/10' : 'bg-brand-950 text-brand-200'}`}>
+        <div className="w-full px-4 md:px-8 lg:px-12 flex items-center justify-between">
           <div className="flex items-center gap-6">
             <a href="tel:+8801966333355" className="flex items-center gap-1.5 hover:text-white transition-colors">
               <Phone className="h-3 w-3" /> +880 1966-333355
@@ -97,16 +113,15 @@ export default function PublicHeader({ onEnquiryClick }: HeaderProps = {}) {
       </div>
 
       {/* Main Nav */}
-      {/* Main Nav */}
-      <nav className="bg-white border-b border-gray-100 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4">
+      <nav className={`transition-colors duration-300 ${isTransparent ? 'bg-transparent border-b border-white/20' : 'bg-white border-b border-gray-100'}`}>
+        <div className="w-full px-4 md:px-8 lg:px-12">
           <div className="flex items-center justify-between h-20 md:h-24">
             {/* Logo */}
             <Link to="/" className="flex items-center gap-3 flex-shrink-0">
               <img src="/LOGO/Talukder-uPVC-Fittings-LTD-3.png" alt="Talukder uPVC Fittings Ltd." className="h-12 w-auto object-contain" />
               <div className="hidden sm:block">
-                <span className="text-xl font-heading font-bold tracking-tight"><span className="text-brand-800">Talukder </span><span className="text-red-600">u</span><span className="text-brand-800">PVC</span></span>
-                <p className="text-[10px] text-brand-800 uppercase tracking-widest font-semibold mt-0.5">Fittings Ltd.</p>
+                <span className="text-xl font-heading font-bold tracking-tight"><span className={isTransparent ? 'text-white' : 'text-brand-800'}>Talukder </span><span className="text-red-600">u</span><span className={isTransparent ? 'text-white' : 'text-brand-800'}>PVC</span></span>
+                <p className={`text-[10px] uppercase tracking-widest font-semibold mt-0.5 ${isTransparent ? 'text-white/90' : 'text-brand-800'}`}>Fittings Ltd.</p>
               </div>
             </Link>
 
@@ -122,7 +137,11 @@ export default function PublicHeader({ onEnquiryClick }: HeaderProps = {}) {
                 onMouseEnter={() => setMegaOpen(true)}
                 onMouseLeave={() => setMegaOpen(false)}
               >
-                <button className={`text-sm font-semibold transition-colors py-2 flex items-center gap-1.5 relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:bg-red-600 after:transition-all ${isProductsActive ? 'text-brand-900 after:w-full' : 'text-gray-700 hover:text-brand-800 after:w-0 hover:after:w-full'}`}>
+                <button className={`text-sm font-semibold transition-colors py-2 flex items-center gap-1.5 relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:bg-red-600 after:transition-all ${
+                  isProductsActive 
+                    ? (isTransparent ? 'text-white after:w-full' : 'text-brand-900 after:w-full')
+                    : (isTransparent ? 'text-white/80 hover:text-white after:w-0 hover:after:w-full' : 'text-gray-700 hover:text-brand-800 after:w-0 hover:after:w-full')
+                }`}>
                   Products <ChevronDown className={`h-3 w-3 transition-transform duration-200 ${megaOpen ? 'rotate-180' : ''}`} />
                 </button>
 
@@ -195,7 +214,7 @@ export default function PublicHeader({ onEnquiryClick }: HeaderProps = {}) {
             <div className="flex items-center gap-6">
               {/* Search */}
               <div ref={searchRef} className="relative flex items-center">
-                <button onClick={() => setShowSearch(!showSearch)} className="p-2 text-gray-600 hover:text-brand-700 bg-gray-50 hover:bg-gray-100 rounded-full transition-all">
+                <button onClick={() => setShowSearch(!showSearch)} className={`p-2 rounded-full transition-all ${isTransparent ? 'text-white hover:bg-white/10' : 'text-gray-600 hover:text-brand-700 bg-gray-50 hover:bg-gray-100'}`}>
                   <Search className="h-5 w-5" />
                 </button>
                 
@@ -267,7 +286,7 @@ export default function PublicHeader({ onEnquiryClick }: HeaderProps = {}) {
 
 
               {/* Wishlist */}
-              <Link to="/wishlist" className="relative text-gray-600 hover:text-brand-700 transition-colors">
+              <Link to="/wishlist" className={`relative transition-colors ${isTransparent ? 'text-white hover:text-white/80' : 'text-gray-600 hover:text-brand-700'}`}>
                 <Heart className="h-5 w-5" />
                 {wishlistItems.length > 0 && (
                   <span className="absolute -top-2 -right-2 h-4 w-4 bg-brand-600 text-white text-[10px] font-bold flex items-center justify-center rounded-full">
@@ -279,7 +298,7 @@ export default function PublicHeader({ onEnquiryClick }: HeaderProps = {}) {
               {/* Enquiry Cart */}
               <button
                 onClick={onEnquiryClick}
-                className="relative text-gray-600 hover:text-brand-700 transition-colors"
+                className={`relative transition-colors ${isTransparent ? 'text-white hover:text-white/80' : 'text-gray-600 hover:text-brand-700'}`}
                 title="View Enquiry"
               >
                 <ShoppingCart className="h-5 w-5" />
@@ -299,7 +318,7 @@ export default function PublicHeader({ onEnquiryClick }: HeaderProps = {}) {
               </button>
 
               {/* Mobile menu toggle */}
-              <button onClick={() => setMenuOpen(!menuOpen)} className="lg:hidden text-gray-600 hover:text-brand-700">
+              <button onClick={() => setMenuOpen(!menuOpen)} className={`lg:hidden transition-colors ${isTransparent ? 'text-white' : 'text-gray-600 hover:text-brand-700'}`}>
                 {menuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
               </button>
             </div>

@@ -165,24 +165,31 @@ export default function HomePage() {
       >
         <div className="absolute inset-0 bg-gradient-to-b from-white/90 via-white/40 to-white/90 z-0"></div>
 
-        {/* Trust Bar (Full Width Solid Deep Color) */}
+        {/* Trust Bar (Premium Full Width) */}
         <div className="relative z-30 w-full -mt-12 sm:-mt-16 mb-16 md:mb-24">
-          <div className="bg-brand-950 border-y border-brand-800/50 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.5)] overflow-hidden">
-            <div className="max-w-7xl mx-auto px-4">
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-0 divide-y sm:divide-y-0 sm:divide-x divide-brand-800/50">
+          <div className="bg-gradient-to-r from-brand-950 via-brand-900 to-brand-950 border-y border-brand-800/60 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.6)] relative overflow-hidden">
+            {/* Subtle top edge highlight */}
+            <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-accent-500/50 to-transparent"></div>
+            
+            <div className="max-w-7xl mx-auto px-4 relative z-10">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-0 divide-y sm:divide-y-0 sm:divide-x divide-brand-800/40">
                 {[
                   { icon: Shield, label: 'Quality Certified', desc: 'International standard' },
                   { icon: Factory, label: 'Modern Factory', desc: 'Auto-belling machines' },
                   { icon: Droplets, label: 'Chemical Resistant', desc: 'Corrosion free' },
                   { icon: Award, label: '50+ Year Lifespan', desc: 'Proven durability' },
                 ].map((item, idx) => (
-                  <div key={item.label} className="flex items-center gap-5 group p-6 sm:p-8 lg:p-10 hover:bg-brand-900/50 transition-colors duration-500">
-                    <div className="h-16 w-16 rounded-lg bg-gradient-to-br from-brand-900 to-brand-950 border border-brand-800 shadow-inner flex items-center justify-center group-hover:border-accent-500/50 group-hover:shadow-[0_0_30px_rgba(56,189,248,0.2)] transition-all duration-500 flex-shrink-0 group-hover:-translate-y-1">
-                      <item.icon className="h-7 w-7 text-accent-400 group-hover:text-accent-300 transition-colors" />
+                  <div key={item.label} className="flex flex-col sm:flex-row items-center sm:items-center gap-5 group p-8 lg:p-10 hover:bg-white/5 transition-all duration-500 relative overflow-hidden">
+                    {/* Hover Glow */}
+                    <div className="absolute inset-0 bg-gradient-to-b from-transparent to-brand-800/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    
+                    <div className="h-16 w-16 rounded-2xl bg-brand-950/50 border border-brand-700/50 shadow-inner flex items-center justify-center group-hover:border-accent-400/60 group-hover:shadow-[0_0_30px_rgba(56,189,248,0.25)] group-hover:bg-brand-800 transition-all duration-500 flex-shrink-0 group-hover:-translate-y-1 relative z-10">
+                      <item.icon className="h-8 w-8 text-accent-400 group-hover:text-white transition-colors duration-500" />
                     </div>
-                    <div>
-                      <p className="text-base lg:text-lg font-bold text-white tracking-wide group-hover:text-accent-100 transition-colors">{item.label}</p>
-                      <p className="text-sm text-brand-300/80 mt-1">{item.desc}</p>
+                    
+                    <div className="text-center sm:text-left relative z-10 flex-1">
+                      <p className="text-xl font-heading font-black text-white tracking-wide group-hover:text-accent-100 transition-colors drop-shadow-sm">{item.label}</p>
+                      <p className="text-sm text-brand-200/90 mt-1.5 font-medium leading-snug">{item.desc}</p>
                     </div>
                   </div>
                 ))}
@@ -349,7 +356,7 @@ export default function HomePage() {
       {/* Applications & Use Cases */}
       <section
         className="py-16 md:py-32 relative bg-cover bg-center bg-fixed"
-        style={{ backgroundImage: 'url("/images/factory 3.jpg")' }}
+        style={{ backgroundImage: 'url("/images/factoryt%20image.png")' }}
       >
         <div className="absolute inset-0 bg-white/40 backdrop-blur-sm z-0"></div>
         <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent z-10"></div>
@@ -360,20 +367,19 @@ export default function HomePage() {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
             {[
-              { title: 'Agriculture', desc: 'Durable pipes for efficient irrigation systems.', icon: Tractor, color: 'from-emerald-400 to-teal-500' },
-              { title: 'Residential', desc: 'Safe and leak-proof plumbing for homes.', icon: Building2, color: 'from-blue-400 to-brand-600' },
-              { title: 'Industrial', desc: 'Heavy-duty pipes for chemical transport.', icon: Factory, color: 'from-orange-400 to-rose-500' },
-              { title: 'Infrastructure', desc: 'Underground sewerage and supply lines.', icon: HardHat, color: 'from-purple-400 to-indigo-500' },
+              { title: 'Agriculture', desc: 'Durable pipes for efficient irrigation systems.', icon: Tractor, bgImage: '/images/What-is-an-irrigation-pipe-called.jpg' },
+              { title: 'Residential', desc: 'Safe and leak-proof plumbing for homes.', icon: Building2, bgImage: '/images/pipe-guide-for-home-plumbing.jpg' },
+              { title: 'Industrial', desc: 'Heavy-duty pipes for chemical transport.', icon: Factory, bgImage: '/images/ERW-Pipe-vs.-Seamless-Pipe.webp' },
+              { title: 'Infrastructure', desc: 'Underground sewerage and supply lines.', icon: HardHat, bgImage: '/images/images.jpg' },
             ].map((app) => (
-              <div key={app.title} className="bg-blue-50 rounded-lg p-8 shadow-sm border border-blue-100 hover:border-blue-300 hover:bg-blue-100 hover:shadow-[0_20px_40px_-15px_rgba(59,130,246,0.15)] hover:-translate-y-2 transition-all duration-500 text-center group relative overflow-hidden">
-                <div className="absolute inset-0 bg-blue-200/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div key={app.title} className="rounded-lg p-8 shadow-sm hover:shadow-[0_20px_40px_-15px_rgba(59,130,246,0.3)] hover:-translate-y-2 transition-all duration-500 text-center group relative overflow-hidden bg-cover bg-center" style={{ backgroundImage: `url('${app.bgImage}')` }}>
+                <div className="absolute inset-0 bg-gray-900/60 group-hover:bg-gray-900/40 transition-colors duration-500"></div>
                 <div className="relative z-10 flex flex-col items-center">
-                  <div className="h-20 w-20 rounded-lg bg-white border border-blue-200 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500 group-hover:border-transparent group-hover:shadow-[0_10px_20px_-10px_rgba(59,130,246,0.2)]">
-                    <div className={`absolute inset-0 bg-gradient-to-br from-blue-100 to-blue-200 opacity-0 group-hover:opacity-30 rounded-lg transition-opacity duration-500`}></div>
-                    <app.icon className="h-10 w-10 text-blue-500 group-hover:text-blue-600 transition-colors duration-500" />
+                  <div className="h-20 w-20 rounded-lg bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500 group-hover:border-white/40 group-hover:shadow-[0_10px_20px_-10px_rgba(255,255,255,0.2)]">
+                    <app.icon className="h-10 w-10 text-white transition-colors duration-500" />
                   </div>
-                  <h3 className="font-heading font-bold text-xl text-brand-900 mb-3">{app.title}</h3>
-                  <p className="text-base text-gray-600 font-medium leading-relaxed">{app.desc}</p>
+                  <h3 className="font-heading font-bold text-xl text-white mb-3 drop-shadow-md">{app.title}</h3>
+                  <p className="text-base text-gray-200 font-medium leading-relaxed drop-shadow-md">{app.desc}</p>
                 </div>
               </div>
             ))}
