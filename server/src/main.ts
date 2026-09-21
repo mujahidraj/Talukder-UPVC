@@ -25,17 +25,24 @@ async function bootstrap() {
 
   // CORS
   const isProd = process.env.NODE_ENV === 'production';
-  const corsOrigin =
-    process.env.CORS_ORIGIN || (isProd ? false : 'http://localhost:5173');
+  let allowedOrigins: string[] = [];
 
-  if (isProd && !process.env.CORS_ORIGIN) {
+  if (process.env.CORS_ORIGIN) {
+    allowedOrigins = process.env.CORS_ORIGIN.split(',').map(o => o.trim());
+  }
+
+  if (!isProd && !allowedOrigins.includes('http://localhost:5173')) {
+    allowedOrigins.push('http://localhost:5173');
+  }
+
+  if (isProd && allowedOrigins.length === 0) {
     console.warn(
       'WARNING: CORS_ORIGIN is not set in production! Defaulting to deny all CORS requests.',
     );
   }
 
   app.enableCors({
-    origin: corsOrigin,
+    origin: allowedOrigins.length > 0 ? allowedOrigins : 'http://localhost:5173',
     credentials: true,
   });
 
