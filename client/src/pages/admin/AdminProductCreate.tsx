@@ -8,7 +8,8 @@ import {
   Trash2,
   Upload,
   Droplets,
-  ChevronRight
+  ChevronRight,
+  Loader2
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import api from '../../lib/axios';
@@ -133,15 +134,15 @@ export default function AdminProductCreate() {
   const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
     if (!files.length) return;
-    
+
     setSelectedImages(prev => [...prev, ...files]);
-    
+
     const urls = files.map(f => URL.createObjectURL(f));
     setPreviewUrls(prev => [...prev, ...urls]);
-    
+
     e.target.value = '';
   };
-  
+
   const removeSelectedImage = (index: number) => {
     URL.revokeObjectURL(previewUrls[index]);
     setSelectedImages(prev => prev.filter((_, i) => i !== index));
@@ -412,7 +413,7 @@ export default function AdminProductCreate() {
                 <span className="h-1.5 w-1.5 bg-brand-600 rounded-full" />
                 Product Images
               </h3>
-              
+
               {previewUrls.length > 0 ? (
                 <div className="grid grid-cols-2 gap-3 mb-4">
                   {previewUrls.map((url, i) => (
@@ -443,7 +444,7 @@ export default function AdminProductCreate() {
                   <span className="text-xs">No images</span>
                 </div>
               )}
-              
+
               <div className="mt-4 flex flex-col gap-2">
                 <label className="admin-btn-secondary w-full flex items-center justify-center gap-2 cursor-pointer">
                   <Upload className="h-4 w-4" />
@@ -483,14 +484,12 @@ export default function AdminProductCreate() {
                   <button
                     type="button"
                     onClick={() => setForm(prev => ({ ...prev, isFeatured: !prev.isFeatured }))}
-                    className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-brand-600 focus:ring-offset-2 ${
-                      form.isFeatured ? 'bg-brand-600' : 'bg-gray-200'
-                    }`}
+                    className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-brand-600 focus:ring-offset-2 ${form.isFeatured ? 'bg-brand-600' : 'bg-gray-200'
+                      }`}
                   >
                     <span
-                      className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
-                        form.isFeatured ? 'translate-x-5' : 'translate-x-0'
-                      }`}
+                      className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${form.isFeatured ? 'translate-x-5' : 'translate-x-0'
+                        }`}
                     />
                   </button>
                 </div>
