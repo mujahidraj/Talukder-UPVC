@@ -15,7 +15,7 @@ function sanitizeFilename(name: string): string {
 export class MediaService {
   private readonly uploadDir = process.env.UPLOAD_LOCAL_PATH || './uploads';
 
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) { }
 
   async onModuleInit() {
     await fs.mkdir(path.join(this.uploadDir, 'products', 'thumb'), {
@@ -147,7 +147,7 @@ export class MediaService {
           );
           return;
         }
-        await fs.unlink(normalizedTarget).catch(() => {});
+        await fs.unlink(normalizedTarget).catch(() => { });
       };
 
       await safeUnlink(img.fullPath);

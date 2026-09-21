@@ -21,7 +21,7 @@ import { AdminRole } from '@prisma/client';
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Roles(AdminRole.SUPER_ADMIN, AdminRole.CATALOG_MANAGER)
 export class MediaController {
-  constructor(private mediaService: MediaService) {}
+  constructor(private mediaService: MediaService) { }
 
   @Get()
   getLibrary() {
