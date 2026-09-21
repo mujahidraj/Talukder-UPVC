@@ -17,6 +17,7 @@ const AdminProductTrash = React.lazy(() => import('./pages/admin/AdminProductTra
 const ProductsMissingData = React.lazy(() => import('./pages/admin/ProductsMissingData'));
 const AdminProductDetail = React.lazy(() => import('./pages/admin/AdminProductDetail'));
 const AdminProductEdit = React.lazy(() => import('./pages/admin/AdminProductEdit'));
+const AdminProductCreate = React.lazy(() => import('./pages/admin/AdminProductCreate'));
 const CategoriesManager = React.lazy(() => import('./pages/admin/CategoriesManager'));
 const EnquiriesManager = React.lazy(() => import('./pages/admin/EnquiriesManager'));
 const MediaLibrary = React.lazy(() => import('./pages/admin/MediaLibrary'));
@@ -93,6 +94,7 @@ function App() {
               <Route element={<AdminLayout />}>
                 <Route index element={<Dashboard />} />
                 <Route path="products" element={<ProductsManager />} />
+                <Route path="products/new" element={<AdminProductCreate />} />
                 <Route path="products/missing-data" element={<ProductsMissingData />} />
                 <Route path="products/trash" element={<AdminProductTrash />} />
                 <Route path="products/:id" element={<AdminProductDetail />} />

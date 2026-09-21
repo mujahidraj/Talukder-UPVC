@@ -116,7 +116,7 @@ export default function MediaLibrary() {
             <input
               type="text"
               className="admin-input"
-              placeholder="Paste the product CUID here..."
+              placeholder="Paste the product CUID or Code here..."
               value={productId}
               onChange={(e) => setProductId(e.target.value)}
             />

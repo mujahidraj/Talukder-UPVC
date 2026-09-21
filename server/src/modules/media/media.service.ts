@@ -40,11 +40,17 @@ export class MediaService {
 
     const ext = path.extname(file.originalname);
     const filename = `${uuidv4()}${ext}`;
-    const product = await this.prisma.product.findUnique({
-      where: { id: productId },
+    const product = await this.prisma.product.findFirst({
+      where: {
+        OR: [
+          { id: productId },
+          { productCode: productId }
+        ]
+      },
     });
 
     if (!product) throw new BadRequestException('Product not found');
+    const actualProductId = product.id;
 
     const fullPathRel = `/uploads/products/full/${filename}`;
     const mediumPathRel = `/uploads/products/medium/${filename}`;
@@ -81,21 +87,21 @@ export class MediaService {
 
     // Get order
     const maxOrder = await this.prisma.productImage.aggregate({
-      where: { productId },
+      where: { productId: actualProductId },
       _max: { sortOrder: true },
     });
 
     if (isPrimary) {
       // Unset previous primary
       await this.prisma.productImage.updateMany({
-        where: { productId, isPrimary: true },
+        where: { productId: actualProductId, isPrimary: true },
         data: { isPrimary: false },
       });
     }
 
     return this.prisma.productImage.create({
       data: {
-        productId,
+        productId: actualProductId,
         fileName: sanitizeFilename(file.originalname),
         filePath: fullPathRel,
         fullPath: fullPathRel,

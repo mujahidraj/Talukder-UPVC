@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
   Plus,
@@ -262,6 +262,7 @@ export default function ProductsManager() {
           </button>
           <button 
             type="button" 
+            onClick={() => navigate('/admin/products/new')}
             className="flex items-center px-5 py-2.5 bg-gradient-to-r from-brand-600 to-brand-500 text-white text-sm font-bold rounded-lg shadow-lg shadow-brand-500/30 hover:shadow-brand-500/50 hover:-translate-y-0.5 transition-all active:scale-95"
           >
             <Plus className="h-4 w-4 mr-2" />
