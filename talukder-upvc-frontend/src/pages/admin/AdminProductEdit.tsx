@@ -146,7 +146,7 @@ export default function AdminProductEdit() {
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (!files || files.length === 0 || !id) return;
-    
+
     setUploadingImage(true);
     try {
       for (let i = 0; i < files.length; i++) {
@@ -157,13 +157,13 @@ export default function AdminProductEdit() {
         if (product?.images?.length === 0 && i === 0) {
           formData.append('isPrimary', 'true');
         }
-        
+
         await api.post('/admin/media/upload', formData, {
           headers: { 'Content-Type': 'multipart/form-data' },
         });
       }
       toast.success('Images uploaded successfully');
-      
+
       const res = await api.get(`/admin/products/${id}`);
       setProduct(res.data);
     } catch (err: any) {
@@ -171,6 +171,17 @@ export default function AdminProductEdit() {
     } finally {
       setUploadingImage(false);
       e.target.value = '';
+    }
+  };
+
+  const handleSetPrimaryImage = async (imageId: string) => {
+    try {
+      await api.put(`/admin/media/${imageId}/primary`);
+      toast.success('Primary image updated');
+      const res = await api.get(`/admin/products/${id}`);
+      setProduct(res.data);
+    } catch (err: any) {
+      toast.error(err.response?.data?.message || 'Failed to set primary image');
     }
   };
 
@@ -478,10 +489,19 @@ export default function AdminProductEdit() {
                       >
                         <Trash2 className="h-4 w-4" />
                       </button>
-                      {img.isPrimary && (
+                      {img.isPrimary ? (
                         <span className="absolute bottom-1 left-1 px-1.5 py-0.5 bg-brand-600 text-white text-[10px] font-bold rounded">
                           Primary
                         </span>
+                      ) : (
+                        <button
+                          type="button"
+                          onClick={() => handleSetPrimaryImage(img.id)}
+                          className="absolute bottom-1 left-1 px-1.5 py-0.5 bg-gray-900/60 hover:bg-brand-600 text-white text-[10px] font-bold rounded opacity-0 group-hover:opacity-100 transition-all"
+                          title="Set as Primary"
+                        >
+                          Make Primary
+                        </button>
                       )}
                     </div>
                   ))}
@@ -492,7 +512,7 @@ export default function AdminProductEdit() {
                   <span className="text-xs">No images</span>
                 </div>
               )}
-              
+
               <div className="mt-4 flex flex-col gap-2">
                 <label className="admin-btn-secondary w-full flex items-center justify-center gap-2 cursor-pointer">
                   {uploadingImage ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4" />}
@@ -533,14 +553,12 @@ export default function AdminProductEdit() {
                   <button
                     type="button"
                     onClick={() => setForm(prev => ({ ...prev, isFeatured: !prev.isFeatured }))}
-                    className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-brand-600 focus:ring-offset-2 ${
-                      form.isFeatured ? 'bg-brand-600' : 'bg-gray-200'
-                    }`}
+                    className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-brand-600 focus:ring-offset-2 ${form.isFeatured ? 'bg-brand-600' : 'bg-gray-200'
+                      }`}
                   >
                     <span
-                      className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
-                        form.isFeatured ? 'translate-x-5' : 'translate-x-0'
-                      }`}
+                      className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${form.isFeatured ? 'translate-x-5' : 'translate-x-0'
+                        }`}
                     />
                   </button>
                 </div>

@@ -148,14 +148,8 @@ export default function ProductDetail() {
         <>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
             {/* Image */}
-            <div className="relative bg-white border-[3px] border-[#3769A8] flex flex-col justify-between min-h-[400px] md:min-h-[500px] lg:min-h-[600px] shadow-[8px_8px_15px_rgba(0,0,0,0.35)] overflow-hidden">
-              <div className="flex-1 flex items-center justify-center p-8 z-10 relative">
-                {model3d && (
-                  <button onClick={() => setShow3D(!show3D)} className="absolute top-4 right-4 bg-white/90 p-2 rounded-full shadow-lg z-20 hover:bg-white transition-colors group flex items-center gap-2" title="Toggle 3D View">
-                    {show3D ? <Droplets className="h-5 w-5 text-brand-600" /> : <Box className="h-5 w-5 text-brand-600" />}
-                    <span className="text-xs font-bold text-brand-800 pr-1">{show3D ? 'View Image' : 'View 3D'}</span>
-                  </button>
-                )}
+            <div className="relative bg-[#fef7e7] border-[3px] border-[#3769A8] flex flex-col justify-between shadow-[8px_8px_15px_rgba(0,0,0,0.35)] overflow-hidden">
+              <div className="w-full aspect-square relative flex items-center justify-center overflow-hidden bg-[#fef7e7] shadow-[inset_0_0_60px_rgba(0,0,0,0.05)]">
                 {show3D && model3d ? (
                   React.createElement('model-viewer', {
                     src: `${import.meta.env.VITE_IMAGE_URL}${model3d.fullPath || model3d.filePath}`,
@@ -164,15 +158,22 @@ export default function ProductDetail() {
                     'camera-controls': true,
                     ar: true,
                     'shadow-intensity': "1",
-                    style: { width: '100%', height: '100%', minHeight: '350px' }
+                    style: { width: '100%', height: '100%' }
                   })
                 ) : mainImage ? (
-                  <img src={`${import.meta.env.VITE_IMAGE_URL}${mainImage.fullPath || mainImage.filePath}`} alt={product.productName} className="max-h-[250px] md:max-h-[350px] lg:max-h-[400px] max-w-full object-contain hover:scale-105 transition-transform duration-300 drop-shadow-xl" />
+                  <img src={`${import.meta.env.VITE_IMAGE_URL}${mainImage.fullPath || mainImage.filePath}`} alt={product.productName} className="w-full h-full object-contain" />
                 ) : (
                   <Droplets className="h-32 w-32 text-gray-200" />
                 )}
+                {model3d && (
+                  <button onClick={() => setShow3D(!show3D)} className="absolute top-4 right-4 bg-white/90 p-2 rounded-full shadow-lg z-20 hover:bg-white transition-colors group flex items-center gap-2" title="Toggle 3D View">
+                    {show3D ? <Droplets className="h-5 w-5 text-brand-600" /> : <Box className="h-5 w-5 text-brand-600" />}
+                    <span className="text-xs font-bold text-brand-800 pr-1">{show3D ? 'View Image' : 'View 3D'}</span>
+                  </button>
+                )}
               </div>
-              <div className="relative h-40 md:h-48 w-full mt-auto flex items-end">
+
+              <div className="relative h-40 md:h-48 w-full flex-shrink-0 flex items-end z-10 -mt-20 md:-mt-24">
                 <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="absolute bottom-0 left-0 w-full h-full text-[#3769A8] z-0">
                   <path d="M0,50 C 40,50 70,40 100,0 L100,100 L0,100 Z" fill="currentColor" />
                 </svg>
@@ -285,14 +286,8 @@ export default function ProductDetail() {
         <>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
             {/* Image */}
-            <div className="relative bg-white border-[3px] border-[#3769A8] flex flex-col justify-between min-h-[400px] md:min-h-[500px] lg:min-h-[600px] shadow-[8px_8px_15px_rgba(0,0,0,0.35)] overflow-hidden">
-              <div className="flex-1 flex items-center justify-center p-8 z-10 relative">
-                {model3d && (
-                  <button onClick={() => setShow3D(!show3D)} className="absolute top-4 right-4 bg-white/90 p-2 rounded-full shadow-lg z-20 hover:bg-white transition-colors group flex items-center gap-2" title="Toggle 3D View">
-                    {show3D ? <Droplets className="h-5 w-5 text-brand-600" /> : <Box className="h-5 w-5 text-brand-600" />}
-                    <span className="text-xs font-bold text-brand-800 pr-1">{show3D ? 'View Image' : 'View 3D'}</span>
-                  </button>
-                )}
+            <div className="relative bg-[#fef7e7] border-[3px] border-[#3769A8] flex flex-col justify-between shadow-[8px_8px_15px_rgba(0,0,0,0.35)] overflow-hidden">
+              <div className="w-full aspect-square relative flex items-center justify-center overflow-hidden bg-[#fef7e7] shadow-[inset_0_0_60px_rgba(0,0,0,0.1)]">
                 {show3D && model3d ? (
                   React.createElement('model-viewer', {
                     src: `${import.meta.env.VITE_IMAGE_URL}${model3d.fullPath || model3d.filePath}`,
@@ -301,15 +296,22 @@ export default function ProductDetail() {
                     'camera-controls': true,
                     ar: true,
                     'shadow-intensity': "1",
-                    style: { width: '100%', height: '100%', minHeight: '350px' }
+                    style: { width: '100%', height: '100%' }
                   })
                 ) : mainImage ? (
-                  <img src={`${import.meta.env.VITE_IMAGE_URL}${mainImage.fullPath || mainImage.filePath}`} alt={product.productName} className="max-h-[250px] md:max-h-[350px] lg:max-h-[400px] max-w-full object-contain hover:scale-105 transition-transform duration-300 drop-shadow-xl" />
+                  <img src={`${import.meta.env.VITE_IMAGE_URL}${mainImage.fullPath || mainImage.filePath}`} alt={product.productName} className="w-full h-full object-contain" />
                 ) : (
                   <Droplets className="h-32 w-32 text-gray-200" />
                 )}
+                {model3d && (
+                  <button onClick={() => setShow3D(!show3D)} className="absolute top-4 right-4 bg-white/90 p-2 rounded-full shadow-lg z-20 hover:bg-white transition-colors group flex items-center gap-2" title="Toggle 3D View">
+                    {show3D ? <Droplets className="h-5 w-5 text-brand-600" /> : <Box className="h-5 w-5 text-brand-600" />}
+                    <span className="text-xs font-bold text-brand-800 pr-1">{show3D ? 'View Image' : 'View 3D'}</span>
+                  </button>
+                )}
               </div>
-              <div className="relative h-40 md:h-48 w-full mt-auto flex items-end">
+
+              <div className="relative h-40 md:h-48 w-full flex-shrink-0 flex items-end z-10 -mt-20 md:-mt-24">
                 <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="absolute bottom-0 left-0 w-full h-full text-[#3769A8] z-0">
                   <path d="M0,50 C 40,50 70,40 100,0 L100,100 L0,100 Z" fill="currentColor" />
                 </svg>
@@ -482,8 +484,8 @@ export default function ProductDetail() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {related.map((p: any) => (
               <Link key={p.id} to={`/products/${p.slug}`} className="group bg-white rounded-lg border border-gray-100 overflow-hidden hover:shadow-lg transition-all">
-                <div className="aspect-square bg-gray-50 flex items-center justify-center p-4">
-                  {p.images?.[0]?.thumbPath ? <img src={`${import.meta.env.VITE_IMAGE_URL}${p.images[0].thumbPath}`} className="h-full w-full object-contain group-hover:scale-105 transition-transform" /> : <Droplets className="h-12 w-12 text-gray-300" />}
+                <div className="aspect-square bg-[#fef7e7] flex items-center justify-center overflow-hidden shadow-[inset_0_0_40px_rgba(0,0,0,0.05)]">
+                  {p.images?.[0]?.thumbPath ? <img src={`${import.meta.env.VITE_IMAGE_URL}${p.images[0].thumbPath}`} className="h-full w-full object-cover mix-blend-multiply group-hover:scale-105 transition-transform" /> : <Droplets className="h-12 w-12 text-gray-300" />}
                 </div>
                 <div className="p-3">
                   <p className="text-xs text-brand-600 font-medium">{p.category?.name}</p>

@@ -1,0 +1,1 @@
+const https = require('https'); https.get('https://api.talukder-upvc.com/api/products', (res) => { let data = ''; res.on('data', chunk => data += chunk); res.on('end', () => { const products = JSON.parse(data); const items = products.data || products; items.forEach(i => { if (i.images && i.images.length > 0) { console.log(i.productName, i.images[0].fullPath); } }); }); });

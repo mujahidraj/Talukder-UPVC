@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Shield, Award, Factory, Droplets, ChevronRight, Play, Camera, Globe, Video, MessageCircle, Tractor, Building2, HardHat, CheckCircle2, Wrench, Users, Layers } from 'lucide-react';
 import api from '../../lib/axios';
@@ -270,10 +270,10 @@ export default function HomePage() {
                 to={`/products/${product.slug}`}
                 className="group bg-white rounded-lg overflow-hidden shadow-[0_5px_15px_-5px_rgba(0,0,0,0.05)] border border-gray-100 hover:shadow-[0_20px_40px_-10px_rgba(59,130,246,0.15)] hover:-translate-y-2 transition-all duration-500 flex flex-col"
               >
-                <div className="aspect-square bg-gradient-to-b from-gray-50 to-white flex items-center justify-center p-6 overflow-hidden relative">
+                <div className="aspect-square bg-[#fef7e7] flex items-center justify-center overflow-hidden relative shadow-[inset_0_0_40px_rgba(0,0,0,0.05)]">
                   <div className="absolute inset-0 bg-brand-500/0 group-hover:bg-brand-500/5 transition-colors duration-500"></div>
                   {product.images?.[0]?.thumbPath ? (
-                    <img src={`${import.meta.env.VITE_IMAGE_URL}${product.images[0].thumbPath}`} alt={product.productName} className="h-full w-full object-contain group-hover:scale-110 transition-transform duration-700 drop-shadow-sm" />
+                    <img src={`${import.meta.env.VITE_IMAGE_URL}${product.images[0].thumbPath}`} alt={product.productName} className="h-full w-full object-cover mix-blend-multiply group-hover:scale-110 transition-transform duration-700" />
                   ) : (
                     <Droplets className="h-16 w-16 text-gray-200" />
                   )}
@@ -322,13 +322,13 @@ export default function HomePage() {
                   to={`/products/${product.slug}`}
                   className="group bg-white rounded-lg overflow-hidden shadow-[0_5px_15px_-5px_rgba(0,0,0,0.05)] border border-gray-100 hover:shadow-[0_20px_40px_-10px_rgba(59,130,246,0.15)] hover:-translate-y-2 transition-all duration-500 flex flex-col"
                 >
-                  <div className="aspect-square bg-gradient-to-b from-gray-50 to-white flex items-center justify-center p-6 overflow-hidden relative">
+                  <div className="aspect-square bg-[#fef7e7] flex items-center justify-center overflow-hidden relative shadow-[inset_0_0_40px_rgba(0,0,0,0.05)]">
                     <div className="absolute top-4 right-4 z-10 bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-sm">
                       NEW
                     </div>
                     <div className="absolute inset-0 bg-brand-500/0 group-hover:bg-brand-500/5 transition-colors duration-500"></div>
                     {product.images?.[0]?.thumbPath ? (
-                      <img src={`${import.meta.env.VITE_IMAGE_URL}${product.images[0].thumbPath}`} alt={product.productName} className="h-full w-full object-contain group-hover:scale-110 transition-transform duration-700 drop-shadow-sm" />
+                      <img src={`${import.meta.env.VITE_IMAGE_URL}${product.images[0].thumbPath}`} alt={product.productName} className="h-full w-full object-cover mix-blend-multiply group-hover:scale-110 transition-transform duration-700" />
                     ) : (
                       <Droplets className="h-16 w-16 text-gray-200" />
                     )}
@@ -407,10 +407,10 @@ export default function HomePage() {
                 to={`/products/${product.slug}`}
                 className="group bg-white rounded-lg overflow-hidden shadow-[0_5px_15px_-5px_rgba(0,0,0,0.05)] border border-gray-100 hover:shadow-[0_20px_40px_-10px_rgba(59,130,246,0.15)] hover:-translate-y-2 transition-all duration-500 flex flex-col"
               >
-                <div className="aspect-square bg-gradient-to-b from-gray-50 to-white flex items-center justify-center p-6 overflow-hidden relative">
+                <div className="aspect-square bg-[#fef7e7] flex items-center justify-center overflow-hidden relative shadow-[inset_0_0_40px_rgba(0,0,0,0.05)]">
                   <div className="absolute inset-0 bg-brand-500/0 group-hover:bg-brand-500/5 transition-colors duration-500"></div>
                   {product.images?.[0]?.thumbPath ? (
-                    <img src={`${import.meta.env.VITE_IMAGE_URL}${product.images[0].thumbPath}`} alt={product.productName} className="h-full w-full object-contain group-hover:scale-110 transition-transform duration-700 drop-shadow-sm" />
+                    <img src={`${import.meta.env.VITE_IMAGE_URL}${product.images[0].thumbPath}`} alt={product.productName} className="h-full w-full object-cover mix-blend-multiply group-hover:scale-110 transition-transform duration-700" />
                   ) : (
                     <Droplets className="h-16 w-16 text-gray-200" />
                   )}

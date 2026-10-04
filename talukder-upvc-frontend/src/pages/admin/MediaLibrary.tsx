@@ -20,6 +20,7 @@ export default function MediaLibrary() {
   const [productId, setProductId] = useState('');
   const [file, setFile] = useState<File | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const [isPrimaryUpload, setIsPrimaryUpload] = useState(true);
 
   const filteredImages = images.filter(img => {
     const q = searchQuery.toLowerCase();
@@ -46,20 +47,20 @@ export default function MediaLibrary() {
 
   const handleUpload = async () => {
     if (!file || !productId) {
-      toast.error('Select a product and an image file');
+      toast.error('Select at least one product and an image file');
       return;
     }
     setUploading(true);
     try {
       const formData = new FormData();
       formData.append('file', file);
-      formData.append('productId', productId);
-      formData.append('isPrimary', 'false');
+      formData.append('productIds', productId); // Comma separated IDs
+      formData.append('isPrimary', isPrimaryUpload ? 'true' : 'false');
 
-      await api.post('/admin/media/upload', formData, {
+      await api.post('/admin/media/upload-bulk', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
-      toast.success('Image uploaded & resized');
+      toast.success('Image uploaded & attached to products');
       setFile(null);
       setProductId('');
       fetchImages();
@@ -78,6 +79,16 @@ export default function MediaLibrary() {
       fetchImages();
     } catch {
       toast.error('Failed to delete image');
+    }
+  };
+
+  const handleSetPrimary = async (id: string) => {
+    try {
+      await api.put(`/admin/media/${id}/primary`);
+      toast.success('Primary image updated');
+      fetchImages();
+    } catch (err: any) {
+      toast.error(err.response?.data?.message || 'Failed to set primary image');
     }
   };
 
@@ -112,11 +123,11 @@ export default function MediaLibrary() {
         <h2 className="text-lg font-heading font-semibold mb-4">Upload New Image</h2>
         <div className="flex flex-col sm:flex-row gap-4 items-end">
           <div className="flex-1">
-            <label className="block text-sm font-medium text-gray-700 mb-1">Product ID</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Product ID(s)</label>
             <input
               type="text"
               className="admin-input"
-              placeholder="Paste the product CUID or Code here..."
+              placeholder="Paste product IDs (comma separated)..."
               value={productId}
               onChange={(e) => setProductId(e.target.value)}
             />
@@ -129,6 +140,16 @@ export default function MediaLibrary() {
               className="admin-input file:mr-4 file:py-1 file:px-3 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-brand-50 file:text-brand-700 hover:file:bg-brand-100"
               onChange={(e) => setFile(e.target.files?.[0] || null)}
             />
+          </div>
+          <div className="flex items-center mb-2">
+            <input
+              type="checkbox"
+              id="isPrimaryUpload"
+              checked={isPrimaryUpload}
+              onChange={(e) => setIsPrimaryUpload(e.target.checked)}
+              className="mr-2 rounded text-brand-600 focus:ring-brand-500 border-gray-300 h-4 w-4"
+            />
+            <label htmlFor="isPrimaryUpload" className="text-sm font-medium text-gray-700">Set Primary</label>
           </div>
           <button
             onClick={handleUpload}
@@ -159,8 +180,8 @@ export default function MediaLibrary() {
       ) : (
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6">
           {filteredImages.map((img) => (
-            <div 
-              key={img.id} 
+            <div
+              key={img.id}
               className="group relative rounded-lg overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-300 bg-gray-900 aspect-[4/5] cursor-pointer"
             >
               <img
@@ -169,10 +190,10 @@ export default function MediaLibrary() {
                 className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-90 group-hover:opacity-100"
                 loading="lazy"
               />
-              
+
               {/* Gradient Overlay for text */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-black/10 opacity-60 group-hover:opacity-80 transition-opacity duration-300 pointer-events-none" />
-              
+
               {/* Top Badges */}
               <div className="absolute top-3 left-3 right-3 flex justify-between items-start z-10">
                 {img.isPrimary ? (
@@ -180,8 +201,17 @@ export default function MediaLibrary() {
                     <Star className="h-3.5 w-3.5 text-yellow-900 fill-yellow-900 mr-1" />
                     <span className="text-xs font-bold text-yellow-900">Primary</span>
                   </div>
-                ) : <div></div>}
-                
+                ) : (
+                  <button
+                    onClick={() => handleSetPrimary(img.id)}
+                    className="bg-white/20 hover:bg-yellow-400/90 backdrop-blur-md px-2.5 py-1 rounded-full flex items-center shadow-lg text-white hover:text-yellow-900 opacity-0 group-hover:opacity-100 transition-all duration-300"
+                    title="Set as Primary"
+                  >
+                    <Star className="h-3.5 w-3.5 mr-1" />
+                    <span className="text-xs font-bold">Make Primary</span>
+                  </button>
+                )}
+
                 <button
                   onClick={() => handleDelete(img.id)}
                   className="p-2.5 bg-white/10 hover:bg-red-500/90 backdrop-blur-md rounded-full shadow-lg text-white opacity-0 group-hover:opacity-100 transform -translate-y-2 group-hover:translate-y-0 transition-all duration-300"
@@ -190,7 +220,7 @@ export default function MediaLibrary() {
                   <Trash2 className="h-4 w-4" />
                 </button>
               </div>
-              
+
               {/* Bottom Info */}
               <div className="absolute bottom-0 left-0 right-0 p-4 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300 z-10">
                 <h3 className="text-white font-semibold truncate text-sm mb-1.5 drop-shadow-md" title={img.product?.productName || img.fileName}>
